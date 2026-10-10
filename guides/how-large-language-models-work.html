@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en" data-root="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>How large language models work: tokens, training and sampling | AiNew.com</title>
+<meta name="description" content="A plain-English tour of how large language models work: tokens, pretraining, fine-tuning, next-token prediction, context windows, temperature and hallucination.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://ainew.com/guides/how-large-language-models-work.html">
+<meta name="google-adsense-account" content="ca-pub-6620975821265271">
+<meta property="og:type" content="article"><meta property="og:site_name" content="AiNew.com">
+<meta property="og:title" content="How large language models work: tokens, training and sampling | AiNew.com"><meta property="og:description" content="A plain-English tour of how large language models work: tokens, pretraining, fine-tuning, next-token prediction, context windows, temperature and hallucination.">
+<meta property="og:url" content="https://ainew.com/guides/how-large-language-models-work.html"><meta property="og:image" content="https://ainew.com/assets/img/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#2F3DF5">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/img/icon-192.png">
+<link rel="manifest" href="../site.webmanifest">
+<script>try{var t=localStorage.getItem("ainew-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../assets/css/site.css?v=2026-10-10">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6620975821265271"
+     crossorigin="anonymous"></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "How large language models work: tokens, training and sampling", "description": "A plain-English tour of how large language models work: tokens, pretraining, fine-tuning, next-token prediction, context windows, temperature and hallucination.", "datePublished": "2026-10-10", "dateModified": "2026-10-10", "wordCount": 1952, "author": {"@type": "Organization", "name": "AiNew editorial team", "url": "https://ainew.com/about.html"}, "publisher": {"@type": "Organization", "name": "AiNew.com", "logo": {"@type": "ImageObject", "url": "https://ainew.com/assets/img/icon-512.png"}}, "mainEntityOfPage": "https://ainew.com/guides/how-large-language-models-work.html", "image": "https://ainew.com/assets/img/og-image.png", "articleSection": "Foundations"}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://ainew.com/"}, {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://ainew.com/guides/"}, {"@type": "ListItem", "position": 3, "name": "How large language models work: tokens, training and sampling", "item": "https://ainew.com/guides/how-large-language-models-work.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Does an LLM look up answers in a database?", "acceptedAnswer": {"@type": "Answer", "text": "Not by default. It generates answers from patterns stored in its parameters. Some products add search or document retrieval, which lets the model base its answer on fetched text, but the core model is not a database."}}, {"@type": "Question", "name": "Why does the same prompt give different answers?", "acceptedAnswer": {"@type": "Answer", "text": "Because the next token is usually sampled from a probability distribution rather than always taking the top choice. Lower temperature, more specific instructions and examples of the desired output make responses more consistent."}}, {"@type": "Question", "name": "Is a bigger context window always better?", "acceptedAnswer": {"@type": "Answer", "text": "It lets you include more material, which is valuable for long documents and codebases. But longer inputs cost more and take longer, and focused, relevant context usually beats dumping in everything you have."}}, {"@type": "Question", "name": "Do models learn from my conversations?", "acceptedAnswer": {"@type": "Answer", "text": "The model does not change its parameters while chatting with you. Some providers may use conversations to train future models depending on your settings and plan, so check the provider's data controls before sharing sensitive information."}}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<a class="promo" href="https://web.works/contact" target="_blank" rel="noopener">Contact, if you are interested in this <strong>website / domain name / Sponsorship / Advertisement / Partnership</strong></a>
+<header class="site-head"><div class="wrap head-row">
+<a class="logo" href="../index.html" aria-label="AiNew.com home">Ai<span class="new">New</span><span class="tld">.com</span></a>
+<nav class="nav" id="site-nav" aria-label="Main"><a href="../news.html">News</a><a href="../tools.html">AI tools</a><a href="../guides/" aria-current="page">Guides</a><a href="../prompts.html">Prompts</a><a href="../videos.html">Videos</a><a href="../contests.html">Contests</a><a href="../support.html">Support us</a><a class="m-only" href="../ai-services.html">Get AI help</a><a class="m-only" href="../advertise.html">Advertise</a></nav>
+<div class="head-tools">
+<a class="icon-btn" href="../search.html" aria-label="Search the site"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></a>
+<button class="icon-btn" id="theme-btn" type="button" aria-label="Switch colour theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+<a class="btn sm" href="../ai-services.html">Get AI help</a>
+<button class="icon-btn menu-btn" id="menu-btn" type="button" aria-controls="site-nav" aria-expanded="false" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></div></header>
+<main id="main">
+<section class="page-head"><div class="wrap">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Home</a> / <a href="index.html">Guides</a> / Foundations</nav>
+<h1 style="max-width:22ch">How large language models work: tokens, training and sampling</h1>
+<p class="lede">Understand what happens inside a chat assistant, from tokens and training to sampling, context windows and why models hallucinate.</p>
+<div class="byline"><span>By the AiNew editorial team</span><span>Updated October 10, 2026</span><span>9 min read</span></div>
+</div></section>
+<section class="section tight" style="padding-top:8px"><div class="wrap article-layout">
+<article class="prose"><p>Large language models, usually shortened to LLMs, are the engines behind chat assistants such as ChatGPT, Claude and Gemini. They can draft a report, explain a tax form, fix a bug and translate a menu, yet at their core they do one surprisingly narrow thing: given some text, they predict what text should come next.</p>
+<p>This guide walks through how that narrow skill becomes a useful assistant. You will see how text is broken into tokens, how models are trained in stages, how a single word gets chosen, what a context window is, why temperature changes the style of answers, why models sometimes state falsehoods with confidence, and what "reasoning" modes add.</p>
+<aside class="takeaways"><h2 id="key-takeaways">Key takeaways</h2><ul>
+<li>An LLM reads and writes text as tokens, which are words or pieces of words mapped to numbers.</li>
+<li>Pretraining on vast amounts of text teaches general language and knowledge; fine-tuning and human feedback turn that into a helpful, safer assistant.</li>
+<li>Every response is built one token at a time by choosing from a probability distribution over possible next tokens.</li>
+<li>The context window is the model's working memory for a conversation; anything outside it is invisible to the model.</li>
+<li>Temperature and related settings control how adventurous token choices are, and hallucinations arise because the model optimises for plausible text, not verified truth.</li>
+</ul></aside>
+
+<h2 id="tokens">Step one: turning text into tokens</h2>
+<p>Computers work with numbers, so the first job is converting your text into a sequence of numbers. A component called a <strong>tokenizer</strong> splits text into units called <strong>tokens</strong> and looks each one up in a fixed vocabulary, typically tens of thousands to a few hundred thousand entries long.</p>
+<p>Tokens are not quite words. Common words are usually a single token. Rarer words are split into reusable pieces. Spaces and punctuation are often folded into tokens too. This lets the model handle any text, including typos, new product names and other languages, without needing an infinite vocabulary.</p>
+<h3>Worked example: tokenizing a sentence</h3>
+<p>Here is how a typical tokenizer might split a short sentence. Exact splits and ID numbers differ between models, so treat this as an illustration of the principle rather than the output of any specific system.</p>
+<table>
+<thead><tr><th>Position</th><th>Token text</th><th>Example ID</th><th>Why it splits this way</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>The</code></td><td>464</td><td>Very common word, one token</td></tr>
+<tr><td>2</td><td><code> cat</code></td><td>3797</td><td>Common word; the leading space is part of the token</td></tr>
+<tr><td>3</td><td><code> unbuck</code></td><td>41528</td><td>Rare word, so it is split into pieces</td></tr>
+<tr><td>4</td><td><code>led</code></td><td>992</td><td>A reusable ending seen in many words</td></tr>
+<tr><td>5</td><td><code> the</code></td><td>262</td><td>Lowercase with a space is a different token from "The"</td></tr>
+<tr><td>6</td><td><code> harness</code></td><td>19356</td><td>Reasonably common, one token</td></tr>
+<tr><td>7</td><td><code>.</code></td><td>13</td><td>Punctuation is its own token</td></tr>
+</tbody>
+</table>
+<p>So "The cat unbuckled the harness." becomes seven tokens, and the model actually sees a list of seven numbers. Two practical lessons follow. First, usage limits and pricing for AI services are usually counted in tokens, and a rough rule for English is that a token averages about three-quarters of a word. Second, because the model sees pieces rather than letters, tasks like counting the letters in a word or reversing a string can trip it up in ways that seem odd to a human.</p>
+
+<h2 id="training">How models are trained</h2>
+<p>An LLM is a very large neural network, a mathematical function with billions of adjustable numbers called <strong>parameters</strong> or weights. Training is the process of setting those numbers. It usually happens in stages.</p>
+<h3>1. Pretraining</h3>
+<p>The model is shown an enormous body of text: public web pages, books, reference works, code and other sources. Its task is simple: hide the next token, ask the model to predict it, measure how wrong it was, and nudge every parameter slightly to make it less wrong next time.</p>
+<p>To predict the next token well across that much text, the model has to absorb grammar, facts, styles, the structure of arguments and code, and a great deal of everyday reasoning. The result is a <strong>base model</strong>: knowledgeable, but not yet an assistant. Ask it a question and it may continue with three more questions, because that is a pattern it has seen.</p>
+<h3>2. Fine-tuning</h3>
+<p>Next, developers train the base model on a much smaller, carefully prepared set of examples showing the desired behaviour: a user asks something, and a good assistant answers clearly, follows instructions and declines harmful requests. This <strong>supervised fine-tuning</strong> teaches the format and manner of a helpful assistant.</p>
+<h3>3. Learning from feedback</h3>
+<p>Finally, the model is refined using judgements about which responses are better. In the approach commonly called <strong>reinforcement learning from human feedback</strong> (RLHF), people compare pairs of answers and pick the better one. Those preferences train a scoring system, and the model is then adjusted to produce answers that score well. Variants use written principles or AI-assisted judgements alongside human ones, and some training rewards answers that can be checked automatically, such as code that passes tests or maths with a verifiable result. This stage shapes helpfulness, honesty, tone and safety.</p>
+<aside class="note"><p><strong>Tip:</strong> The model's knowledge comes from pretraining and stops at a cut-off date. Fine-tuning shapes behaviour more than it adds facts. If you need current or private information, provide it in the prompt or use a system that retrieves documents, as explained in our guide to <a href="rag-explained.html">retrieval-augmented generation</a>.</p></aside>
+
+<div class="inline-cta"><p>Want this working in your business, not just on paper? Get a free, written AI starting plan.</p><a class="btn sm" href="../ai-services.html#plan">Get my free AI plan</a></div><h2 id="next-token-prediction">Next-token prediction in action</h2>
+<p>When you send a message, the model processes all the tokens in the conversation so far and outputs a score for every token in its vocabulary. Those scores are converted into probabilities that add up to 100 percent. One token is chosen, added to the text, and the whole process repeats for the next token. Your answer appears word by word on screen because it is literally being produced that way.</p>
+<p>The heavy lifting happens in a design called the <strong>transformer</strong>. Its key mechanism, <strong>attention</strong>, lets each position in the text weigh how relevant every earlier token is. That is how the model connects "it" to the right noun three sentences back, or keeps track of which variable a line of code refers to.</p>
+
+<h2 id="sampling-and-temperature">Sampling, temperature and why answers vary</h2>
+<p>Once the model has probabilities for the next token, something has to pick one. Always choosing the single most likely token (called greedy decoding) tends to produce flat, repetitive text. So most systems <strong>sample</strong>: they pick randomly, weighted by the probabilities. A setting called <strong>temperature</strong> controls how sharply those probabilities are weighted.</p>
+<h3>Worked example: choosing the next word</h3>
+<p>Suppose the text so far is "Looking out the window, I could see the sky was" and the model's top four candidates are the ones below. These numbers are illustrative, calculated from simple made-up scores, but the effect is exactly how temperature works.</p>
+<table>
+<thead><tr><th>Next token</th><th>Low temperature (0.5)</th><th>Default (1.0)</th><th>High temperature (1.5)</th></tr></thead>
+<tbody>
+<tr><td><code> blue</code></td><td>84%</td><td>61%</td><td>50%</td></tr>
+<tr><td><code> grey</code></td><td>11%</td><td>22%</td><td>25%</td></tr>
+<tr><td><code> clear</code></td><td>4%</td><td>14%</td><td>19%</td></tr>
+<tr><td><code> falling</code></td><td>under 1%</td><td>3%</td><td>7%</td></tr>
+</tbody>
+</table>
+<p>Read the table column by column. At low temperature the favourite dominates, so the output is predictable and focused, which suits data extraction, classification and factual summaries. At high temperature the less likely options get a real chance, so you see more variety and surprise, which suits brainstorming and fiction but also raises the odds of odd or wrong choices. If "falling" is picked, every following token must build on it, and the sentence may veer somewhere strange.</p>
+<p>Two related settings often appear alongside temperature. <strong>Top-k</strong> sampling only considers the k most likely tokens. <strong>Top-p</strong> (or nucleus) sampling only considers the smallest set of tokens whose probabilities add up to p, such as 90 percent. Both cut off the long tail of unlikely tokens. Chat apps usually set these for you; developer platforms let you adjust them, which is one factor in <a href="choosing-an-ai-model.html">choosing and configuring a model</a>.</p>
+
+<h2 id="context-windows">Context windows: the model's working memory</h2>
+<p>The <strong>context window</strong> is the maximum number of tokens the model can consider at once. It includes the system instructions set by the app, your messages, any documents you paste, the model's previous replies and the answer it is currently writing.</p>
+<p>A model does not remember your conversation the way a person does. Each time it generates a reply, it rereads the whole conversation within the window. When a conversation grows beyond the limit, the app has to drop or summarise older material, and details from the start can quietly disappear.</p>
+<p>Practical habits that follow from this:</p>
+<ul>
+<li>Put the most important instructions near the start of a new chat, and restate them if a long conversation drifts.</li>
+<li>Start a fresh conversation for a new task rather than piling everything into one thread.</li>
+<li>When you paste long documents, ask about specific sections; even models with large windows can give less attention to material buried in the middle.</li>
+</ul>
+
+<h2 id="why-models-hallucinate">Why models hallucinate</h2>
+<p>A hallucination is a fluent, confident statement that is false. Once you understand next-token prediction, the cause is easier to see.</p>
+<ol>
+<li><strong>The objective is plausibility.</strong> Training rewards text that resembles what tends to follow. A made-up citation with a realistic author, title and year looks very much like a real one.</li>
+<li><strong>Knowledge is compressed, not stored.</strong> The model does not keep a copy of every document. Rare facts seen only a few times are stored weakly and can be blended with similar facts.</li>
+<li><strong>There is no built-in fact check.</strong> Unless a tool such as web search or a document lookup is connected, nothing compares the output to an external source before it reaches you.</li>
+<li><strong>Each token commits the next.</strong> An early wrong choice gets elaborated by everything that follows, producing a coherent but wrong answer.</li>
+<li><strong>Training can reward guessing.</strong> If confident answers score better than "I am not sure", the model learns to guess. Developers increasingly train against this, but it has not disappeared.</li>
+</ol>
+<p>The best defences are to ground the model in sources you supply, ask it to quote the passage supporting each claim, allow it to say it does not know, and verify any specific fact you will act on. Our guide to <a href="prompt-engineering-guide.html">prompt engineering</a> includes templates for these techniques.</p>
+
+<h2 id="reasoning-modes">What "reasoning" modes add</h2>
+<p>Many assistants now offer a reasoning or "thinking" mode. At a high level, the model is trained and allowed to generate a long stretch of intermediate working, breaking the problem into steps, trying approaches and checking them, before writing its final answer. That working may be hidden, summarised or shown to you, depending on the product.</p>
+<p>This helps because each token gets a fixed amount of computation. Giving the model more tokens to think with effectively gives it more computation for hard problems, and training that rewards correct final answers teaches it to use that space productively. Reasoning modes tend to improve multi-step maths, logic, planning and complex coding.</p>
+<p>The trade-offs are speed and cost: responses take longer and use more tokens. Reasoning also does not create knowledge the model lacks, so it can still reason carefully from a false premise. When a model can also call tools, search and act across multiple steps, you are entering the territory of <a href="ai-agents-explained.html">AI agents</a>.</p>
+
+<section class="faq"><h2 id="faq">Frequently asked questions</h2>
+<details><summary>Does an LLM look up answers in a database?</summary><p>Not by default. It generates answers from patterns stored in its parameters. Some products add search or document retrieval, which lets the model base its answer on fetched text, but the core model is not a database.</p></details>
+<details><summary>Why does the same prompt give different answers?</summary><p>Because the next token is usually sampled from a probability distribution rather than always taking the top choice. Lower temperature, more specific instructions and examples of the desired output make responses more consistent.</p></details>
+<details><summary>Is a bigger context window always better?</summary><p>It lets you include more material, which is valuable for long documents and codebases. But longer inputs cost more and take longer, and focused, relevant context usually beats dumping in everything you have.</p></details>
+<details><summary>Do models learn from my conversations?</summary><p>The model does not change its parameters while chatting with you. Some providers may use conversations to train future models depending on your settings and plan, so check the provider's data controls before sharing sensitive information.</p></details>
+</section>
+<p class="small muted" style="font-family:var(--f-ui);margin-top:2em">This guide is general information, not professional advice. Spotted an error? <a href="../contact.html?topic=Correction">Tell us</a>.</p>
+</article>
+<aside><nav class="toc" aria-label="On this page"><h2>On this page</h2><ol><li><a href="#tokens">Step one: turning text into tokens</a></li><li><a href="#training">How models are trained</a></li><li><a href="#next-token-prediction">Next-token prediction in action</a></li><li><a href="#sampling-and-temperature">Sampling, temperature and why answers vary</a></li><li><a href="#context-windows">Context windows: the model&#x27;s working memory</a></li><li><a href="#why-models-hallucinate">Why models hallucinate</a></li><li><a href="#reasoning-modes">What &quot;reasoning&quot; modes add</a></li><li><a href="#faq">Frequently asked questions</a></li></ol>
+<a class="btn sm" href="../ai-services.html#plan">Get a free AI plan</a></nav></aside>
+</div>
+<div class="wrap">
+<div class="panel" style="margin-top:40px;display:flex;justify-content:space-between;gap:20px;align-items:center;flex-wrap:wrap"><div><h2 style="margin-bottom:4px">Get one useful AI email a week</h2><p class="muted" style="margin:0">New guides, tools worth trying and a prompt to steal.</p></div><form class="inline-sub" data-form="newsletter-guide" data-subject="New newsletter subscriber" data-ok="You're on the list. Watch your inbox for the next issue.">
+<label class="visually-hidden" for="nl-guide">Email address</label>
+<input id="nl-guide" type="email" name="email" placeholder="you@example.com" required autocomplete="email">
+<input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+<button class="btn" type="submit">Subscribe free</button>
+<p class="form-msg" role="status"></p></form></div>
+<div class="related"><h2>Keep reading</h2><div class="card-grid"><a class="gcard" href="what-is-generative-ai.html"><span class="cat">Foundations</span><h3>What is generative AI? A plain-English guide for beginners</h3><p>A practical introduction to generative AI: how it works, what it does well, where it fails and how to use it.</p><span class="mins">9 min read</span></a><a class="gcard" href="ai-glossary.html"><span class="cat">Foundations</span><h3>AI glossary: 90 essential artificial intelligence terms explained</h3><p>Plain-English definitions of about 90 essential AI terms, from agents and embeddings to tokens and zero-shot prompting.</p><span class="mins">17 min read</span></a><a class="gcard" href="ai-for-small-business.html"><span class="cat">Business</span><h3>AI for small business: 20 practical use cases and how to start</h3><p>Twenty practical AI use cases for small businesses, how to choose your first two pilots, and a simple way to estimate return.</p><span class="mins">9 min read</span></a></div></div>
+</div></section>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div class="foot-grid">
+<div><a class="logo" href="../index.html">Ai<span class="new">New</span><span class="tld">.com</span></a>
+<p class="muted small" style="margin-top:12px">What's new in AI, sorted and explained. Practical guides, a curated tools directory and help for teams putting AI to work.</p>
+<form class="inline-sub" data-form="newsletter-footer" data-subject="New newsletter subscriber" data-ok="You're on the list. Watch your inbox for the next issue.">
+<label class="visually-hidden" for="nl-footer">Email address</label>
+<input id="nl-footer" type="email" name="email" placeholder="you@example.com" required autocomplete="email">
+<input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+<button class="btn" type="submit">Subscribe</button>
+<p class="form-msg" role="status"></p></form></div>
+<div><h2>Explore</h2><ul><li><a href="../news.html">News radar</a></li><li><a href="../tools.html">AI tools directory</a></li><li><a href="../guides/">Guides</a></li><li><a href="../prompts.html">Prompt library</a></li><li><a href="../videos.html">Videos</a></li><li><a href="../search.html">Search</a></li></ul></div>
+<div><h2>For business</h2><ul><li><a href="../ai-services.html">Get AI help</a></li><li><a href="../readiness.html">AI readiness score</a></li><li><a href="../ai-services.html?goal=talent">Hire AI talent</a></li><li><a href="../advertise.html">Advertise & sponsor</a></li><li><a href="../submit-tool.html">Submit a tool</a></li></ul></div>
+<div><h2>Community</h2><ul><li><a href="../contests.html">Contests & prizes</a></li><li><a href="../support.html">Support AiNew</a></li><li><a href="../careers.html">Careers & talent network</a></li><li><a href="../newsletter.html">Newsletter</a></li></ul></div>
+<div><h2>About</h2><ul><li><a href="../about.html">About</a></li><li><a href="../editorial-policy.html">Editorial policy</a></li><li><a href="../contact.html">Contact</a></li><li><a href="../privacy.html">Privacy policy</a></li><li><a href="../terms.html">Terms of use</a></li><li><a href="../disclaimer.html">Disclaimer</a></li><li><a href="../legal.html">Trademark & copyright</a></li></ul></div>
+</div>
+<div class="foot-legal">
+<p>&copy; <span data-year>2026</span> AiNew.com. Original articles, prompts and design are protected by copyright. All rights reserved.</p>
+<p>AiNew.com is an independent publication. The name refers only to this website's domain and does not refer to, imitate or imply affiliation with any company, product or registered mark of the same or similar name. Third-party names and trademarks belong to their owners and are used for identification only. <a href="../legal.html">Full trademark &amp; copyright disclosure</a>.</p>
+<p>This site shows ads served by Google and may contain clearly labelled sponsored placements and partner links. <a href="../disclaimer.html">How we make money</a>.</p>
+</div></div></footer>
+<div class="cookie" id="cookie" role="dialog" aria-label="Cookie choices">
+<p>We use cookies for essential site features and to show ads from Google, which may be personalised. Choose what you're comfortable with. <a href="../privacy.html">Privacy policy</a></p>
+<div class="btn-row"><button class="btn sm" data-consent="all" type="button">Accept all</button><button class="btn sm ghost" data-consent="necessary" type="button">Necessary only</button></div></div>
+<script src="../assets/js/config.js?v=2026-10-10" defer></script>
+<script src="../assets/js/site.js?v=2026-10-10" defer></script>
+</body>
+</html>
