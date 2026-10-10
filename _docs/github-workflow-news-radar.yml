@@ -1,0 +1,41 @@
+name: Build and publish
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "17 */4 * * *"   # refresh the news radar every 4 hours
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: build-publish
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install image library
+        run: pip install pillow
+      - name: Fetch AI headlines
+        run: python3 _scripts/fetch_news.py
+      - name: Build site
+        run: python3 _build/build.py
+      - name: Commit generated site
+        run: |
+          git config user.name "ainew-build-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then echo "No changes"; else git commit -m "Build site and refresh news radar [skip ci]" && git push origin HEAD:main; fi
+      - name: Publish to GitHub Pages branch
+        run: git push origin HEAD:gh-pages --force
