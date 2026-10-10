@@ -1,0 +1,188 @@
+<!--META {"title":"Prompt engineering guide: a practical playbook for AI","description":"Learn a repeatable way to prompt AI assistants: structure, examples, constraints, structured output, iteration and critique, with before-and-after prompts.","category":"Prompting","readMinutes":9,"summary":"A hands-on playbook for writing prompts that get reliable, usable answers from AI assistants, with before-and-after examples."} -->
+<p>Most disappointing AI answers are not caused by a weak model. They are caused by a prompt that left the model guessing. When you type a one-line request, the assistant has to invent the audience, the purpose, the length, the tone and the format. It usually picks the safest, most generic option, and you get a bland answer that needs heavy editing.</p>
+<p>Prompt engineering sounds technical, but in practice it is the same skill as writing a good brief for a capable colleague who knows nothing about your situation. This guide gives you a repeatable structure, a set of techniques that work across chat assistants such as ChatGPT, Claude and Gemini, and before-and-after examples you can adapt immediately.</p>
+<p>If you are new to how these systems generate text, read <a href="how-large-language-models-work.html">how large language models work</a> first. It explains why context matters so much.</p>
+
+<aside class="takeaways"><h2 id="key-takeaways">Key takeaways</h2><ul>
+<li>Give the model four things: a role, the context, the task and the output format.</li>
+<li>Show one to three examples when you need a specific style or structure. Examples beat adjectives.</li>
+<li>State constraints explicitly, including what to leave out and what to do when information is missing.</li>
+<li>Treat the first answer as a draft. Iterate with targeted feedback rather than starting over.</li>
+<li>Split big jobs into steps and ask the model to critique its own work before you accept it.</li>
+</ul></aside>
+
+<h2 id="the-four-part-structure">The four-part structure: role, context, task, format</h2>
+<p>A reliable prompt answers four questions. You do not need headings or a template every time, but checking a prompt against these four will fix most weak results.</p>
+<ol>
+<li><strong>Role.</strong> Who should the model act as? "An experienced bookkeeper" or "a patient secondary-school maths tutor" shifts vocabulary, assumptions and depth.</li>
+<li><strong>Context.</strong> What does the model need to know about your situation? The audience, the goal, relevant background, and anything you have already tried.</li>
+<li><strong>Task.</strong> What exactly should it do? Use a clear verb: draft, summarise, compare, classify, rewrite, critique.</li>
+<li><strong>Format.</strong> What should the output look like? Length, structure, tone, reading level and file-ready formats such as a table or a bulleted list.</li>
+</ol>
+<p>Here is the difference in practice.</p>
+<pre><code>BEFORE
+Write an email about the price increase.</code></pre>
+<pre><code>AFTER
+You are a customer success manager at a small software company.
+
+Context: We sell a scheduling tool to independent hair salons.
+Our monthly plan is going up next quarter because our hosting
+and support costs have risen. Customers who pay annually keep
+their current price until renewal. Most readers are salon owners
+who read email on their phone between appointments.
+
+Task: Draft the announcement email.
+
+Format: Under 180 words. Friendly, direct, no corporate jargon.
+Put the key change in the first two sentences. End with one
+clear next step (switch to annual billing) and a line inviting
+replies. Give me three subject line options.</code></pre>
+<p>The second prompt is longer, but it takes less total time because the first draft is close to usable.</p>
+
+<h2 id="give-examples-few-shot">Give examples (few-shot prompting)</h2>
+<p>Describing a style in adjectives is unreliable. "Punchy but professional" means different things to different people, and to a model. Showing an example is far more precise. This is called few-shot prompting: you include a few sample inputs and outputs, then give the new input.</p>
+<pre><code>BEFORE
+Write product descriptions for our candles. Make them punchy.</code></pre>
+<pre><code>AFTER
+Write a product description for each candle below. Match the
+style of the examples: two sentences, sensory first line,
+practical second line, no exclamation marks.
+
+Example
+Input: Cedar and smoke, 220 g, 45-hour burn
+Output: Dry cedar and a curl of woodsmoke, like a cabin after
+the fire has settled. A 45-hour burn in a 220 g glass jar.
+
+Example
+Input: Fig and black tea, 180 g, 38-hour burn
+Output: Ripe fig over a strong cup of black tea, sweet but
+never sugary. Burns for 38 hours in a 180 g jar.
+
+Now write:
+1. Sea salt and juniper, 220 g, 45-hour burn
+2. Orange peel and clove, 180 g, 38-hour burn</code></pre>
+<p>A few practical rules for examples:</p>
+<ul>
+<li>Use two or three examples that differ from each other, so the model learns the pattern rather than copying one sample.</li>
+<li>Make sure your examples are genuinely good. The model will reproduce their flaws as faithfully as their strengths.</li>
+<li>Keep the format of every example identical. Consistency is the signal.</li>
+</ul>
+
+<h2 id="set-clear-constraints">Set clear constraints</h2>
+<p>Constraints tell the model where the edges are. Without them it fills space with caveats, generic advice and invented detail. Useful constraints include:</p>
+<ul>
+<li><strong>Length:</strong> a word range or a number of bullets.</li>
+<li><strong>Scope:</strong> what to cover and, just as important, what to skip.</li>
+<li><strong>Sources:</strong> "Use only the text I pasted below" reduces made-up facts.</li>
+<li><strong>Missing information:</strong> "If something is not stated in the document, write 'not specified' rather than guessing."</li>
+<li><strong>Audience level:</strong> "Assume the reader has never used a spreadsheet formula."</li>
+</ul>
+<aside class="note"><p><strong>Tip:</strong> Phrase constraints positively where you can. "Write in plain sentences" works better than a long list of things not to do, because a list of banned words still puts those words in front of the model.</p></aside>
+
+<h2 id="ask-for-structured-output">Ask for structured output</h2>
+<p>If you plan to paste the answer into a spreadsheet, a database or another tool, ask for a precise structure and show it. Name the fields, their order and what to do with empty values.</p>
+<pre><code>BEFORE
+Pull out the important details from these customer reviews.</code></pre>
+<pre><code>AFTER
+Read the customer reviews below. For each review, return one
+line of JSON with exactly these keys:
+
+{"review_id": number,
+ "sentiment": "positive" | "neutral" | "negative",
+ "product_mentioned": string or null,
+ "main_issue": short phrase or null,
+ "wants_reply": true | false}
+
+Rules:
+- Return only the JSON lines, no commentary.
+- Use null when a field is not mentioned.
+- "wants_reply" is true only if the customer asks a question
+  or explicitly requests contact.
+
+Reviews:
+[paste reviews here]</code></pre>
+<p>For tables, give the column headings. For reports, give the section headings. The more exact the skeleton, the less clean-up you do afterwards. Always spot-check structured output, especially classification fields, before relying on it.</p>
+
+<h2 id="iterate-instead-of-restarting">Iterate instead of restarting</h2>
+<p>The first response is a draft. The fastest route to a good result is usually targeted feedback in the same conversation, because the model keeps your earlier context. Vague feedback such as "make it better" produces random changes. Specific feedback produces specific fixes.</p>
+<ul>
+<li>Point to the part: "The second paragraph is too technical for salon owners."</li>
+<li>Say what to keep: "Keep the opening line and the subject lines as they are."</li>
+<li>Give a direction: "Replace the feature list with one concrete example of a busy Saturday."</li>
+</ul>
+<p>If a conversation has drifted badly after many rounds, start a fresh chat and write a better first prompt that includes what you learned. Long, tangled threads can carry forward earlier mistakes.</p>
+
+<h2 id="break-big-tasks-into-steps">Break big tasks into steps</h2>
+<p>Asking for a complete business plan, a full training course or a long report in one prompt tends to produce something shallow everywhere. Break the work into stages and review each one before moving on.</p>
+<ol>
+<li><strong>Clarify:</strong> "Before you start, list the questions you would need answered to do this well." Answer them.</li>
+<li><strong>Outline:</strong> ask for a structure only. Edit it until it is right.</li>
+<li><strong>Draft section by section:</strong> paste the approved outline and ask for one section at a time.</li>
+<li><strong>Review:</strong> ask for a critique of the full draft against your goal.</li>
+<li><strong>Polish:</strong> finish with a consistency pass for tone, terminology and length.</li>
+</ol>
+<pre><code>BEFORE
+Create a two-week onboarding plan for a new receptionist.</code></pre>
+<pre><code>AFTER (step 1 of 3)
+I run a four-person physiotherapy clinic and I'm hiring my first
+full-time receptionist. I want a two-week onboarding plan.
+
+Do not write the plan yet. First, ask me up to eight questions
+about our systems, the person's experience and what "fully
+onboarded" should mean by day ten. Number your questions.</code></pre>
+<p>This approach also gives you natural checkpoints to catch errors early, when they are cheap to fix. The same idea underpins multi-step <a href="ai-automation-workflows.html">AI automation workflows</a>, where each step does one job well.</p>
+
+<h2 id="prompt-for-critique">Prompt the model to critique</h2>
+<p>Models are often better at spotting weaknesses in a piece of text than at avoiding them on the first pass. Use that. After a draft, ask for a structured critique against criteria you care about, then ask for a revision that addresses the critique.</p>
+<pre><code>Review the draft above as a sceptical salon owner who is busy
+and slightly annoyed about paying more.
+
+1. List the three weakest points, quoting the exact sentence.
+2. For each, explain in one line why it might irritate or
+   confuse this reader.
+3. Then rewrite the email fixing only those points.</code></pre>
+<p>You can also ask the model to check its own factual claims: "List every factual statement in your answer and mark which ones come from the document I provided and which are your general knowledge." That makes it much easier to see what you need to verify yourself.</p>
+<aside class="note"><p><strong>Warning:</strong> Self-critique improves quality but does not guarantee accuracy. A model can confidently confirm its own mistake. For anything with legal, medical or financial consequences, verify against a primary source or ask a qualified professional.</p></aside>
+
+<h2 id="common-mistakes">Common prompting mistakes and fixes</h2>
+<table>
+<thead><tr><th>Mistake</th><th>What happens</th><th>Fix</th></tr></thead>
+<tbody>
+<tr><td>No audience stated</td><td>Generic, middle-of-the-road tone</td><td>Name the reader and what they already know</td></tr>
+<tr><td>Describing style with adjectives only</td><td>Output that matches the model's idea of "punchy", not yours</td><td>Show one to three examples</td></tr>
+<tr><td>Asking for everything at once</td><td>Shallow coverage of every part</td><td>Outline first, then draft section by section</td></tr>
+<tr><td>No rule for missing information</td><td>Plausible-sounding invented details</td><td>Tell it to write "not specified" or ask you</td></tr>
+<tr><td>Vague feedback ("improve this")</td><td>Random rewrites that lose good parts</td><td>Point to the exact part, say what to keep and what to change</td></tr>
+<tr><td>Pasting sensitive data without thinking</td><td>Privacy and confidentiality exposure</td><td>Remove names and identifiers; check your tool's data settings</td></tr>
+<tr><td>Accepting the first answer</td><td>Errors and weak sections slip through</td><td>Ask for critique, then verify key facts yourself</td></tr>
+</tbody>
+</table>
+<p>The privacy point deserves its own attention. Before pasting client records, contracts or internal financials into any assistant, read our <a href="ai-privacy-security-checklist.html">AI privacy and security checklist</a>.</p>
+
+<h2 id="a-reusable-prompt-template">A reusable prompt template</h2>
+<p>Save this skeleton somewhere handy and fill it in for any important request:</p>
+<pre><code>Role: You are [expert role].
+
+Context: [Who this is for, why it matters, relevant background,
+what has already been tried.]
+
+Task: [One clear verb and the deliverable.]
+
+Constraints:
+- Length: [range]
+- Include: [must-haves]
+- Avoid: [scope to skip]
+- If information is missing: [ask me / write "not specified"]
+
+Format: [Headings, table columns, JSON keys, tone, reading level.]
+
+Examples (optional):
+[One to three samples of the output you want.]</code></pre>
+<p>For ready-made starting points across marketing, operations and research tasks, browse the <a href="../prompts.html">prompt library</a>. If you want to choose the right assistant for a particular job, see <a href="choosing-an-ai-model.html">choosing an AI model</a>.</p>
+
+<section class="faq"><h2 id="faq">Frequently asked questions</h2>
+<details><summary>Do longer prompts always give better results?</summary><p>No. Longer prompts help when the extra words carry useful context, examples or constraints. Padding, repetition and contradictory instructions make results worse. Aim for complete, not long: every sentence should change what the model does.</p></details>
+<details><summary>Does assigning a role like "you are an expert" really help?</summary><p>A role is useful when it implies a specific audience, vocabulary or standard, such as "a tax preparer explaining to a first-time freelancer". On its own, a generic "expert" label adds little. The context and task matter more.</p></details>
+<details><summary>Should I use the same prompt in different AI assistants?</summary><p>The core structure transfers well between assistants, but each model has its own defaults for length and tone. Test an important prompt in the tool you will actually use and adjust the format instructions as needed.</p></details>
+<details><summary>How do I stop the model from making things up?</summary><p>Give it the source material, tell it to answer only from that material, and tell it what to do when the answer is not there. For questions over large document collections, a retrieval setup helps; see <a href="rag-explained.html">retrieval-augmented generation explained</a>. Always verify important facts yourself.</p></details>
+</section>

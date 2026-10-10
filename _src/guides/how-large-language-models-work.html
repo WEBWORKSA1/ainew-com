@@ -1,0 +1,93 @@
+<!--META {"title":"How large language models work: tokens, training and sampling","description":"A plain-English tour of how large language models work: tokens, pretraining, fine-tuning, next-token prediction, context windows, temperature and hallucination.","category":"Foundations","readMinutes":9,"summary":"Understand what happens inside a chat assistant, from tokens and training to sampling, context windows and why models hallucinate."} -->
+<p>Large language models, usually shortened to LLMs, are the engines behind chat assistants such as ChatGPT, Claude and Gemini. They can draft a report, explain a tax form, fix a bug and translate a menu, yet at their core they do one surprisingly narrow thing: given some text, they predict what text should come next.</p>
+<p>This guide walks through how that narrow skill becomes a useful assistant. You will see how text is broken into tokens, how models are trained in stages, how a single word gets chosen, what a context window is, why temperature changes the style of answers, why models sometimes state falsehoods with confidence, and what "reasoning" modes add.</p>
+<aside class="takeaways"><h2 id="key-takeaways">Key takeaways</h2><ul>
+<li>An LLM reads and writes text as tokens, which are words or pieces of words mapped to numbers.</li>
+<li>Pretraining on vast amounts of text teaches general language and knowledge; fine-tuning and human feedback turn that into a helpful, safer assistant.</li>
+<li>Every response is built one token at a time by choosing from a probability distribution over possible next tokens.</li>
+<li>The context window is the model's working memory for a conversation; anything outside it is invisible to the model.</li>
+<li>Temperature and related settings control how adventurous token choices are, and hallucinations arise because the model optimises for plausible text, not verified truth.</li>
+</ul></aside>
+
+<h2 id="tokens">Step one: turning text into tokens</h2>
+<p>Computers work with numbers, so the first job is converting your text into a sequence of numbers. A component called a <strong>tokenizer</strong> splits text into units called <strong>tokens</strong> and looks each one up in a fixed vocabulary, typically tens of thousands to a few hundred thousand entries long.</p>
+<p>Tokens are not quite words. Common words are usually a single token. Rarer words are split into reusable pieces. Spaces and punctuation are often folded into tokens too. This lets the model handle any text, including typos, new product names and other languages, without needing an infinite vocabulary.</p>
+<h3>Worked example: tokenizing a sentence</h3>
+<p>Here is how a typical tokenizer might split a short sentence. Exact splits and ID numbers differ between models, so treat this as an illustration of the principle rather than the output of any specific system.</p>
+<table>
+<thead><tr><th>Position</th><th>Token text</th><th>Example ID</th><th>Why it splits this way</th></tr></thead>
+<tbody>
+<tr><td>1</td><td><code>The</code></td><td>464</td><td>Very common word, one token</td></tr>
+<tr><td>2</td><td><code> cat</code></td><td>3797</td><td>Common word; the leading space is part of the token</td></tr>
+<tr><td>3</td><td><code> unbuck</code></td><td>41528</td><td>Rare word, so it is split into pieces</td></tr>
+<tr><td>4</td><td><code>led</code></td><td>992</td><td>A reusable ending seen in many words</td></tr>
+<tr><td>5</td><td><code> the</code></td><td>262</td><td>Lowercase with a space is a different token from "The"</td></tr>
+<tr><td>6</td><td><code> harness</code></td><td>19356</td><td>Reasonably common, one token</td></tr>
+<tr><td>7</td><td><code>.</code></td><td>13</td><td>Punctuation is its own token</td></tr>
+</tbody>
+</table>
+<p>So "The cat unbuckled the harness." becomes seven tokens, and the model actually sees a list of seven numbers. Two practical lessons follow. First, usage limits and pricing for AI services are usually counted in tokens, and a rough rule for English is that a token averages about three-quarters of a word. Second, because the model sees pieces rather than letters, tasks like counting the letters in a word or reversing a string can trip it up in ways that seem odd to a human.</p>
+
+<h2 id="training">How models are trained</h2>
+<p>An LLM is a very large neural network, a mathematical function with billions of adjustable numbers called <strong>parameters</strong> or weights. Training is the process of setting those numbers. It usually happens in stages.</p>
+<h3>1. Pretraining</h3>
+<p>The model is shown an enormous body of text: public web pages, books, reference works, code and other sources. Its task is simple: hide the next token, ask the model to predict it, measure how wrong it was, and nudge every parameter slightly to make it less wrong next time.</p>
+<p>To predict the next token well across that much text, the model has to absorb grammar, facts, styles, the structure of arguments and code, and a great deal of everyday reasoning. The result is a <strong>base model</strong>: knowledgeable, but not yet an assistant. Ask it a question and it may continue with three more questions, because that is a pattern it has seen.</p>
+<h3>2. Fine-tuning</h3>
+<p>Next, developers train the base model on a much smaller, carefully prepared set of examples showing the desired behaviour: a user asks something, and a good assistant answers clearly, follows instructions and declines harmful requests. This <strong>supervised fine-tuning</strong> teaches the format and manner of a helpful assistant.</p>
+<h3>3. Learning from feedback</h3>
+<p>Finally, the model is refined using judgements about which responses are better. In the approach commonly called <strong>reinforcement learning from human feedback</strong> (RLHF), people compare pairs of answers and pick the better one. Those preferences train a scoring system, and the model is then adjusted to produce answers that score well. Variants use written principles or AI-assisted judgements alongside human ones, and some training rewards answers that can be checked automatically, such as code that passes tests or maths with a verifiable result. This stage shapes helpfulness, honesty, tone and safety.</p>
+<aside class="note"><p><strong>Tip:</strong> The model's knowledge comes from pretraining and stops at a cut-off date. Fine-tuning shapes behaviour more than it adds facts. If you need current or private information, provide it in the prompt or use a system that retrieves documents, as explained in our guide to <a href="rag-explained.html">retrieval-augmented generation</a>.</p></aside>
+
+<h2 id="next-token-prediction">Next-token prediction in action</h2>
+<p>When you send a message, the model processes all the tokens in the conversation so far and outputs a score for every token in its vocabulary. Those scores are converted into probabilities that add up to 100 percent. One token is chosen, added to the text, and the whole process repeats for the next token. Your answer appears word by word on screen because it is literally being produced that way.</p>
+<p>The heavy lifting happens in a design called the <strong>transformer</strong>. Its key mechanism, <strong>attention</strong>, lets each position in the text weigh how relevant every earlier token is. That is how the model connects "it" to the right noun three sentences back, or keeps track of which variable a line of code refers to.</p>
+
+<h2 id="sampling-and-temperature">Sampling, temperature and why answers vary</h2>
+<p>Once the model has probabilities for the next token, something has to pick one. Always choosing the single most likely token (called greedy decoding) tends to produce flat, repetitive text. So most systems <strong>sample</strong>: they pick randomly, weighted by the probabilities. A setting called <strong>temperature</strong> controls how sharply those probabilities are weighted.</p>
+<h3>Worked example: choosing the next word</h3>
+<p>Suppose the text so far is "Looking out the window, I could see the sky was" and the model's top four candidates are the ones below. These numbers are illustrative, calculated from simple made-up scores, but the effect is exactly how temperature works.</p>
+<table>
+<thead><tr><th>Next token</th><th>Low temperature (0.5)</th><th>Default (1.0)</th><th>High temperature (1.5)</th></tr></thead>
+<tbody>
+<tr><td><code> blue</code></td><td>84%</td><td>61%</td><td>50%</td></tr>
+<tr><td><code> grey</code></td><td>11%</td><td>22%</td><td>25%</td></tr>
+<tr><td><code> clear</code></td><td>4%</td><td>14%</td><td>19%</td></tr>
+<tr><td><code> falling</code></td><td>under 1%</td><td>3%</td><td>7%</td></tr>
+</tbody>
+</table>
+<p>Read the table column by column. At low temperature the favourite dominates, so the output is predictable and focused, which suits data extraction, classification and factual summaries. At high temperature the less likely options get a real chance, so you see more variety and surprise, which suits brainstorming and fiction but also raises the odds of odd or wrong choices. If "falling" is picked, every following token must build on it, and the sentence may veer somewhere strange.</p>
+<p>Two related settings often appear alongside temperature. <strong>Top-k</strong> sampling only considers the k most likely tokens. <strong>Top-p</strong> (or nucleus) sampling only considers the smallest set of tokens whose probabilities add up to p, such as 90 percent. Both cut off the long tail of unlikely tokens. Chat apps usually set these for you; developer platforms let you adjust them, which is one factor in <a href="choosing-an-ai-model.html">choosing and configuring a model</a>.</p>
+
+<h2 id="context-windows">Context windows: the model's working memory</h2>
+<p>The <strong>context window</strong> is the maximum number of tokens the model can consider at once. It includes the system instructions set by the app, your messages, any documents you paste, the model's previous replies and the answer it is currently writing.</p>
+<p>A model does not remember your conversation the way a person does. Each time it generates a reply, it rereads the whole conversation within the window. When a conversation grows beyond the limit, the app has to drop or summarise older material, and details from the start can quietly disappear.</p>
+<p>Practical habits that follow from this:</p>
+<ul>
+<li>Put the most important instructions near the start of a new chat, and restate them if a long conversation drifts.</li>
+<li>Start a fresh conversation for a new task rather than piling everything into one thread.</li>
+<li>When you paste long documents, ask about specific sections; even models with large windows can give less attention to material buried in the middle.</li>
+</ul>
+
+<h2 id="why-models-hallucinate">Why models hallucinate</h2>
+<p>A hallucination is a fluent, confident statement that is false. Once you understand next-token prediction, the cause is easier to see.</p>
+<ol>
+<li><strong>The objective is plausibility.</strong> Training rewards text that resembles what tends to follow. A made-up citation with a realistic author, title and year looks very much like a real one.</li>
+<li><strong>Knowledge is compressed, not stored.</strong> The model does not keep a copy of every document. Rare facts seen only a few times are stored weakly and can be blended with similar facts.</li>
+<li><strong>There is no built-in fact check.</strong> Unless a tool such as web search or a document lookup is connected, nothing compares the output to an external source before it reaches you.</li>
+<li><strong>Each token commits the next.</strong> An early wrong choice gets elaborated by everything that follows, producing a coherent but wrong answer.</li>
+<li><strong>Training can reward guessing.</strong> If confident answers score better than "I am not sure", the model learns to guess. Developers increasingly train against this, but it has not disappeared.</li>
+</ol>
+<p>The best defences are to ground the model in sources you supply, ask it to quote the passage supporting each claim, allow it to say it does not know, and verify any specific fact you will act on. Our guide to <a href="prompt-engineering-guide.html">prompt engineering</a> includes templates for these techniques.</p>
+
+<h2 id="reasoning-modes">What "reasoning" modes add</h2>
+<p>Many assistants now offer a reasoning or "thinking" mode. At a high level, the model is trained and allowed to generate a long stretch of intermediate working, breaking the problem into steps, trying approaches and checking them, before writing its final answer. That working may be hidden, summarised or shown to you, depending on the product.</p>
+<p>This helps because each token gets a fixed amount of computation. Giving the model more tokens to think with effectively gives it more computation for hard problems, and training that rewards correct final answers teaches it to use that space productively. Reasoning modes tend to improve multi-step maths, logic, planning and complex coding.</p>
+<p>The trade-offs are speed and cost: responses take longer and use more tokens. Reasoning also does not create knowledge the model lacks, so it can still reason carefully from a false premise. When a model can also call tools, search and act across multiple steps, you are entering the territory of <a href="ai-agents-explained.html">AI agents</a>.</p>
+
+<section class="faq"><h2 id="faq">Frequently asked questions</h2>
+<details><summary>Does an LLM look up answers in a database?</summary><p>Not by default. It generates answers from patterns stored in its parameters. Some products add search or document retrieval, which lets the model base its answer on fetched text, but the core model is not a database.</p></details>
+<details><summary>Why does the same prompt give different answers?</summary><p>Because the next token is usually sampled from a probability distribution rather than always taking the top choice. Lower temperature, more specific instructions and examples of the desired output make responses more consistent.</p></details>
+<details><summary>Is a bigger context window always better?</summary><p>It lets you include more material, which is valuable for long documents and codebases. But longer inputs cost more and take longer, and focused, relevant context usually beats dumping in everything you have.</p></details>
+<details><summary>Do models learn from my conversations?</summary><p>The model does not change its parameters while chatting with you. Some providers may use conversations to train future models depending on your settings and plan, so check the provider's data controls before sharing sensitive information.</p></details>
+</section>
