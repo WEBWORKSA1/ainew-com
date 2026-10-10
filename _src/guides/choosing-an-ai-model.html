@@ -1,0 +1,110 @@
+<!--META {"title":"How to choose an AI model: a practical decision framework","description":"A practical framework for choosing an AI model or provider: task fit, quality, latency, cost per task, context, privacy, open-weight vs hosted, and evaluation.","category":"Build","readMinutes":8,"summary":"A step-by-step framework for picking an AI model based on task fit, cost, latency, privacy and your own evaluation results."} -->
+<p>There is no single best AI model. There is the model that does your specific task well enough, fast enough, cheaply enough and within your data rules. A model that tops public leaderboards may be overkill for sorting support tickets, while a small, fast model may fall apart on a long legal document. Choosing well means defining the job first and measuring candidates against it.</p>
+<p>This guide gives you a decision framework you can apply to any provider. It covers task fit, quality, latency, how to estimate cost per task using tokens, context length, privacy, the trade-offs between open-weight and hosted models, multimodality and vendor lock-in. It finishes with the most important step: running a small evaluation on your own examples.</p>
+<aside class="takeaways"><h2 id="key-takeaways">Key takeaways</h2><ul>
+<li>Define the task, the acceptable error rate and the latency budget before looking at any model.</li>
+<li>Estimate cost per task from typical input and output tokens, not from headline prices alone.</li>
+<li>Check data-handling terms early; they can rule out options faster than any benchmark.</li>
+<li>Open-weight models give control and portability; hosted models give convenience and usually top-end capability.</li>
+<li>Your own 30 to 100 example test set is a better guide than public benchmarks.</li>
+<li>Keep a thin layer between your app and the provider so you can switch models later.</li>
+</ul></aside>
+
+<h2 id="start-with-task-fit">Start with task fit</h2>
+<p>Write a one-paragraph task card before you compare anything. It should answer:</p>
+<ul>
+<li><strong>What goes in and what comes out?</strong> For example, "a customer email in, a JSON object with category and a draft reply out".</li>
+<li><strong>How hard is the reasoning?</strong> Classification and extraction are usually easy; multi-step analysis, maths and code are harder.</li>
+<li><strong>What does a mistake cost?</strong> A mislabelled newsletter is cheap; a wrong figure in a financial summary is not.</li>
+<li><strong>How much volume?</strong> Ten requests a day and ten thousand an hour lead to very different choices.</li>
+<li><strong>Is a person in the loop?</strong> Human review tolerates a lower accuracy rate than full automation.</li>
+</ul>
+<p>Most providers offer a family of models in tiers: large, capable and slower; medium; small, fast and cheap. A common pattern is to test the largest model first to see whether the task is achievable at all, then try smaller tiers to see how far down you can go before quality drops below your bar. If you are new to how these systems work, <a href="how-large-language-models-work.html">how large language models work</a> explains the basics.</p>
+
+<h2 id="quality-and-latency">Quality and latency</h2>
+<p>Quality means accuracy on <em>your</em> task, judged against <em>your</em> criteria: correct facts, correct format, appropriate tone, following instructions. Public benchmarks are a rough filter at best; they test general skills on someone else's questions, and providers can tune for them.</p>
+<p>Latency has two parts that matter differently:</p>
+<ul>
+<li><strong>Time to first token:</strong> how quickly output starts appearing. This matters for chat interfaces where people watch the response stream in.</li>
+<li><strong>Total generation time:</strong> how long until the full answer is ready. This matters for background jobs and for steps where the next action waits on the complete output.</li>
+</ul>
+<p>Set a latency budget, such as "under two seconds for an interactive reply" or "under a minute per document overnight". Models with extended reasoning or "thinking" modes often improve quality on hard problems but add time and cost, so test both with and without them.</p>
+
+<h2 id="estimating-cost-per-task">Estimating cost per task</h2>
+<p>Hosted models are typically priced per million tokens, with separate rates for input (what you send) and output (what the model writes). A token is a chunk of text; in English, a rough rule of thumb is about three-quarters of a word per token, so 1,000 words is roughly 1,300 tokens. Other languages and code can use more tokens per word.</p>
+<p>The formula is:</p>
+<p><strong>Cost per task = (input tokens × input price per token) + (output tokens × output price per token)</strong></p>
+<h3>Worked example (hypothetical prices)</h3>
+<p>The prices below are invented for illustration only. Check each provider's current pricing page for real figures.</p>
+<ol>
+<li><strong>Task:</strong> summarise a support conversation into a structured note.</li>
+<li><strong>Input:</strong> a 600-token system prompt with instructions and examples, plus a conversation averaging 1,400 tokens = 2,000 input tokens.</li>
+<li><strong>Output:</strong> a structured summary averaging 300 tokens.</li>
+<li><strong>Model A (large):</strong> hypothetical $3 per million input tokens and $15 per million output tokens. Cost = 2,000 × $0.000003 + 300 × $0.000015 = $0.006 + $0.0045 = $0.0105 per task.</li>
+<li><strong>Model B (small):</strong> hypothetical $0.25 per million input and $1.25 per million output. Cost = $0.0005 + $0.000375 ≈ $0.0009 per task.</li>
+<li><strong>At 50,000 tasks a month:</strong> Model A ≈ $525; Model B ≈ $44.</li>
+</ol>
+<p>If Model B meets your quality bar, the choice is easy. If it does not, the question becomes whether Model A's extra accuracy is worth about $480 a month, which you can compare with the cost of a person correcting errors.</p>
+<aside class="note"><p><strong>Tip:</strong> long, repeated system prompts are often the largest part of the bill. Many providers offer prompt caching or batch processing at reduced rates; check whether your workload qualifies. Also remember that retries, reasoning tokens and multi-step agent loops multiply the per-task cost.</p></aside>
+
+<h2 id="context-length">Context length</h2>
+<p>The context window is how much text, in tokens, a model can consider in one request, covering your instructions, any documents and the conversation so far. Large windows let you include whole contracts or codebases, but bigger is not automatically better. Cost rises with every token you send, responses can slow down, and models do not always use information buried in the middle of a very long input equally well.</p>
+<p>If your source material is larger than you can sensibly send each time, retrieval is usually better: store documents in a searchable index and send only the relevant passages. <a href="rag-explained.html">Retrieval-augmented generation explained</a> covers how this works.</p>
+
+<h2 id="privacy-and-data-handling">Privacy and data handling</h2>
+<p>For many organisations, data rules eliminate options before quality is even considered. Check these points for every provider:</p>
+<ul>
+<li>Is data sent through the business API or enterprise plan used to train models? Is that the default, and can it be turned off?</li>
+<li>How long are prompts and outputs retained, and for what purposes?</li>
+<li>In which regions is data processed and stored?</li>
+<li>Which security certifications and contractual commitments, such as a data processing agreement, are available?</li>
+<li>Can you control who in your organisation has access to logs?</li>
+</ul>
+<p>Consumer chat apps and business APIs often have different terms, so read the ones that apply to how you will actually use the model. Frameworks such as the <a href="https://www.nist.gov/itl/ai-risk-management-framework">NIST AI Risk Management Framework</a> are useful for structuring a review. For regulated data, involve a qualified legal or compliance professional; this guide is not legal advice. Our <a href="ai-privacy-security-checklist.html">AI privacy and security checklist</a> goes further.</p>
+
+<h2 id="open-weight-vs-hosted-models">Open-weight vs hosted models</h2>
+<p>Hosted models run on the provider's infrastructure and are accessed through an API. Open-weight models publish their trained weights so you can run them on your own hardware or with a hosting provider of your choice. Licences vary, so read the terms before commercial use.</p>
+<table>
+<thead><tr><th>Factor</th><th>Hosted (API)</th><th>Open-weight (self-run or third-party hosted)</th></tr></thead>
+<tbody>
+<tr><td>Top-end capability</td><td>Usually the strongest models available</td><td>Often close behind; strong for many focused tasks</td></tr>
+<tr><td>Setup effort</td><td>Minimal: an API key and a few lines of code</td><td>Higher: hardware or hosting, serving software, updates</td></tr>
+<tr><td>Cost model</td><td>Pay per token; no idle cost</td><td>Pay for compute whether busy or idle; can be cheaper at steady high volume</td></tr>
+<tr><td>Data control</td><td>Governed by provider terms</td><td>Data can stay entirely within your environment</td></tr>
+<tr><td>Customisation</td><td>Prompting; fine-tuning on some models</td><td>Full fine-tuning and modification, subject to licence</td></tr>
+<tr><td>Version stability</td><td>Provider may update or retire models on its schedule</td><td>You decide when, or whether, to change versions</td></tr>
+<tr><td>Scaling</td><td>Handled by provider, within rate limits</td><td>Your responsibility</td></tr>
+</tbody>
+</table>
+<p>A practical approach for many teams: prototype on a hosted model to prove the task works, then evaluate whether an open-weight model meets the bar if cost, privacy or control becomes a priority.</p>
+
+<h2 id="multimodality-and-lock-in">Multimodality and vendor lock-in</h2>
+<p><strong>Multimodality.</strong> If your inputs include images, scanned documents, charts, audio or video, test models on those inputs specifically. Support varies: some models read images well but not handwriting; some accept audio directly; others need a separate transcription step. Image and video <em>generation</em> is usually a separate model family, covered in our <a href="ai-image-video-generation.html">AI image and video generation guide</a>.</p>
+<p><strong>Vendor lock-in.</strong> Switching models is easier if you plan for it:</p>
+<ul>
+<li>Keep all model calls behind one internal function or service, so changing provider is a configuration change, not a rewrite.</li>
+<li>Store prompts as versioned files rather than scattering them through code.</li>
+<li>Avoid depending heavily on one provider's unique features unless the benefit is clear.</li>
+<li>Keep your evaluation test set ready, so you can check a new model in an afternoon.</li>
+</ul>
+
+<h2 id="run-your-own-evaluation">Run your own evaluation</h2>
+<p>A small, careful test on your own data beats any amount of reading reviews. Here is a process that works for most teams:</p>
+<ol>
+<li><strong>Collect 30 to 100 real examples</strong> that represent your actual inputs, including difficult and edge cases. Remove sensitive details if needed.</li>
+<li><strong>Define what "good" means.</strong> For extraction and classification, write the correct answer. For open-ended writing, write a short scoring rubric, for example accuracy, completeness, tone and format, each scored 1 to 3.</li>
+<li><strong>Pick three or four candidates</strong> across tiers and providers, plus your current approach as a baseline.</li>
+<li><strong>Use the same prompt for all,</strong> then allow one round of prompt tuning per model, since different models respond to slightly different instructions.</li>
+<li><strong>Run every example through every model</strong> and record output, latency and token counts.</li>
+<li><strong>Score blind where possible.</strong> Hide which model produced which output from the person scoring, to reduce bias.</li>
+<li><strong>Compare in a table:</strong> accuracy or average score, failure types, median and slowest latency, and cost per task at your expected volume.</li>
+<li><strong>Choose the cheapest, fastest option that clears your quality bar,</strong> not the one with the highest score regardless of cost.</li>
+</ol>
+<p>Using another model to grade outputs can speed up scoring for large sets, but check its grades against a human-scored sample first. Rerun the evaluation whenever a provider updates a model or you change your prompt. If you are wiring the chosen model into automated processes, see <a href="ai-automation-workflows.html">AI automation workflows</a>.</p>
+
+<section class="faq"><h2 id="faq">Frequently asked questions</h2>
+<details><summary>Should I always use the most powerful model available?</summary><p>No. Larger models cost more and are usually slower. Many tasks, such as classification, extraction and short drafting, work well on smaller models. Test from the top down and stop at the smallest model that meets your quality bar.</p></details>
+<details><summary>How many test examples do I need?</summary><p>Thirty well-chosen examples will reveal major differences between models. For decisions with higher stakes or subtle quality differences, aim for 100 or more, and make sure edge cases are represented.</p></details>
+<details><summary>Can I use different models for different steps?</summary><p>Yes, and it is common. A small model might classify incoming requests while a larger model handles the complex ones. Routing by difficulty is one of the most effective ways to control cost.</p></details>
+<details><summary>Are open-weight models safe for business use?</summary><p>They can be, and they offer strong data control when run in your own environment. You take on responsibility for security, updates and safety filtering, and you must follow the model's licence terms.</p></details>
+</section>
