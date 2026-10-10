@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en" data-root="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI image and video generation: how it works and how to use it | AiNew.com</title>
+<meta name="description" content="Learn how AI image and video generators work, how to write visual prompts, edit and upscale results, keep characters consistent, and check licensing and ethics.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://ainew.com/guides/ai-image-video-generation.html">
+<meta name="google-adsense-account" content="ca-pub-6620975821265271">
+<meta property="og:type" content="article"><meta property="og:site_name" content="AiNew.com">
+<meta property="og:title" content="AI image and video generation: how it works and how to use it | AiNew.com"><meta property="og:description" content="Learn how AI image and video generators work, how to write visual prompts, edit and upscale results, keep characters consistent, and check licensing and ethics.">
+<meta property="og:url" content="https://ainew.com/guides/ai-image-video-generation.html"><meta property="og:image" content="https://ainew.com/assets/img/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#2F3DF5">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/img/icon-192.png">
+<link rel="manifest" href="../site.webmanifest">
+<script>try{var t=localStorage.getItem("ainew-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../assets/css/site.css?v=2026-10-10">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6620975821265271"
+     crossorigin="anonymous"></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "AI image and video generation: how it works and how to use it", "description": "Learn how AI image and video generators work, how to write visual prompts, edit and upscale results, keep characters consistent, and check licensing and ethics.", "datePublished": "2026-10-10", "dateModified": "2026-10-10", "wordCount": 1955, "author": {"@type": "Organization", "name": "AiNew editorial team", "url": "https://ainew.com/about.html"}, "publisher": {"@type": "Organization", "name": "AiNew.com", "logo": {"@type": "ImageObject", "url": "https://ainew.com/assets/img/icon-512.png"}}, "mainEntityOfPage": "https://ainew.com/guides/ai-image-video-generation.html", "image": "https://ainew.com/assets/img/og-image.png", "articleSection": "Creative"}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://ainew.com/"}, {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://ainew.com/guides/"}, {"@type": "ListItem", "position": 3, "name": "AI image and video generation: how it works and how to use it", "item": "https://ainew.com/guides/ai-image-video-generation.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Why does the same prompt give me different images?", "acceptedAnswer": {"@type": "Answer", "text": "Each generation starts from random noise. Unless you fix the seed value, the starting point differs every time, so the model reaches a different result even with identical words."}}, {"@type": "Question", "name": "Why is text in AI images often garbled?", "acceptedAnswer": {"@type": "Answer", "text": "Image models learn visual patterns rather than spelling, so letters can come out as shapes that look like text but are not. Newer models handle short text better, but for reliable typography add the words in a design tool afterwards."}}, {"@type": "Question", "name": "Can I use AI-generated images on my business website?", "acceptedAnswer": {"@type": "Answer", "text": "Often yes, if your plan allows commercial use and the output contains no third-party logos, characters or recognizable people. Check the tool's current terms and consider labeling realistic images. For high-value uses, get legal advice."}}, {"@type": "Question", "name": "How long can AI-generated videos be?", "acceptedAnswer": {"@type": "Answer", "text": "Most generators produce short clips, typically a few seconds at a time, because keeping motion and objects consistent gets harder as length grows. Longer pieces are usually assembled from several clips in a regular video editor."}}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<a class="promo" href="https://web.works/contact" target="_blank" rel="noopener">Contact, if you are interested in this <strong>website / domain name / Sponsorship / Advertisement / Partnership</strong></a>
+<header class="site-head"><div class="wrap head-row">
+<a class="logo" href="../index.html" aria-label="AiNew.com home">Ai<span class="new">New</span><span class="tld">.com</span></a>
+<nav class="nav" id="site-nav" aria-label="Main"><a href="../news.html">News</a><a href="../tools.html">AI tools</a><a href="../guides/" aria-current="page">Guides</a><a href="../prompts.html">Prompts</a><a href="../videos.html">Videos</a><a href="../contests.html">Contests</a><a href="../support.html">Support us</a><a class="m-only" href="../ai-services.html">Get AI help</a><a class="m-only" href="../advertise.html">Advertise</a></nav>
+<div class="head-tools">
+<a class="icon-btn" href="../search.html" aria-label="Search the site"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></a>
+<button class="icon-btn" id="theme-btn" type="button" aria-label="Switch colour theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+<a class="btn sm" href="../ai-services.html">Get AI help</a>
+<button class="icon-btn menu-btn" id="menu-btn" type="button" aria-controls="site-nav" aria-expanded="false" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></div></header>
+<main id="main">
+<section class="page-head"><div class="wrap">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Home</a> / <a href="index.html">Guides</a> / Creative</nav>
+<h1 style="max-width:22ch">AI image and video generation: how it works and how to use it</h1>
+<p class="lede">How image and video generators work, how to prompt them well, and the licensing and ethical checks to make before you publish.</p>
+<div class="byline"><span>By the AiNew editorial team</span><span>Updated October 10, 2026</span><span>9 min read</span></div>
+</div></section>
+<section class="section tight" style="padding-top:8px"><div class="wrap article-layout">
+<article class="prose"><p>AI image and video generators can turn a sentence into a polished illustration, a product mockup or a short animated clip in less time than it takes to brief a designer. They can also produce images with six-fingered hands, logos that are almost but not quite readable, and characters whose faces drift from one frame to the next. The difference between those outcomes is usually not the tool. It is how well you understand what the tool is doing and how you direct it.</p>
+<p>This guide explains how these systems work at a level that helps you use them, then walks through writing visual prompts, iterating and editing, keeping characters consistent, and the commercial, labeling and ethical questions to settle before anything goes public.</p>
+<aside class="takeaways"><h2 id="key-takeaways">Key takeaways</h2><ul>
+<li>Most image generators use diffusion: they start from random noise and refine it step by step toward an image that matches your text.</li>
+<li>Strong visual prompts name the subject, style, composition, lighting and camera, in roughly that order of importance.</li>
+<li>Treat the first output as a draft; editing tools such as inpainting and upscaling do much of the real work.</li>
+<li>Character consistency improves with reference images, fixed descriptions and tool-specific features, but still needs checking frame by frame.</li>
+<li>Check the tool's commercial-use terms, label AI imagery where appropriate, and never create deceptive content about real people.</li>
+</ul></aside>
+
+<h2 id="how-image-generation-works">How AI image generation works</h2>
+<p>The dominant approach is called <strong>diffusion</strong>. During training, a model is shown enormous numbers of images that have been progressively blurred with random noise, and it learns to predict how to remove that noise a little at a time. Each training image is paired with a text description, so the model also learns which visual patterns go with which words.</p>
+<p>When you generate an image, the process runs in reverse. The system starts with pure random noise and removes noise over a series of steps, using your prompt as guidance about what should emerge. Because the starting noise is random, the same prompt gives different images each time. Many tools expose a <strong>seed</strong> number that fixes that starting noise, so you can reproduce a result or change one word and see its effect in isolation.</p>
+<p>A few consequences follow from this design:</p>
+<ul>
+<li><strong>The model works in patterns, not facts.</strong> It knows what "a red bicycle" tends to look like, not how many spokes a real wheel needs. Fine mechanical detail, hands and text are common weak points, though they have improved considerably.</li>
+<li><strong>Words carry visual associations.</strong> "Cinematic" brings wide frames and dramatic light; "vintage photo" brings grain and faded color. You are steering through those associations.</li>
+<li><strong>Overall layout is decided early.</strong> Composition forms in the first steps, while texture and detail come later. That is why changing a style word can keep the layout but changing the subject reshuffles everything.</li>
+</ul>
+<p>If you want the broader context of how generative models learn, our guide to <a href="what-is-generative-ai.html">what generative AI is</a> covers the shared foundations.</p>
+
+<h2 id="text-to-image-and-image-to-video">Text-to-image, image-to-image and video</h2>
+<p>Generators accept different kinds of input, and choosing the right mode saves a lot of frustration.</p>
+<table>
+<thead><tr><th>Mode</th><th>You provide</th><th>Best for</th></tr></thead>
+<tbody>
+<tr><td>Text-to-image</td><td>A written prompt</td><td>Exploring ideas, concept art, illustrations from scratch</td></tr>
+<tr><td>Image-to-image</td><td>An image plus a prompt</td><td>Restyling a sketch or photo while keeping its layout</td></tr>
+<tr><td>Text-to-video</td><td>A written prompt describing motion</td><td>Short atmospheric clips, b-roll, quick concepts</td></tr>
+<tr><td>Image-to-video</td><td>A still image plus motion instructions</td><td>Animating an approved still so the look stays under your control</td></tr>
+</tbody>
+</table>
+<p>Video models extend diffusion across time. They must keep each frame plausible and keep objects stable from frame to frame, which is much harder. That is why clips tend to be short, why fast or complex motion can break down, and why image-to-video is often the more reliable route: you lock the visual design in a still first, then ask the model only to add movement.</p>
+
+<div class="inline-cta"><p>Want this working in your business, not just on paper? Get a free, written AI starting plan.</p><a class="btn sm" href="../ai-services.html#plan">Get my free AI plan</a></div><h2 id="writing-visual-prompts">Writing visual prompts</h2>
+<p>Text prompting principles from the <a href="prompt-engineering-guide.html">prompt engineering guide</a> still apply, but visual prompts reward a specific structure. Work through five layers:</p>
+<ol>
+<li><strong>Subject.</strong> Who or what, doing what, with key details. "An elderly fisherman mending a net" beats "a man".</li>
+<li><strong>Style.</strong> The medium and aesthetic: watercolor, flat vector illustration, 35mm documentary photograph, clay animation, technical diagram.</li>
+<li><strong>Composition.</strong> Framing and placement: close-up, wide establishing shot, subject on the left third, plenty of empty space at the top for a headline.</li>
+<li><strong>Lighting.</strong> Soft overcast light, golden hour backlight, harsh midday sun, neon signage at night, studio softbox. Lighting does more for mood than almost any other word.</li>
+<li><strong>Camera.</strong> For photographic styles: eye level or low angle, shallow depth of field, wide-angle lens, overhead shot. For video, add camera movement such as slow push-in, static tripod or handheld follow.</li>
+</ol>
+<aside class="note"><p><strong>Example:</strong> Weak prompt: "a coffee shop". Stronger prompt: "Interior of a small neighborhood coffee shop, a barista pouring latte art at the counter, warm documentary photograph, medium shot from customer's eye level, soft morning light through front windows, shallow depth of field, empty wall space on the right for text."</p></aside>
+<p>Some practical habits:</p>
+<ul>
+<li><strong>Put the most important element first.</strong> Many models weight early words more heavily.</li>
+<li><strong>Describe what you want, not what you don't.</strong> "A clear sky" works better than "no clouds", because mentioning clouds can introduce them. Use a dedicated negative-prompt field if the tool has one.</li>
+<li><strong>Specify aspect ratio up front.</strong> A vertical social post, a widescreen banner and a square thumbnail need different compositions, not just different crops.</li>
+<li><strong>Keep text short.</strong> Use one to three quoted words, or add text later in a design tool.</li>
+<li><strong>For video, describe one main action.</strong> "The kite rises slowly into the wind" works better than a sequence of five events.</li>
+</ul>
+<p>Our <a href="../prompts.html">prompt library</a> includes visual prompt templates you can adapt.</p>
+
+<h2 id="iteration-and-editing">Iteration and editing</h2>
+<p>Professionals rarely use a first generation as is. A practical workflow looks like this:</p>
+<ol>
+<li><strong>Explore broadly.</strong> Generate several variations at low resolution to find a composition and style you like.</li>
+<li><strong>Lock what works.</strong> Note the seed, keep the prompt, and change one thing at a time.</li>
+<li><strong>Fix regions with inpainting.</strong> Inpainting lets you mask part of an image, such as a hand, a background sign or a facial expression, and regenerate only that area with a new instruction. It is the single most useful repair tool.</li>
+<li><strong>Extend with outpainting.</strong> Outpainting generates new content beyond the original edges, which is useful when you need a wider banner from a square image.</li>
+<li><strong>Upscale last.</strong> AI upscalers increase resolution and can add plausible fine detail. Upscale only the final choice, and inspect the result closely, because upscalers sometimes invent texture that looks wrong at full size.</li>
+<li><strong>Finish in a traditional editor.</strong> Color correction, typography, logos and layout are usually better done by hand.</li>
+</ol>
+<p>For video, iteration is slower and costlier, so do more planning on stills first. Approve key frames, then animate them, and assemble short clips in a normal video editor rather than expecting a single long generation.</p>
+
+<h2 id="character-consistency">Keeping characters consistent</h2>
+<p>Consistency is one of the hardest problems for any project with a recurring character, mascot or product. Each generation starts from new noise, so a character's face, clothing and proportions drift. Techniques that help, roughly from simplest to most involved:</p>
+<ul>
+<li><strong>A fixed character description.</strong> Write a short, specific block (age, hair, build, clothing, colors, distinctive features) and paste it identically into every prompt.</li>
+<li><strong>Reference images.</strong> Many tools let you supply an image as a character or style reference. A clean reference sheet showing the character from front, side and three-quarter views works far better than a single busy scene.</li>
+<li><strong>Consistent style anchors.</strong> Keep the medium, lighting and palette words identical across a series, so only the scene changes.</li>
+<li><strong>Custom fine-tuning.</strong> Some platforms let you train a small adaptation on a set of your own images. This gives the strongest consistency but takes more effort, and you must own the rights to the training images.</li>
+<li><strong>Image-to-video from approved stills.</strong> Animate frames you have already checked, rather than asking video models to invent the character.</li>
+</ul>
+<p>Even so, review every output beside your reference; a missing earring or shifted logo is easy to miss and obvious to audiences.</p>
+
+<h2 id="commercial-use-and-licensing">Commercial use and licensing checks</h2>
+<p>Before using generated images or video in anything you sell or advertise, check these points. Terms vary by tool and by plan, and they change, so read the current version.</p>
+<ul>
+<li><strong>Usage rights.</strong> Does your plan permit commercial use? Some free tiers restrict it or require attribution.</li>
+<li><strong>Ownership language.</strong> Does the vendor assign rights to you, license them to you, or retain any claim? Separately, in some jurisdictions purely AI-generated images may not qualify for copyright at all, which affects your ability to stop others copying them. Our <a href="ai-content-copyright-basics.html">AI content and copyright basics guide</a> covers this in more depth.</li>
+<li><strong>Indemnity.</strong> Some business plans offer legal protection if outputs are claimed to infringe someone else's rights; many do not.</li>
+<li><strong>Uploaded inputs.</strong> When you upload reference photos, check whether the vendor can use them for training, and make sure you have rights to everything you upload.</li>
+<li><strong>Third-party content in outputs.</strong> Inspect outputs for recognizable logos, trademarked characters, watermarks or artwork that closely resembles a specific existing piece, and remove or regenerate if you find any.</li>
+</ul>
+<p>This is general information, not legal advice. For significant commercial projects, have a qualified lawyer review the tool's terms against your intended use.</p>
+
+<h2 id="disclosure-and-labeling">Disclosure and labeling</h2>
+<p>Audiences increasingly expect to know when imagery is synthetic, and some platforms and jurisdictions require labeling in certain contexts, particularly advertising and political content. Sensible defaults:</p>
+<ul>
+<li>Label realistic AI-generated or heavily AI-edited images and video, especially anything showing people, places or events that could be mistaken for real documentation.</li>
+<li>Follow each publishing platform's disclosure settings when they exist.</li>
+<li>Keep provenance metadata intact where your tool adds it. Industry standards such as <a href="https://c2pa.org/" target="_blank" rel="noopener">C2PA content credentials</a> attach a verifiable record of how an image was made.</li>
+<li>For obviously stylized illustration, a general note in your site's credits or policy page may be enough, but be consistent.</li>
+</ul>
+
+<h2 id="ethical-limits">Ethical limits</h2>
+<p>Some lines are clear regardless of what a tool technically allows:</p>
+<ul>
+<li><strong>Real people.</strong> Do not generate realistic images or video of identifiable people without their consent, and never in sexual, humiliating or defamatory situations. Many tools block this, and laws in a growing number of places prohibit it.</li>
+<li><strong>Deceptive content.</strong> Do not create fake news photos, fabricated evidence, fake product results or synthetic "customer" photos presented as real.</li>
+<li><strong>Impersonating artists.</strong> Prompting for the exact style of a named living artist to produce work that competes with them is widely seen as unfair, and some tools restrict it. Describe the qualities you want instead: the palette, line weight, mood and medium.</li>
+<li><strong>Children and vulnerable people.</strong> Take extra care with any imagery involving minors, and keep it clearly non-realistic or properly consented.</li>
+</ul>
+<p>When choosing a generator in our <a href="../tools.html">AI tools directory</a>, compare safeguards as well as quality.</p>
+
+<section class="faq"><h2 id="faq">Frequently asked questions</h2>
+<details><summary>Why does the same prompt give me different images?</summary><p>Each generation starts from random noise. Unless you fix the seed value, the starting point differs every time, so the model reaches a different result even with identical words.</p></details>
+<details><summary>Why is text in AI images often garbled?</summary><p>Image models learn visual patterns rather than spelling, so letters can come out as shapes that look like text but are not. Newer models handle short text better, but for reliable typography add the words in a design tool afterwards.</p></details>
+<details><summary>Can I use AI-generated images on my business website?</summary><p>Often yes, if your plan allows commercial use and the output contains no third-party logos, characters or recognizable people. Check the tool's current terms and consider labeling realistic images. For high-value uses, get legal advice.</p></details>
+<details><summary>How long can AI-generated videos be?</summary><p>Most generators produce short clips, typically a few seconds at a time, because keeping motion and objects consistent gets harder as length grows. Longer pieces are usually assembled from several clips in a regular video editor.</p></details>
+</section>
+<p class="small muted" style="font-family:var(--f-ui);margin-top:2em">This guide is general information, not professional advice. Spotted an error? <a href="../contact.html?topic=Correction">Tell us</a>.</p>
+</article>
+<aside><nav class="toc" aria-label="On this page"><h2>On this page</h2><ol><li><a href="#how-image-generation-works">How AI image generation works</a></li><li><a href="#text-to-image-and-image-to-video">Text-to-image, image-to-image and video</a></li><li><a href="#writing-visual-prompts">Writing visual prompts</a></li><li><a href="#iteration-and-editing">Iteration and editing</a></li><li><a href="#character-consistency">Keeping characters consistent</a></li><li><a href="#commercial-use-and-licensing">Commercial use and licensing checks</a></li><li><a href="#disclosure-and-labeling">Disclosure and labeling</a></li><li><a href="#ethical-limits">Ethical limits</a></li><li><a href="#faq">Frequently asked questions</a></li></ol>
+<a class="btn sm" href="../ai-services.html#plan">Get a free AI plan</a></nav></aside>
+</div>
+<div class="wrap">
+<div class="panel" style="margin-top:40px;display:flex;justify-content:space-between;gap:20px;align-items:center;flex-wrap:wrap"><div><h2 style="margin-bottom:4px">Get one useful AI email a week</h2><p class="muted" style="margin:0">New guides, tools worth trying and a prompt to steal.</p></div><form class="inline-sub" data-form="newsletter-guide" data-subject="New newsletter subscriber" data-ok="You're on the list. Watch your inbox for the next issue.">
+<label class="visually-hidden" for="nl-guide">Email address</label>
+<input id="nl-guide" type="email" name="email" placeholder="you@example.com" required autocomplete="email">
+<input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+<button class="btn" type="submit">Subscribe free</button>
+<p class="form-msg" role="status"></p></form></div>
+<div class="related"><h2>Keep reading</h2><div class="card-grid"><a class="gcard" href="what-is-generative-ai.html"><span class="cat">Foundations</span><h3>What is generative AI? A plain-English guide for beginners</h3><p>A practical introduction to generative AI: how it works, what it does well, where it fails and how to use it.</p><span class="mins">9 min read</span></a><a class="gcard" href="ai-for-small-business.html"><span class="cat">Business</span><h3>AI for small business: 20 practical use cases and how to start</h3><p>Twenty practical AI use cases for small businesses, how to choose your first two pilots, and a simple way to estimate return.</p><span class="mins">9 min read</span></a><a class="gcard" href="prompt-engineering-guide.html"><span class="cat">Prompting</span><h3>Prompt engineering guide: a practical playbook for AI</h3><p>A hands-on playbook for writing prompts that get reliable, usable answers from AI assistants, with before-and-after examples.</p><span class="mins">9 min read</span></a></div></div>
+</div></section>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div class="foot-grid">
+<div><a class="logo" href="../index.html">Ai<span class="new">New</span><span class="tld">.com</span></a>
+<p class="muted small" style="margin-top:12px">What's new in AI, sorted and explained. Practical guides, a curated tools directory and help for teams putting AI to work.</p>
+<form class="inline-sub" data-form="newsletter-footer" data-subject="New newsletter subscriber" data-ok="You're on the list. Watch your inbox for the next issue.">
+<label class="visually-hidden" for="nl-footer">Email address</label>
+<input id="nl-footer" type="email" name="email" placeholder="you@example.com" required autocomplete="email">
+<input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+<button class="btn" type="submit">Subscribe</button>
+<p class="form-msg" role="status"></p></form></div>
+<div><h2>Explore</h2><ul><li><a href="../news.html">News radar</a></li><li><a href="../tools.html">AI tools directory</a></li><li><a href="../guides/">Guides</a></li><li><a href="../prompts.html">Prompt library</a></li><li><a href="../videos.html">Videos</a></li><li><a href="../search.html">Search</a></li></ul></div>
+<div><h2>For business</h2><ul><li><a href="../ai-services.html">Get AI help</a></li><li><a href="../readiness.html">AI readiness score</a></li><li><a href="../ai-services.html?goal=talent">Hire AI talent</a></li><li><a href="../advertise.html">Advertise & sponsor</a></li><li><a href="../submit-tool.html">Submit a tool</a></li></ul></div>
+<div><h2>Community</h2><ul><li><a href="../contests.html">Contests & prizes</a></li><li><a href="../support.html">Support AiNew</a></li><li><a href="../careers.html">Careers & talent network</a></li><li><a href="../newsletter.html">Newsletter</a></li></ul></div>
+<div><h2>About</h2><ul><li><a href="../about.html">About</a></li><li><a href="../editorial-policy.html">Editorial policy</a></li><li><a href="../contact.html">Contact</a></li><li><a href="../privacy.html">Privacy policy</a></li><li><a href="../terms.html">Terms of use</a></li><li><a href="../disclaimer.html">Disclaimer</a></li><li><a href="../legal.html">Trademark & copyright</a></li></ul></div>
+</div>
+<div class="foot-legal">
+<p>&copy; <span data-year>2026</span> AiNew.com. Original articles, prompts and design are protected by copyright. All rights reserved.</p>
+<p>AiNew.com is an independent publication. The name refers only to this website's domain and does not refer to, imitate or imply affiliation with any company, product or registered mark of the same or similar name. Third-party names and trademarks belong to their owners and are used for identification only. <a href="../legal.html">Full trademark &amp; copyright disclosure</a>.</p>
+<p>This site shows ads served by Google and may contain clearly labelled sponsored placements and partner links. <a href="../disclaimer.html">How we make money</a>.</p>
+</div></div></footer>
+<div class="cookie" id="cookie" role="dialog" aria-label="Cookie choices">
+<p>We use cookies for essential site features and to show ads from Google, which may be personalised. Choose what you're comfortable with. <a href="../privacy.html">Privacy policy</a></p>
+<div class="btn-row"><button class="btn sm" data-consent="all" type="button">Accept all</button><button class="btn sm ghost" data-consent="necessary" type="button">Necessary only</button></div></div>
+<script src="../assets/js/config.js?v=2026-10-10" defer></script>
+<script src="../assets/js/site.js?v=2026-10-10" defer></script>
+</body>
+</html>
