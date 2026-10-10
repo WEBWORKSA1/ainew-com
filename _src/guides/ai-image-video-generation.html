@@ -1,0 +1,114 @@
+<!--META {"title":"AI image and video generation: how it works and how to use it","description":"Learn how AI image and video generators work, how to write visual prompts, edit and upscale results, keep characters consistent, and check licensing and ethics.","category":"Creative","readMinutes":9,"summary":"How image and video generators work, how to prompt them well, and the licensing and ethical checks to make before you publish."} -->
+<p>AI image and video generators can turn a sentence into a polished illustration, a product mockup or a short animated clip in less time than it takes to brief a designer. They can also produce images with six-fingered hands, logos that are almost but not quite readable, and characters whose faces drift from one frame to the next. The difference between those outcomes is usually not the tool. It is how well you understand what the tool is doing and how you direct it.</p>
+<p>This guide explains how these systems work at a level that helps you use them, then walks through writing visual prompts, iterating and editing, keeping characters consistent, and the commercial, labeling and ethical questions to settle before anything goes public.</p>
+<aside class="takeaways"><h2 id="key-takeaways">Key takeaways</h2><ul>
+<li>Most image generators use diffusion: they start from random noise and refine it step by step toward an image that matches your text.</li>
+<li>Strong visual prompts name the subject, style, composition, lighting and camera, in roughly that order of importance.</li>
+<li>Treat the first output as a draft; editing tools such as inpainting and upscaling do much of the real work.</li>
+<li>Character consistency improves with reference images, fixed descriptions and tool-specific features, but still needs checking frame by frame.</li>
+<li>Check the tool's commercial-use terms, label AI imagery where appropriate, and never create deceptive content about real people.</li>
+</ul></aside>
+
+<h2 id="how-image-generation-works">How AI image generation works</h2>
+<p>The dominant approach is called <strong>diffusion</strong>. During training, a model is shown enormous numbers of images that have been progressively blurred with random noise, and it learns to predict how to remove that noise a little at a time. Each training image is paired with a text description, so the model also learns which visual patterns go with which words.</p>
+<p>When you generate an image, the process runs in reverse. The system starts with pure random noise and removes noise over a series of steps, using your prompt as guidance about what should emerge. Because the starting noise is random, the same prompt gives different images each time. Many tools expose a <strong>seed</strong> number that fixes that starting noise, so you can reproduce a result or change one word and see its effect in isolation.</p>
+<p>A few consequences follow from this design:</p>
+<ul>
+<li><strong>The model works in patterns, not facts.</strong> It knows what "a red bicycle" tends to look like, not how many spokes a real wheel needs. Fine mechanical detail, hands and text are common weak points, though they have improved considerably.</li>
+<li><strong>Words carry visual associations.</strong> "Cinematic" brings wide frames and dramatic light; "vintage photo" brings grain and faded color. You are steering through those associations.</li>
+<li><strong>Overall layout is decided early.</strong> Composition forms in the first steps, while texture and detail come later. That is why changing a style word can keep the layout but changing the subject reshuffles everything.</li>
+</ul>
+<p>If you want the broader context of how generative models learn, our guide to <a href="what-is-generative-ai.html">what generative AI is</a> covers the shared foundations.</p>
+
+<h2 id="text-to-image-and-image-to-video">Text-to-image, image-to-image and video</h2>
+<p>Generators accept different kinds of input, and choosing the right mode saves a lot of frustration.</p>
+<table>
+<thead><tr><th>Mode</th><th>You provide</th><th>Best for</th></tr></thead>
+<tbody>
+<tr><td>Text-to-image</td><td>A written prompt</td><td>Exploring ideas, concept art, illustrations from scratch</td></tr>
+<tr><td>Image-to-image</td><td>An image plus a prompt</td><td>Restyling a sketch or photo while keeping its layout</td></tr>
+<tr><td>Text-to-video</td><td>A written prompt describing motion</td><td>Short atmospheric clips, b-roll, quick concepts</td></tr>
+<tr><td>Image-to-video</td><td>A still image plus motion instructions</td><td>Animating an approved still so the look stays under your control</td></tr>
+</tbody>
+</table>
+<p>Video models extend diffusion across time. They must keep each frame plausible and keep objects stable from frame to frame, which is much harder. That is why clips tend to be short, why fast or complex motion can break down, and why image-to-video is often the more reliable route: you lock the visual design in a still first, then ask the model only to add movement.</p>
+
+<h2 id="writing-visual-prompts">Writing visual prompts</h2>
+<p>Text prompting principles from the <a href="prompt-engineering-guide.html">prompt engineering guide</a> still apply, but visual prompts reward a specific structure. Work through five layers:</p>
+<ol>
+<li><strong>Subject.</strong> Who or what, doing what, with key details. "An elderly fisherman mending a net" beats "a man".</li>
+<li><strong>Style.</strong> The medium and aesthetic: watercolor, flat vector illustration, 35mm documentary photograph, clay animation, technical diagram.</li>
+<li><strong>Composition.</strong> Framing and placement: close-up, wide establishing shot, subject on the left third, plenty of empty space at the top for a headline.</li>
+<li><strong>Lighting.</strong> Soft overcast light, golden hour backlight, harsh midday sun, neon signage at night, studio softbox. Lighting does more for mood than almost any other word.</li>
+<li><strong>Camera.</strong> For photographic styles: eye level or low angle, shallow depth of field, wide-angle lens, overhead shot. For video, add camera movement such as slow push-in, static tripod or handheld follow.</li>
+</ol>
+<aside class="note"><p><strong>Example:</strong> Weak prompt: "a coffee shop". Stronger prompt: "Interior of a small neighborhood coffee shop, a barista pouring latte art at the counter, warm documentary photograph, medium shot from customer's eye level, soft morning light through front windows, shallow depth of field, empty wall space on the right for text."</p></aside>
+<p>Some practical habits:</p>
+<ul>
+<li><strong>Put the most important element first.</strong> Many models weight early words more heavily.</li>
+<li><strong>Describe what you want, not what you don't.</strong> "A clear sky" works better than "no clouds", because mentioning clouds can introduce them. Use a dedicated negative-prompt field if the tool has one.</li>
+<li><strong>Specify aspect ratio up front.</strong> A vertical social post, a widescreen banner and a square thumbnail need different compositions, not just different crops.</li>
+<li><strong>Keep text short.</strong> Use one to three quoted words, or add text later in a design tool.</li>
+<li><strong>For video, describe one main action.</strong> "The kite rises slowly into the wind" works better than a sequence of five events.</li>
+</ul>
+<p>Our <a href="../prompts.html">prompt library</a> includes visual prompt templates you can adapt.</p>
+
+<h2 id="iteration-and-editing">Iteration and editing</h2>
+<p>Professionals rarely use a first generation as is. A practical workflow looks like this:</p>
+<ol>
+<li><strong>Explore broadly.</strong> Generate several variations at low resolution to find a composition and style you like.</li>
+<li><strong>Lock what works.</strong> Note the seed, keep the prompt, and change one thing at a time.</li>
+<li><strong>Fix regions with inpainting.</strong> Inpainting lets you mask part of an image, such as a hand, a background sign or a facial expression, and regenerate only that area with a new instruction. It is the single most useful repair tool.</li>
+<li><strong>Extend with outpainting.</strong> Outpainting generates new content beyond the original edges, which is useful when you need a wider banner from a square image.</li>
+<li><strong>Upscale last.</strong> AI upscalers increase resolution and can add plausible fine detail. Upscale only the final choice, and inspect the result closely, because upscalers sometimes invent texture that looks wrong at full size.</li>
+<li><strong>Finish in a traditional editor.</strong> Color correction, typography, logos and layout are usually better done by hand.</li>
+</ol>
+<p>For video, iteration is slower and costlier, so do more planning on stills first. Approve key frames, then animate them, and assemble short clips in a normal video editor rather than expecting a single long generation.</p>
+
+<h2 id="character-consistency">Keeping characters consistent</h2>
+<p>Consistency is one of the hardest problems for any project with a recurring character, mascot or product. Each generation starts from new noise, so a character's face, clothing and proportions drift. Techniques that help, roughly from simplest to most involved:</p>
+<ul>
+<li><strong>A fixed character description.</strong> Write a short, specific block (age, hair, build, clothing, colors, distinctive features) and paste it identically into every prompt.</li>
+<li><strong>Reference images.</strong> Many tools let you supply an image as a character or style reference. A clean reference sheet showing the character from front, side and three-quarter views works far better than a single busy scene.</li>
+<li><strong>Consistent style anchors.</strong> Keep the medium, lighting and palette words identical across a series, so only the scene changes.</li>
+<li><strong>Custom fine-tuning.</strong> Some platforms let you train a small adaptation on a set of your own images. This gives the strongest consistency but takes more effort, and you must own the rights to the training images.</li>
+<li><strong>Image-to-video from approved stills.</strong> Animate frames you have already checked, rather than asking video models to invent the character.</li>
+</ul>
+<p>Even so, review every output beside your reference; a missing earring or shifted logo is easy to miss and obvious to audiences.</p>
+
+<h2 id="commercial-use-and-licensing">Commercial use and licensing checks</h2>
+<p>Before using generated images or video in anything you sell or advertise, check these points. Terms vary by tool and by plan, and they change, so read the current version.</p>
+<ul>
+<li><strong>Usage rights.</strong> Does your plan permit commercial use? Some free tiers restrict it or require attribution.</li>
+<li><strong>Ownership language.</strong> Does the vendor assign rights to you, license them to you, or retain any claim? Separately, in some jurisdictions purely AI-generated images may not qualify for copyright at all, which affects your ability to stop others copying them. Our <a href="ai-content-copyright-basics.html">AI content and copyright basics guide</a> covers this in more depth.</li>
+<li><strong>Indemnity.</strong> Some business plans offer legal protection if outputs are claimed to infringe someone else's rights; many do not.</li>
+<li><strong>Uploaded inputs.</strong> When you upload reference photos, check whether the vendor can use them for training, and make sure you have rights to everything you upload.</li>
+<li><strong>Third-party content in outputs.</strong> Inspect outputs for recognizable logos, trademarked characters, watermarks or artwork that closely resembles a specific existing piece, and remove or regenerate if you find any.</li>
+</ul>
+<p>This is general information, not legal advice. For significant commercial projects, have a qualified lawyer review the tool's terms against your intended use.</p>
+
+<h2 id="disclosure-and-labeling">Disclosure and labeling</h2>
+<p>Audiences increasingly expect to know when imagery is synthetic, and some platforms and jurisdictions require labeling in certain contexts, particularly advertising and political content. Sensible defaults:</p>
+<ul>
+<li>Label realistic AI-generated or heavily AI-edited images and video, especially anything showing people, places or events that could be mistaken for real documentation.</li>
+<li>Follow each publishing platform's disclosure settings when they exist.</li>
+<li>Keep provenance metadata intact where your tool adds it. Industry standards such as <a href="https://c2pa.org/">C2PA content credentials</a> attach a verifiable record of how an image was made.</li>
+<li>For obviously stylized illustration, a general note in your site's credits or policy page may be enough, but be consistent.</li>
+</ul>
+
+<h2 id="ethical-limits">Ethical limits</h2>
+<p>Some lines are clear regardless of what a tool technically allows:</p>
+<ul>
+<li><strong>Real people.</strong> Do not generate realistic images or video of identifiable people without their consent, and never in sexual, humiliating or defamatory situations. Many tools block this, and laws in a growing number of places prohibit it.</li>
+<li><strong>Deceptive content.</strong> Do not create fake news photos, fabricated evidence, fake product results or synthetic "customer" photos presented as real.</li>
+<li><strong>Impersonating artists.</strong> Prompting for the exact style of a named living artist to produce work that competes with them is widely seen as unfair, and some tools restrict it. Describe the qualities you want instead: the palette, line weight, mood and medium.</li>
+<li><strong>Children and vulnerable people.</strong> Take extra care with any imagery involving minors, and keep it clearly non-realistic or properly consented.</li>
+</ul>
+<p>When choosing a generator in our <a href="../tools.html">AI tools directory</a>, compare safeguards as well as quality.</p>
+
+<section class="faq"><h2 id="faq">Frequently asked questions</h2>
+<details><summary>Why does the same prompt give me different images?</summary><p>Each generation starts from random noise. Unless you fix the seed value, the starting point differs every time, so the model reaches a different result even with identical words.</p></details>
+<details><summary>Why is text in AI images often garbled?</summary><p>Image models learn visual patterns rather than spelling, so letters can come out as shapes that look like text but are not. Newer models handle short text better, but for reliable typography add the words in a design tool afterwards.</p></details>
+<details><summary>Can I use AI-generated images on my business website?</summary><p>Often yes, if your plan allows commercial use and the output contains no third-party logos, characters or recognizable people. Check the tool's current terms and consider labeling realistic images. For high-value uses, get legal advice.</p></details>
+<details><summary>How long can AI-generated videos be?</summary><p>Most generators produce short clips, typically a few seconds at a time, because keeping motion and objects consistent gets harder as length grows. Longer pieces are usually assembled from several clips in a regular video editor.</p></details>
+</section>
