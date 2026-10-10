@@ -197,7 +197,7 @@ def main():
             kw["schema"] = [L.breadcrumb(crumbs)]
         out = L.page(path, title, desc, body, active, **kw)
         if path == "404.html":
-            out = out.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n<script>document.write(\'<base href="\'+(location.pathname.indexOf("/Ainew-com/")===0?"/Ainew-com/":"/")+\'">\')</script>', 1)
+            out = out.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n<script>document.write(\'<base href="\'+(location.pathname.toLowerCase().indexOf("/ainew-com/")===0?location.pathname.slice(0,11):"/")+\'">\')</script>', 1)
         write(path, out)
 
     for g in guides:
