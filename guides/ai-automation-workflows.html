@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en" data-root="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Building AI automation workflows without writing code | AiNew.com</title>
+<meta name="description" content="How to build no-code AI workflows with triggers, actions, AI steps, approval gates and error handling, with six step-by-step examples and a testing plan.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://ainew.com/guides/ai-automation-workflows.html">
+<meta name="google-adsense-account" content="ca-pub-6620975821265271">
+<meta property="og:type" content="article"><meta property="og:site_name" content="AiNew.com">
+<meta property="og:title" content="Building AI automation workflows without writing code | AiNew.com"><meta property="og:description" content="How to build no-code AI workflows with triggers, actions, AI steps, approval gates and error handling, with six step-by-step examples and a testing plan.">
+<meta property="og:url" content="https://ainew.com/guides/ai-automation-workflows.html"><meta property="og:image" content="https://ainew.com/assets/img/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#2F3DF5">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/img/icon-192.png">
+<link rel="manifest" href="../site.webmanifest">
+<script>try{var t=localStorage.getItem("ainew-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../assets/css/site.css?v=2026-10-10">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6620975821265271"
+     crossorigin="anonymous"></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Building AI automation workflows without writing code", "description": "How to build no-code AI workflows with triggers, actions, AI steps, approval gates and error handling, with six step-by-step examples and a testing plan.", "datePublished": "2026-10-10", "dateModified": "2026-10-10", "wordCount": 1836, "author": {"@type": "Organization", "name": "AiNew editorial team", "url": "https://ainew.com/about.html"}, "publisher": {"@type": "Organization", "name": "AiNew.com", "logo": {"@type": "ImageObject", "url": "https://ainew.com/assets/img/icon-512.png"}}, "mainEntityOfPage": "https://ainew.com/guides/ai-automation-workflows.html", "image": "https://ainew.com/assets/img/og-image.png", "articleSection": "Business"}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://ainew.com/"}, {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://ainew.com/guides/"}, {"@type": "ListItem", "position": 3, "name": "Building AI automation workflows without writing code", "item": "https://ainew.com/guides/ai-automation-workflows.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Do I need to know how to code to build AI workflows?", "acceptedAnswer": {"@type": "Answer", "text": "No. Visual automation platforms let you connect apps and add AI steps through forms and menus. Basic comfort with spreadsheets and logic such as \"if this, then that\" is enough to start. Code helps for unusual integrations, but it is optional."}}, {"@type": "Question", "name": "What is the difference between an AI workflow and an AI agent?", "acceptedAnswer": {"@type": "Answer", "text": "A workflow follows steps you define in a fixed order, with AI used at specific points. An agent decides its own steps toward a goal. Workflows are more predictable and easier to test, which is why most businesses start there. See AI agents explained for more."}}, {"@type": "Question", "name": "How much do AI workflows cost to run?", "acceptedAnswer": {"@type": "Answer", "text": "Costs usually combine the automation platform's charge per task or run with the AI provider's charge per amount of text processed. Check both pricing pages, run your test set, and multiply cost per run by your expected monthly volume."}}, {"@type": "Question", "name": "Which workflow should I build first?", "acceptedAnswer": {"@type": "Answer", "text": "Inbox triage or meeting summaries are good first projects. They are frequent, low risk, easy to check, and do not send anything to customers automatically."}}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<a class="promo" href="https://web.works/contact" target="_blank" rel="noopener">Contact, if you are interested in this <strong>website / domain name / Sponsorship / Advertisement / Partnership</strong></a>
+<header class="site-head"><div class="wrap head-row">
+<a class="logo" href="../index.html" aria-label="AiNew.com home">Ai<span class="new">New</span><span class="tld">.com</span></a>
+<nav class="nav" id="site-nav" aria-label="Main"><a href="../news.html">News</a><a href="../tools.html">AI tools</a><a href="../guides/" aria-current="page">Guides</a><a href="../prompts.html">Prompts</a><a href="../videos.html">Videos</a><a href="../contests.html">Contests</a><a href="../support.html">Support us</a><a class="m-only" href="../ai-services.html">Get AI help</a><a class="m-only" href="../advertise.html">Advertise</a></nav>
+<div class="head-tools">
+<a class="icon-btn" href="../search.html" aria-label="Search the site"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></a>
+<button class="icon-btn" id="theme-btn" type="button" aria-label="Switch colour theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+<a class="btn sm" href="../ai-services.html">Get AI help</a>
+<button class="icon-btn menu-btn" id="menu-btn" type="button" aria-controls="site-nav" aria-expanded="false" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></div></header>
+<main id="main">
+<section class="page-head"><div class="wrap">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Home</a> / <a href="index.html">Guides</a> / Business</nav>
+<h1 style="max-width:22ch">Building AI automation workflows without writing code</h1>
+<p class="lede">Learn the building blocks of no-code AI workflows, follow six step-by-step examples, and test and monitor them safely.</p>
+<div class="byline"><span>By the AiNew editorial team</span><span>Updated October 10, 2026</span><span>8 min read</span></div>
+</div></section>
+<section class="section tight" style="padding-top:8px"><div class="wrap article-layout">
+<article class="prose"><p>A chat assistant saves time when you remember to open it. An automated workflow saves time without you thinking about it: a new email arrives, an AI step reads and classifies it, and the result lands in the right place. Visual automation platforms make this possible without programming, by letting you connect apps you already use and insert AI steps between them.</p>
+<p>This guide explains the building blocks every such platform shares, how to add AI steps and human approval safely, and how to handle errors. It then walks through six example workflows step by step, and finishes with a practical plan for testing and monitoring so your automations stay reliable after launch.</p>
+<aside class="takeaways"><h2 id="key-takeaways">Key takeaways</h2><ul>
+<li>Every workflow is a trigger, followed by actions, with optional AI steps, filters and approval gates in between.</li>
+<li>Ask AI steps for structured output with fixed field names and allowed values so later steps can use them reliably.</li>
+<li>Put a human approval gate before anything that reaches a customer, moves money or changes important records.</li>
+<li>Plan for failure from the start: retries, a fallback path, and an alert to a named person.</li>
+<li>Test with real historical examples before going live, then review a sample of results every week.</li>
+</ul></aside>
+
+<h2 id="the-building-blocks">The building blocks</h2>
+<p>Tools such as <a href="https://zapier.com" target="_blank" rel="noopener">Zapier</a>, <a href="https://www.make.com" target="_blank" rel="noopener">Make</a> and <a href="https://n8n.io" target="_blank" rel="noopener">n8n</a> differ in pricing, interface and hosting options. n8n, for example, can be self-hosted, which some teams prefer for data control. But they share the same core concepts. Learn these once and you can work in any of them. Our <a href="../tools.html">AI tools directory</a> lists more options.</p>
+<dl>
+<dt>Trigger</dt>
+<dd>The event that starts the workflow: a new email, a form submission, a new row in a spreadsheet, a file added to a folder, a scheduled time, or a webhook (a message sent from another app).</dd>
+<dt>Action</dt>
+<dd>Something the workflow does in another app: create a CRM contact, send a message, add a row, upload a file, update a ticket.</dd>
+<dt>AI step</dt>
+<dd>A step that sends text (and sometimes images or documents) to a language model with instructions, and returns its answer. Most platforms offer built-in AI steps or connectors to major model providers.</dd>
+<dt>Filter and router</dt>
+<dd>Logic that decides whether to continue, or which branch to follow, based on data from earlier steps, such as "only continue if category equals billing".</dd>
+<dt>Approval gate</dt>
+<dd>A pause where a person reviews the proposed output and approves, edits or rejects it before the workflow continues. This might be a message with buttons in a team chat app, an email, or a review queue in a spreadsheet.</dd>
+<dt>Error handling</dt>
+<dd>What happens when a step fails: retry, skip, take an alternative path, or alert someone.</dd>
+</dl>
+
+<h3>Writing AI steps that downstream steps can use</h3>
+<p>The most common mistake is asking an AI step an open question and then trying to route on a paragraph of prose. Instead, ask for structured output. Tell the model exactly which fields to return, what values are allowed, and to return nothing else. For example: "Return JSON with fields <code>category</code> (one of: sales, support, billing, other), <code>urgency</code> (low, medium, high) and <code>summary</code> (max 30 words)." Many platforms can parse that into separate fields automatically.</p>
+<p>Also include an escape option such as "other" or "unsure". A model forced to choose between only valid-looking answers will guess; one allowed to say "unsure" can be routed to a person. For more on writing reliable instructions, see the <a href="prompt-engineering-guide.html">prompt engineering guide</a>.</p>
+
+<h3>Where to put approval gates</h3>
+<p>Use a simple rule: if a mistake would be embarrassing, expensive or hard to undo, a person approves it. That covers outgoing customer messages, payments, deleting or overwriting records, and anything published publicly. Internal labelling, summarising and drafting can usually run without approval, as long as someone samples results regularly. As accuracy proves itself, you can relax gates for low-risk categories while keeping them for the rest.</p>
+
+<h3>Error handling basics</h3>
+<ul>
+<li><strong>Retries:</strong> set temporary failures (timeouts, rate limits) to retry a few times with a delay.</li>
+<li><strong>Validation:</strong> after each AI step, check the output has the required fields and allowed values. If not, send it to the fallback path.</li>
+<li><strong>Fallback path:</strong> route anything unprocessed to a human queue rather than dropping it silently.</li>
+<li><strong>Alerts:</strong> notify a named owner when a workflow fails repeatedly, not a shared inbox nobody reads.</li>
+<li><strong>Logging:</strong> record inputs, AI outputs and final actions so you can investigate problems later.</li>
+</ul>
+
+<h2 id="six-example-workflows">Six example workflows</h2>
+<p>Each example below is written as numbered steps you can rebuild in any visual automation platform. Adapt field names and apps to your own setup.</p>
+
+<h3>1. Lead qualification</h3>
+<ol>
+<li><strong>Trigger:</strong> a new submission arrives from your website contact form.</li>
+<li><strong>AI step:</strong> send the message, company name and any stated budget to the model with your ideal-customer criteria. Ask for <code>fit</code> (strong, possible, poor, unsure), <code>reason</code> and <code>suggested_next_step</code>.</li>
+<li><strong>Validate:</strong> confirm <code>fit</code> is one of the allowed values; otherwise set it to unsure.</li>
+<li><strong>Action:</strong> create or update the contact in your CRM with the fit score and reason.</li>
+<li><strong>Router:</strong> strong leads trigger a notification to the sales owner; possible leads go into a nurture email list; poor leads receive a polite standard reply; unsure goes to a person for review.</li>
+</ol>
+
+<h3>2. Inbox triage</h3>
+<ol>
+<li><strong>Trigger:</strong> a new email arrives in a shared inbox such as info@ or hello@.</li>
+<li><strong>Filter:</strong> skip messages from known automated senders, such as newsletters and receipts.</li>
+<li><strong>AI step:</strong> classify into a fixed set of categories, set urgency, and write a one-line summary.</li>
+<li><strong>Action:</strong> apply the matching label or move the email to the right folder.</li>
+<li><strong>Action:</strong> for high-urgency messages, post the summary and a link to the team chat channel.</li>
+<li><strong>Action:</strong> once a day, send the owner a digest of everything labelled "other" so new patterns are not missed.</li>
+</ol>
+
+<h3>3. Content repurposing</h3>
+<ol>
+<li><strong>Trigger:</strong> a new article is published, detected through your site's RSS feed or a status change in your content tracker.</li>
+<li><strong>Action:</strong> fetch the article text.</li>
+<li><strong>AI step:</strong> using your brand style guide, generate a newsletter blurb, three social posts of different lengths, and five FAQ-style questions the article answers.</li>
+<li><strong>Action:</strong> write each draft into a review document or a row in your content calendar, marked "draft".</li>
+<li><strong>Approval gate:</strong> an editor reviews, edits and marks each item approved.</li>
+<li><strong>Action:</strong> approved social posts are sent to your scheduling tool; nothing publishes without approval.</li>
+</ol>
+
+<h3>4. Invoice extraction</h3>
+<ol>
+<li><strong>Trigger:</strong> a PDF invoice arrives at a dedicated invoices@ address or is dropped into a shared folder.</li>
+<li><strong>AI step:</strong> extract supplier name, invoice number, invoice date, due date, subtotal, tax and total, returning empty values where a field cannot be found.</li>
+<li><strong>Validate:</strong> check that subtotal plus tax equals total, that the date fields are valid dates, and that the invoice number is not already recorded.</li>
+<li><strong>Router:</strong> invoices that pass checks go to a review sheet; any that fail go to an exceptions list with the reason.</li>
+<li><strong>Approval gate:</strong> the bookkeeper confirms the extracted values against the PDF.</li>
+<li><strong>Action:</strong> approved entries are created as draft bills in your accounting software. Payment remains a separate manual step.</li>
+</ol>
+<aside class="note"><p><strong>Tip:</strong> the arithmetic check in step 3 catches a surprising share of extraction errors. Cheap deterministic checks after an AI step are one of the best reliability tools you have.</p></aside>
+
+<h3>5. Support ticket routing</h3>
+<ol>
+<li><strong>Trigger:</strong> a new ticket is created in your helpdesk.</li>
+<li><strong>AI step:</strong> classify product area, issue type and sentiment; detect the language; flag possible security or legal issues.</li>
+<li><strong>Router:</strong> flagged tickets go straight to a senior person; others are assigned to the right team or queue.</li>
+<li><strong>AI step:</strong> draft a suggested reply using your help articles as reference material.</li>
+<li><strong>Action:</strong> attach the draft as an internal note, not a sent reply, so an agent can review and send it.</li>
+</ol>
+
+<h3>6. Meeting notes to CRM</h3>
+<ol>
+<li><strong>Trigger:</strong> a meeting transcript becomes available from your video-call or recording tool.</li>
+<li><strong>Filter:</strong> continue only if the meeting includes an external participant whose email domain matches a CRM account.</li>
+<li><strong>AI step:</strong> produce a summary, decisions, objections raised, next steps with owners and dates, and any deal-stage change suggested by the conversation.</li>
+<li><strong>Approval gate:</strong> send the summary to the meeting owner, who can approve or edit it.</li>
+<li><strong>Action:</strong> log the approved summary as an activity on the CRM record and create follow-up tasks.</li>
+<li><strong>Action:</strong> if a stage change was suggested, notify the owner rather than changing the stage automatically.</li>
+</ol>
+<p>Before recording or transcribing calls, check consent requirements in the places you and your participants operate. This is not legal advice; ask a qualified professional if you are unsure.</p>
+
+<div class="inline-cta"><p>Want this working in your business, not just on paper? Get a free, written AI starting plan.</p><a class="btn sm" href="../ai-services.html#plan">Get my free AI plan</a></div><h2 id="testing-and-monitoring">Testing and monitoring</h2>
+<p>An automation that works on the first three examples you try can still fail on the fourth. Treat launch as a process, not an event.</p>
+<h3>Before launch</h3>
+<ol>
+<li><strong>Build a test set.</strong> Collect 20 to 50 real past examples, including awkward ones: very short emails, mixed languages, missing fields, forwarded threads.</li>
+<li><strong>Write down the correct answer</strong> for each example before running the workflow.</li>
+<li><strong>Run the workflow in test mode</strong>, with actions pointing at a test CRM, test sheet or your own inbox.</li>
+<li><strong>Score the results.</strong> Count how many outputs were correct, how many were wrong, and how many were correctly sent to "unsure".</li>
+<li><strong>Fix and rerun.</strong> Adjust instructions, categories or validation rules, then rerun the whole set, not just the cases that failed.</li>
+</ol>
+<h3>After launch</h3>
+<ul>
+<li>Start in "shadow mode" for a week where useful: the workflow labels and drafts, but people still act as before, and you compare.</li>
+<li>Review a random sample of 10 to 20 results weekly and record the error rate.</li>
+<li>Watch run history for failures, unusual volumes and costs per run.</li>
+<li>Re-run your test set whenever you change the prompt, switch AI model or the provider updates its model. Our guide to <a href="choosing-an-ai-model.html">choosing an AI model</a> explains how to compare models on your own examples.</li>
+<li>Keep a short document for each workflow: purpose, owner, apps connected, data involved and how to switch it off.</li>
+</ul>
+<p>If you would rather have someone design and build these with you, see our <a href="../ai-services.html">AI services for businesses</a>.</p>
+
+<section class="faq"><h2 id="faq">Frequently asked questions</h2>
+<details><summary>Do I need to know how to code to build AI workflows?</summary><p>No. Visual automation platforms let you connect apps and add AI steps through forms and menus. Basic comfort with spreadsheets and logic such as "if this, then that" is enough to start. Code helps for unusual integrations, but it is optional.</p></details>
+<details><summary>What is the difference between an AI workflow and an AI agent?</summary><p>A workflow follows steps you define in a fixed order, with AI used at specific points. An agent decides its own steps toward a goal. Workflows are more predictable and easier to test, which is why most businesses start there. See <a href="ai-agents-explained.html">AI agents explained</a> for more.</p></details>
+<details><summary>How much do AI workflows cost to run?</summary><p>Costs usually combine the automation platform's charge per task or run with the AI provider's charge per amount of text processed. Check both pricing pages, run your test set, and multiply cost per run by your expected monthly volume.</p></details>
+<details><summary>Which workflow should I build first?</summary><p>Inbox triage or meeting summaries are good first projects. They are frequent, low risk, easy to check, and do not send anything to customers automatically.</p></details>
+</section>
+<p class="small muted" style="font-family:var(--f-ui);margin-top:2em">This guide is general information, not professional advice. Spotted an error? <a href="../contact.html?topic=Correction">Tell us</a>.</p>
+</article>
+<aside><nav class="toc" aria-label="On this page"><h2>On this page</h2><ol><li><a href="#the-building-blocks">The building blocks</a></li><li><a href="#six-example-workflows">Six example workflows</a></li><li><a href="#testing-and-monitoring">Testing and monitoring</a></li><li><a href="#faq">Frequently asked questions</a></li></ol>
+<a class="btn sm" href="../ai-services.html#plan">Get a free AI plan</a></nav></aside>
+</div>
+<div class="wrap">
+<div class="panel" style="margin-top:40px;display:flex;justify-content:space-between;gap:20px;align-items:center;flex-wrap:wrap"><div><h2 style="margin-bottom:4px">Get one useful AI email a week</h2><p class="muted" style="margin:0">New guides, tools worth trying and a prompt to steal.</p></div><form class="inline-sub" data-form="newsletter-guide" data-subject="New newsletter subscriber" data-ok="You're on the list. Watch your inbox for the next issue.">
+<label class="visually-hidden" for="nl-guide">Email address</label>
+<input id="nl-guide" type="email" name="email" placeholder="you@example.com" required autocomplete="email">
+<input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+<button class="btn" type="submit">Subscribe free</button>
+<p class="form-msg" role="status"></p></form></div>
+<div class="related"><h2>Keep reading</h2><div class="card-grid"><a class="gcard" href="ai-for-small-business.html"><span class="cat">Business</span><h3>AI for small business: 20 practical use cases and how to start</h3><p>Twenty practical AI use cases for small businesses, how to choose your first two pilots, and a simple way to estimate return.</p><span class="mins">9 min read</span></a><a class="gcard" href="what-is-generative-ai.html"><span class="cat">Foundations</span><h3>What is generative AI? A plain-English guide for beginners</h3><p>A practical introduction to generative AI: how it works, what it does well, where it fails and how to use it.</p><span class="mins">9 min read</span></a><a class="gcard" href="prompt-engineering-guide.html"><span class="cat">Prompting</span><h3>Prompt engineering guide: a practical playbook for AI</h3><p>A hands-on playbook for writing prompts that get reliable, usable answers from AI assistants, with before-and-after examples.</p><span class="mins">9 min read</span></a></div></div>
+</div></section>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div class="foot-grid">
+<div><a class="logo" href="../index.html">Ai<span class="new">New</span><span class="tld">.com</span></a>
+<p class="muted small" style="margin-top:12px">What's new in AI, sorted and explained. Practical guides, a curated tools directory and help for teams putting AI to work.</p>
+<form class="inline-sub" data-form="newsletter-footer" data-subject="New newsletter subscriber" data-ok="You're on the list. Watch your inbox for the next issue.">
+<label class="visually-hidden" for="nl-footer">Email address</label>
+<input id="nl-footer" type="email" name="email" placeholder="you@example.com" required autocomplete="email">
+<input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+<button class="btn" type="submit">Subscribe</button>
+<p class="form-msg" role="status"></p></form></div>
+<div><h2>Explore</h2><ul><li><a href="../news.html">News radar</a></li><li><a href="../tools.html">AI tools directory</a></li><li><a href="../guides/">Guides</a></li><li><a href="../prompts.html">Prompt library</a></li><li><a href="../videos.html">Videos</a></li><li><a href="../search.html">Search</a></li></ul></div>
+<div><h2>For business</h2><ul><li><a href="../ai-services.html">Get AI help</a></li><li><a href="../readiness.html">AI readiness score</a></li><li><a href="../ai-services.html?goal=talent">Hire AI talent</a></li><li><a href="../advertise.html">Advertise & sponsor</a></li><li><a href="../submit-tool.html">Submit a tool</a></li></ul></div>
+<div><h2>Community</h2><ul><li><a href="../contests.html">Contests & prizes</a></li><li><a href="../support.html">Support AiNew</a></li><li><a href="../careers.html">Careers & talent network</a></li><li><a href="../newsletter.html">Newsletter</a></li></ul></div>
+<div><h2>About</h2><ul><li><a href="../about.html">About</a></li><li><a href="../editorial-policy.html">Editorial policy</a></li><li><a href="../contact.html">Contact</a></li><li><a href="../privacy.html">Privacy policy</a></li><li><a href="../terms.html">Terms of use</a></li><li><a href="../disclaimer.html">Disclaimer</a></li><li><a href="../legal.html">Trademark & copyright</a></li></ul></div>
+</div>
+<div class="foot-legal">
+<p>&copy; <span data-year>2026</span> AiNew.com. Original articles, prompts and design are protected by copyright. All rights reserved.</p>
+<p>AiNew.com is an independent publication. The name refers only to this website's domain and does not refer to, imitate or imply affiliation with any company, product or registered mark of the same or similar name. Third-party names and trademarks belong to their owners and are used for identification only. <a href="../legal.html">Full trademark &amp; copyright disclosure</a>.</p>
+<p>This site shows ads served by Google and may contain clearly labelled sponsored placements and partner links. <a href="../disclaimer.html">How we make money</a>.</p>
+</div></div></footer>
+<div class="cookie" id="cookie" role="dialog" aria-label="Cookie choices">
+<p>We use cookies for essential site features and to show ads from Google, which may be personalised. Choose what you're comfortable with. <a href="../privacy.html">Privacy policy</a></p>
+<div class="btn-row"><button class="btn sm" data-consent="all" type="button">Accept all</button><button class="btn sm ghost" data-consent="necessary" type="button">Necessary only</button></div></div>
+<script src="../assets/js/config.js?v=2026-10-10" defer></script>
+<script src="../assets/js/site.js?v=2026-10-10" defer></script>
+</body>
+</html>
