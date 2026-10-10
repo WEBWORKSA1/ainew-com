@@ -1,0 +1,310 @@
+<!--META {"title":"AI glossary: 90 essential artificial intelligence terms explained","description":"An A to Z glossary of essential AI terms in plain English, from agents and embeddings to tokens and zero-shot prompting, with links to in-depth guides.","category":"Foundations","readMinutes":17,"summary":"Plain-English definitions of about 90 essential AI terms, from agents and embeddings to tokens and zero-shot prompting."} -->
+<p>AI conversations move fast and lean heavily on jargon. Product pages mention context windows and RAG, news stories mention alignment and open weights, and colleagues casually ask whether you have tried few-shot prompting. If you have ever nodded along without being sure what a term meant, this glossary is for you.</p>
+<p>Each entry gives a short, plain-English definition of what the term means in practice, written for people who use AI rather than build it from scratch. Where a topic deserves more depth, the definition links to one of our full guides. Terms are listed alphabetically, and you can jump straight to a letter using the index below.</p>
+<aside class="takeaways"><h2 id="key-takeaways">Key takeaways</h2><ul>
+<li>Most AI jargon describes a small number of ideas: how models are trained, how they process text, how you instruct them, and how they fail.</li>
+<li>If you learn tokens, context window, prompt, hallucination, fine-tuning and RAG, you can follow most everyday AI discussions.</li>
+<li>Many terms overlap or are used loosely in marketing; focus on what the thing actually does rather than the label.</li>
+<li>Definitions here are deliberately practical and simplified; follow the links for fuller explanations.</li>
+</ul></aside>
+
+<h2 id="start-here">Ten terms to learn first</h2>
+<p>If you are new to AI, these ten terms unlock most of the rest. Read them in this order, because each builds on the one before:</p>
+<ol>
+<li><a href="#term-machine-learning">Machine learning</a>: how computers learn from examples.</li>
+<li><a href="#term-neural-network">Neural network</a>: the structure that does the learning.</li>
+<li><a href="#term-large-language-model">Large language model</a>: the engine behind chat assistants.</li>
+<li><a href="#term-token">Token</a>: the unit of text a model reads and writes.</li>
+<li><a href="#term-prompt">Prompt</a>: the instruction you give.</li>
+<li><a href="#term-context-window">Context window</a>: how much the model can consider at once.</li>
+<li><a href="#term-hallucination">Hallucination</a>: confident but false output.</li>
+<li><a href="#term-fine-tuning">Fine-tuning</a>: specialising a trained model.</li>
+<li><a href="#term-retrieval-augmented-generation">Retrieval-augmented generation</a>: giving a model your documents.</li>
+<li><a href="#term-ai-agent">AI agent</a>: a model that takes actions toward a goal.</li>
+</ol>
+<p>Jump to a letter: <a href="#letter-a">A</a> · <a href="#letter-b">B</a> · <a href="#letter-c">C</a> · <a href="#letter-d">D</a> · <a href="#letter-e">E</a> · <a href="#letter-f">F</a> · <a href="#letter-g">G</a> · <a href="#letter-h">H</a> · <a href="#letter-i">I</a> · <a href="#letter-j">J</a> · <a href="#letter-k">K</a> · <a href="#letter-l">L</a> · <a href="#letter-m">M</a> · <a href="#letter-n">N</a> · <a href="#letter-o">O</a> · <a href="#letter-p">P</a> · <a href="#letter-q">Q</a> · <a href="#letter-r">R</a> · <a href="#letter-s">S</a> · <a href="#letter-t">T</a> · <a href="#letter-u">U</a> · <a href="#letter-v">V</a> · <a href="#letter-w">W</a> · <a href="#letter-z">Z</a></p>
+
+<h2 id="letter-a">A</h2>
+<dl>
+<dt id="term-ai-agent">AI agent</dt>
+<dd>A system in which an AI model plans and carries out a series of steps toward a goal, such as searching, reading files or calling software tools, and decides what to do next based on the results. Agents act rather than just answer. See <a href="ai-agents-explained.html">AI agents explained</a>.</dd>
+<dt id="term-algorithm">Algorithm</dt>
+<dd>A precise set of steps for solving a problem or completing a task. In AI, the word often refers to the learning procedure used to train a model, as distinct from the trained model itself.</dd>
+<dt id="term-alignment">Alignment</dt>
+<dd>The work of making AI systems behave in line with human intentions and values: helpful, honest and avoiding harm. It covers both training techniques and research into how to keep increasingly capable systems reliably on track.</dd>
+<dt id="term-api">API (application programming interface)</dt>
+<dd>A defined way for one piece of software to request services from another. AI providers offer APIs so developers can send prompts to a model from their own apps and receive responses, usually paying per token.</dd>
+<dt id="term-artificial-general-intelligence">Artificial general intelligence (AGI)</dt>
+<dd>A hypothetical AI able to learn and perform essentially any intellectual task a person can, at a human level or beyond. There is no agreed definition or test for it, so claims about when it will arrive should be read with care.</dd>
+<dt id="term-artificial-intelligence">Artificial intelligence (AI)</dt>
+<dd>The broad field of building computer systems that perform tasks normally associated with human intelligence, such as understanding language, recognising images, making predictions and solving problems. Machine learning is today the dominant approach within it.</dd>
+<dt id="term-attention">Attention</dt>
+<dd>A mechanism that lets a model weigh how relevant each part of its input is to every other part, so it can link a pronoun to the right noun or a variable to its definition. Attention is the core idea of the transformer architecture.</dd>
+<dt id="term-autoregressive-model">Autoregressive model</dt>
+<dd>A model that generates output one piece at a time, with each new piece based on everything produced so far. Large language models are autoregressive: they predict one token, append it, then predict the next. See <a href="how-large-language-models-work.html">how large language models work</a>.</dd>
+</dl>
+
+<h2 id="letter-b">B</h2>
+<dl>
+<dt id="term-base-model">Base model</dt>
+<dd>A model that has completed pretraining but not yet been fine-tuned to follow instructions. It is good at continuing text but does not reliably behave like an assistant, so most people interact with fine-tuned versions instead.</dd>
+<dt id="term-benchmark">Benchmark</dt>
+<dd>A standard set of tasks used to measure and compare model performance, such as exam-style questions or coding problems. Benchmarks are useful signals, but a high score does not guarantee a model will perform well on your specific work.</dd>
+<dt id="term-bias">Bias</dt>
+<dd>Systematic skew in a model's outputs, often inherited from imbalances or stereotypes in its training data. Bias can lead to unfair results, so outputs that describe or affect people deserve careful human review.</dd>
+<dt id="term-black-box">Black box</dt>
+<dd>A system whose internal reasoning is hard to inspect or explain, even if its inputs and outputs are visible. Large neural networks are often described this way because their behaviour emerges from billions of numbers rather than readable rules.</dd>
+</dl>
+
+<h2 id="letter-c">C</h2>
+<dl>
+<dt id="term-chain-of-thought">Chain of thought</dt>
+<dd>Step-by-step intermediate reasoning that a model writes out before giving a final answer. Encouraging it, or using a model trained to do it, tends to improve results on multi-step problems such as maths, logic and planning.</dd>
+<dt id="term-chatbot">Chatbot</dt>
+<dd>A program you interact with through conversation. Older chatbots followed scripted rules; modern AI chat assistants are built on large language models and can respond flexibly to almost any request.</dd>
+<dt id="term-classification">Classification</dt>
+<dd>A machine learning task that assigns an input to one of several categories, such as labelling an email as spam or not spam, or a support ticket as billing, technical or sales. It is a classic form of predictive AI.</dd>
+<dt id="term-computer-vision">Computer vision</dt>
+<dd>The branch of AI that enables computers to interpret images and video, for example recognising objects, reading text in photos or detecting defects on a production line.</dd>
+<dt id="term-context-window">Context window</dt>
+<dd>The maximum amount of text, measured in tokens, that a model can consider at one time, including instructions, the conversation so far, any pasted documents and its own reply. Anything outside the window is invisible to the model.</dd>
+<dt id="term-corpus">Corpus</dt>
+<dd>A large, structured collection of text used for training or analysing language models. The plural is corpora.</dd>
+</dl>
+
+<h2 id="letter-d">D</h2>
+<dl>
+<dt id="term-data-labelling">Data labelling</dt>
+<dd>Adding the correct answers or tags to raw data, such as marking which photos contain a cat, so it can be used to train or evaluate a model. It is often done by people and is critical to model quality.</dd>
+<dt id="term-dataset">Dataset</dt>
+<dd>A collection of examples used to train, fine-tune or test a model. Its size, accuracy, diversity and legal status strongly shape what the resulting model can do.</dd>
+<dt id="term-deep-learning">Deep learning</dt>
+<dd>A type of machine learning that uses neural networks with many layers. Deep learning drives most modern AI breakthroughs, including speech recognition, image generation and large language models.</dd>
+<dt id="term-deepfake">Deepfake</dt>
+<dd>Synthetic media, usually video or audio, that convincingly depicts a real person saying or doing something they never did. Deepfakes raise serious concerns about fraud, consent and misinformation.</dd>
+<dt id="term-diffusion-model">Diffusion model</dt>
+<dd>A kind of generative model, widely used for images and video, that learns to create content by starting from random noise and gradually refining it into an output that matches a description. See <a href="ai-image-video-generation.html">AI image and video generation</a>.</dd>
+<dt id="term-distillation">Distillation</dt>
+<dd>Training a smaller, cheaper "student" model to imitate the outputs of a larger "teacher" model. The student keeps much of the teacher's ability while running faster and at lower cost.</dd>
+</dl>
+
+<h2 id="letter-e">E</h2>
+<dl>
+<dt id="term-edge-ai">Edge AI</dt>
+<dd>Running AI models directly on local devices such as phones, cameras or laptops rather than in a remote data centre. It can improve speed and privacy, at the cost of using smaller models.</dd>
+<dt id="term-embedding">Embedding</dt>
+<dd>A list of numbers that represents the meaning of a piece of text, image or other data, so that similar items end up with similar numbers. Embeddings power semantic search, recommendations and retrieval-augmented generation.</dd>
+<dt id="term-evaluation">Evaluation (evals)</dt>
+<dd>Systematic testing of how well a model or AI feature performs on the tasks you care about, using a fixed set of examples and clear criteria. Good evals let you compare models and catch regressions before users do.</dd>
+<dt id="term-explainability">Explainability</dt>
+<dd>The degree to which people can understand why an AI system produced a particular output. It matters most where decisions affect people's rights, finances or safety.</dd>
+</dl>
+
+<h2 id="letter-f">F</h2>
+<dl>
+<dt id="term-few-shot-prompting">Few-shot prompting</dt>
+<dd>Including a handful of worked examples in your prompt to show the model the pattern you want, such as three sample product descriptions in your house style. It is one of the simplest ways to get consistent output. See the <a href="prompt-engineering-guide.html">prompt engineering guide</a>.</dd>
+<dt id="term-fine-tuning">Fine-tuning</dt>
+<dd>Further training an existing model on a smaller, focused dataset so it adapts to a particular task, style or domain. Fine-tuning mainly changes behaviour and format; it is usually a poor way to add fast-changing facts.</dd>
+<dt id="term-foundation-model">Foundation model</dt>
+<dd>A large model trained on broad data that can be adapted to many different tasks. Large language models and major image generators are examples.</dd>
+<dt id="term-function-calling">Function calling (tool use)</dt>
+<dd>A capability that lets a model request that an external tool be run, such as a calculator, a search engine or a booking system, by producing a structured request the surrounding software can execute. It is a building block of AI agents.</dd>
+</dl>
+
+<h2 id="letter-g">G</h2>
+<dl>
+<dt id="term-generative-adversarial-network">Generative adversarial network (GAN)</dt>
+<dd>An earlier generative approach in which two networks compete: one creates fake samples and the other tries to tell them from real ones. GANs drove early realistic image generation, and diffusion models have since overtaken them for most uses.</dd>
+<dt id="term-generative-ai">Generative AI</dt>
+<dd>AI that creates new content such as text, images, audio, video or code, rather than only classifying or predicting. See <a href="what-is-generative-ai.html">what is generative AI</a>.</dd>
+<dt id="term-gpu">GPU (graphics processing unit)</dt>
+<dd>A chip originally designed for graphics that excels at performing many calculations in parallel. GPUs, along with similar specialised chips, are the main hardware used to train and run modern AI models.</dd>
+<dt id="term-gradient-descent">Gradient descent</dt>
+<dd>The core method for training neural networks: measure how wrong the model's output is, work out which direction to adjust each parameter to reduce that error, and take a small step in that direction, repeatedly.</dd>
+<dt id="term-grounding">Grounding</dt>
+<dd>Connecting a model's answers to specific, trusted source material, such as documents you supply or search results, so outputs are based on evidence rather than memory alone. Grounding is one of the most effective ways to reduce hallucinations.</dd>
+<dt id="term-guardrails">Guardrails</dt>
+<dd>Rules, filters and checks placed around an AI system to keep its behaviour within acceptable limits, such as blocking certain topics, validating output formats or requiring human approval for risky actions.</dd>
+</dl>
+
+<h2 id="letter-h">H</h2>
+<dl>
+<dt id="term-hallucination">Hallucination</dt>
+<dd>A confident, fluent output that is false or unsupported, such as an invented citation, statistic or quotation. It happens because models generate plausible text rather than checking facts, so verify any specific claim you plan to rely on.</dd>
+<dt id="term-human-in-the-loop">Human in the loop</dt>
+<dd>A design in which a person reviews, approves or corrects AI outputs at key points before they take effect. It is a sensible default for anything customer-facing, high-stakes or hard to undo.</dd>
+<dt id="term-hyperparameter">Hyperparameter</dt>
+<dd>A setting chosen by people rather than learned during training, such as how big each training step is or how many times to pass through the data. Sampling settings like temperature are sometimes loosely called hyperparameters too.</dd>
+</dl>
+
+<h2 id="letter-i">I</h2>
+<dl>
+<dt id="term-inference">Inference</dt>
+<dd>Using a trained model to produce outputs, as opposed to training it. Every time you send a prompt and get a reply, the model is performing inference, and that is what most AI usage costs are based on.</dd>
+<dt id="term-instruction-tuning">Instruction tuning</dt>
+<dd>A form of fine-tuning that trains a model on examples of instructions paired with good responses, teaching it to follow requests rather than simply continue text.</dd>
+</dl>
+
+<h2 id="letter-j">J</h2>
+<dl>
+<dt id="term-jailbreak">Jailbreak</dt>
+<dd>An attempt to trick an AI model into ignoring its safety rules or intended limits, often through elaborate role-play or misleading framing. Providers continually train and filter against known jailbreak techniques.</dd>
+</dl>
+
+<h2 id="letter-k">K</h2>
+<dl>
+<dt id="term-knowledge-cutoff">Knowledge cutoff</dt>
+<dd>The date after which a model's training data ends. The model will not know about later events unless the information is supplied in the prompt or fetched through a tool such as web search.</dd>
+</dl>
+
+<h2 id="letter-l">L</h2>
+<dl>
+<dt id="term-large-language-model">Large language model (LLM)</dt>
+<dd>A very large neural network trained on huge amounts of text to predict the next token, which gives it broad abilities in writing, summarising, translating, coding and reasoning. LLMs power chat assistants such as ChatGPT, Claude and Gemini. See <a href="how-large-language-models-work.html">how large language models work</a>.</dd>
+<dt id="term-latency">Latency</dt>
+<dd>The delay between sending a request and receiving a response. Larger models and reasoning modes often have higher latency, which matters for real-time uses like voice assistants and live chat.</dd>
+<dt id="term-lora">LoRA (low-rank adaptation)</dt>
+<dd>An efficient fine-tuning technique that trains a small set of added parameters instead of changing the whole model. It makes customising large models much cheaper and is popular for adapting image models to a specific style.</dd>
+<dt id="term-loss-function">Loss function</dt>
+<dd>A formula that measures how far a model's predictions are from the correct answers during training. Training aims to make this number as small as possible.</dd>
+</dl>
+
+<h2 id="letter-m">M</h2>
+<dl>
+<dt id="term-machine-learning">Machine learning</dt>
+<dd>An approach to AI in which systems learn patterns from data instead of being explicitly programmed with rules. Show a model enough labelled examples and it learns to handle new, unseen cases.</dd>
+<dt id="term-mixture-of-experts">Mixture of experts</dt>
+<dd>A model design that contains many specialised sub-networks and activates only a few of them for each token. This lets a model have a very large total size while keeping the cost of each response manageable.</dd>
+<dt id="term-model">Model</dt>
+<dd>The trained artefact that turns inputs into outputs: in practice, a structure plus a very large set of learned numbers. When people compare AI products, they are often really comparing the models underneath. See <a href="choosing-an-ai-model.html">choosing an AI model</a>.</dd>
+<dt id="term-model-context-protocol">Model Context Protocol (MCP)</dt>
+<dd>An open standard for connecting AI assistants to external tools and data sources, such as file systems, calendars or business software, through a common interface. It means one connector can work across many compatible AI applications.</dd>
+<dt id="term-multimodal">Multimodal</dt>
+<dd>Able to work with more than one type of data, such as text, images, audio and video. A multimodal assistant can, for example, read a photo of a chart and answer questions about it in writing.</dd>
+</dl>
+
+<h2 id="letter-n">N</h2>
+<dl>
+<dt id="term-natural-language-processing">Natural language processing (NLP)</dt>
+<dd>The field of AI concerned with understanding and generating human language, covering tasks like translation, sentiment analysis, summarisation and question answering. Large language models are now the dominant NLP technology.</dd>
+<dt id="term-neural-network">Neural network</dt>
+<dd>A computing structure made of layers of simple connected units whose connection strengths are adjusted during training. Loosely inspired by the brain, neural networks underpin nearly all modern AI.</dd>
+</dl>
+
+<h2 id="letter-o">O</h2>
+<dl>
+<dt id="term-open-weight-model">Open-weight model</dt>
+<dd>A model whose trained parameters are published so anyone can download, run and modify it, subject to its licence. It offers more control and privacy than a hosted service but requires your own hardware and expertise. "Open source" is often used loosely for the same idea.</dd>
+<dt id="term-optical-character-recognition">Optical character recognition (OCR)</dt>
+<dd>Technology that converts images of printed or handwritten text, such as scanned invoices or photographed receipts, into machine-readable text. Modern multimodal models often perform OCR as part of reading documents.</dd>
+<dt id="term-overfitting">Overfitting</dt>
+<dd>When a model learns its training examples too closely, including their noise and quirks, and then performs poorly on new data. It is the machine learning equivalent of memorising answers instead of understanding the subject.</dd>
+</dl>
+
+<h2 id="letter-p">P</h2>
+<dl>
+<dt id="term-parameter">Parameter</dt>
+<dd>One of the adjustable numbers inside a model that are set during training. Model size is usually described by its parameter count, but more parameters do not automatically mean better results for your task.</dd>
+<dt id="term-predictive-ai">Predictive AI</dt>
+<dd>AI that analyses data to classify, score or forecast, such as estimating demand or flagging fraud, rather than creating new content. It is often contrasted with generative AI.</dd>
+<dt id="term-pretraining">Pretraining</dt>
+<dd>The first and most expensive stage of building a large model, in which it learns general patterns from a vast dataset, typically by predicting the next token across enormous amounts of text.</dd>
+<dt id="term-prompt">Prompt</dt>
+<dd>The input you give an AI model: a question, instruction, example, document or any combination. The clarity and context of your prompt are the biggest factors in output quality that you directly control. Browse ready-made examples in our <a href="../prompts.html">prompt library</a>.</dd>
+<dt id="term-prompt-engineering">Prompt engineering</dt>
+<dd>The practice of designing and refining prompts to get reliable, high-quality outputs, using techniques such as clear roles, examples, structured formats and step-by-step instructions. See the <a href="prompt-engineering-guide.html">prompt engineering guide</a>.</dd>
+<dt id="term-prompt-injection">Prompt injection</dt>
+<dd>An attack in which malicious instructions are hidden in content an AI processes, such as a web page or email, to hijack its behaviour. It is a key security risk for agents that read external content and can take actions. See the <a href="ai-privacy-security-checklist.html">AI privacy and security checklist</a>.</dd>
+</dl>
+
+<h2 id="letter-q">Q</h2>
+<dl>
+<dt id="term-quantization">Quantization</dt>
+<dd>Storing a model's parameters with fewer digits of precision so it uses less memory and runs faster, usually with a small loss in quality. It is common when running open-weight models on ordinary computers.</dd>
+</dl>
+
+<h2 id="letter-r">R</h2>
+<dl>
+<dt id="term-reasoning-model">Reasoning model</dt>
+<dd>A model, or a mode of one, trained to work through problems in intermediate steps before answering. It typically does better on complex maths, logic and coding tasks, at the cost of slower and more expensive responses.</dd>
+<dt id="term-red-teaming">Red teaming</dt>
+<dd>Deliberately probing an AI system for weaknesses, harmful behaviours or security holes before attackers or users find them. It is a standard part of responsible AI testing.</dd>
+<dt id="term-reinforcement-learning">Reinforcement learning</dt>
+<dd>A training method in which a system learns by trying actions and receiving rewards or penalties, gradually favouring behaviour that earns higher rewards. It is used to refine language models and to train game-playing and robotics systems.</dd>
+<dt id="term-retrieval-augmented-generation">Retrieval-augmented generation (RAG)</dt>
+<dd>A technique that searches a collection of documents for passages relevant to a question and gives them to the model alongside the prompt, so its answer is grounded in your actual sources. See <a href="rag-explained.html">RAG explained</a>.</dd>
+<dt id="term-rlhf">RLHF (reinforcement learning from human feedback)</dt>
+<dd>A training stage in which people compare model responses, their preferences are used to build a scoring system, and the model is adjusted to produce responses that score well. It is a major reason chat assistants are helpful and conversational.</dd>
+</dl>
+
+<h2 id="letter-s">S</h2>
+<dl>
+<dt id="term-sampling">Sampling</dt>
+<dd>Choosing each next token at random, weighted by the model's probabilities, rather than always taking the single most likely option. Sampling is why the same prompt can produce different answers.</dd>
+<dt id="term-semantic-search">Semantic search</dt>
+<dd>Search that matches on meaning rather than exact keywords, usually using embeddings. A query for "staff holiday rules" can find a document titled "employee leave policy".</dd>
+<dt id="term-small-language-model">Small language model</dt>
+<dd>A language model with relatively few parameters, designed to be fast and cheap enough to run on modest hardware or devices. It suits focused tasks where a large model would be overkill.</dd>
+<dt id="term-speech-recognition">Speech recognition</dt>
+<dd>Converting spoken audio into text, also called speech-to-text or transcription. It powers voice assistants, captions and automated meeting notes.</dd>
+<dt id="term-structured-output">Structured output</dt>
+<dd>Model output constrained to a fixed format, such as JSON with specific fields, so other software can process it reliably. It is essential when AI feeds into automations. See <a href="ai-automation-workflows.html">AI automation workflows</a>.</dd>
+<dt id="term-supervised-learning">Supervised learning</dt>
+<dd>Training a model on examples that come with correct answers, such as emails labelled spam or not spam, so it learns to map inputs to the right outputs.</dd>
+<dt id="term-synthetic-data">Synthetic data</dt>
+<dd>Artificially generated data used to train or test models, often created by other AI models. It can fill gaps or protect privacy, but low-quality synthetic data can reinforce errors.</dd>
+<dt id="term-system-prompt">System prompt</dt>
+<dd>Background instructions set by the app or developer, usually hidden from the end user, that define the model's role, tone, rules and limits for a conversation.</dd>
+</dl>
+
+<h2 id="letter-t">T</h2>
+<dl>
+<dt id="term-temperature">Temperature</dt>
+<dd>A setting that controls how random a model's token choices are. Low temperature gives focused, predictable output suited to factual tasks; higher temperature gives more varied, creative output with a greater chance of errors.</dd>
+<dt id="term-text-to-speech">Text-to-speech (TTS)</dt>
+<dd>Technology that converts written text into spoken audio. Modern AI voices can sound highly natural and convey emotion, which also raises consent questions around voice cloning.</dd>
+<dt id="term-token">Token</dt>
+<dd>The basic unit of text a model processes: a whole word, part of a word, a punctuation mark or a space. In English a token averages roughly three-quarters of a word, and usage limits and pricing are usually counted in tokens.</dd>
+<dt id="term-tokenizer">Tokenizer</dt>
+<dd>The component that splits text into tokens and converts them to numbers the model can process, then converts the model's output numbers back into text. Different models use different tokenizers.</dd>
+<dt id="term-top-p-sampling">Top-p sampling</dt>
+<dd>A sampling method that only considers the smallest group of likely next tokens whose combined probability reaches a threshold, such as 90 percent, and ignores the unlikely remainder. It is often used together with temperature.</dd>
+<dt id="term-training-data">Training data</dt>
+<dd>The examples a model learns from. Its content, quality and coverage largely determine a model's knowledge, blind spots and biases, and its sourcing raises copyright questions. See <a href="ai-content-copyright-basics.html">AI content and copyright basics</a>.</dd>
+<dt id="term-transfer-learning">Transfer learning</dt>
+<dd>Reusing knowledge a model gained on one task as a starting point for another, related task. Fine-tuning a pretrained model is the most common example.</dd>
+<dt id="term-transformer">Transformer</dt>
+<dd>The neural network architecture behind modern large language models and many image and audio models. Its attention mechanism lets it process long sequences efficiently and track relationships across them.</dd>
+</dl>
+
+<h2 id="letter-u">U</h2>
+<dl>
+<dt id="term-unsupervised-learning">Unsupervised learning</dt>
+<dd>Training a model on data without labelled answers so it finds structure on its own, such as grouping customers with similar buying habits. Pretraining language models on raw text is closely related and often called self-supervised learning.</dd>
+</dl>
+
+<h2 id="letter-v">V</h2>
+<dl>
+<dt id="term-vector-database">Vector database</dt>
+<dd>A database designed to store embeddings and quickly find the ones most similar to a query. It is a common component of RAG systems and semantic search.</dd>
+</dl>
+
+<h2 id="letter-w">W</h2>
+<dl>
+<dt id="term-weights">Weights</dt>
+<dd>Another name for a model's learned parameters, specifically the numbers that set how strongly connections in a neural network influence each other. "Releasing the weights" means publishing the trained model itself.</dd>
+</dl>
+
+<h2 id="letter-z">Z</h2>
+<dl>
+<dt id="term-zero-shot-prompting">Zero-shot prompting</dt>
+<dd>Asking a model to perform a task without giving any examples, relying only on instructions. It works well for common tasks; when results are inconsistent, switching to few-shot prompting usually helps.</dd>
+</dl>
+
+<section class="faq"><h2 id="faq">Frequently asked questions</h2>
+<details><summary>What is the difference between AI, machine learning and deep learning?</summary><p>They are nested. AI is the broad goal of making machines perform intelligent tasks, machine learning is the approach of learning from data to achieve that, and deep learning is a type of machine learning that uses many-layered neural networks.</p></details>
+<details><summary>Is a large language model the same as a chatbot?</summary><p>No. The large language model is the underlying engine; a chatbot or chat assistant is the product built around it, adding a conversation interface, system prompt, safety filters and sometimes tools like web search.</p></details>
+<details><summary>What is the difference between fine-tuning and RAG?</summary><p>Fine-tuning changes the model itself through extra training and is best for teaching a consistent style or format. RAG leaves the model unchanged and supplies relevant documents at question time, which is better for up-to-date or private facts.</p></details>
+<details><summary>Which terms matter most for a business owner?</summary><p>Prompt, context window, hallucination, RAG, AI agent and data privacy terms are the most practical. Our <a href="ai-for-small-business.html">AI for small business guide</a> shows how they apply in day-to-day work, and the free <a href="../readiness.html">AI readiness score</a> helps you see where to start.</p></details>
+</section>
