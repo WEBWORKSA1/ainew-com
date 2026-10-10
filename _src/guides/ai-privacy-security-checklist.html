@@ -1,0 +1,131 @@
+<!--META {"title":"AI privacy and security checklist for teams using AI tools","description":"A practical AI privacy and security checklist for teams: data classification, vendor settings, access control, prompt injection, shadow AI and incident plans.","category":"Safety","readMinutes":9,"summary":"A step-by-step checklist for using AI tools at work without leaking data, inviting attacks or losing control of outputs."} -->
+<p>Most AI security problems at work are not exotic. Someone pastes a customer spreadsheet into a free chat assistant, a connected tool reads an email containing hidden instructions, or an AI draft reaches a client with unchecked figures. None of these need a sophisticated attacker; they happen because a team adopted a powerful tool faster than it agreed how to use it.</p>
+<p>This guide gives you a checklist to work through with your team in an afternoon and revisit every few months, ending with an acceptable-use policy outline you can adapt.</p>
+<p>This is general guidance, not legal advice. Privacy and data-protection obligations vary by country, sector and contract, so involve a qualified lawyer or privacy professional before you finalize policies that carry legal weight.</p>
+<aside class="takeaways"><h2 id="key-takeaways">Key takeaways</h2><ul>
+<li>Classify your data first; the right AI tool and setting depends entirely on what you are about to share with it.</li>
+<li>Check every vendor's retention, training-use and admin controls, and prefer business plans that let you switch training off and manage users centrally.</li>
+<li>Treat any content an AI reads from outside (web pages, emails, files) as untrusted, because it can carry hidden instructions.</li>
+<li>Shadow AI is best reduced by offering an approved tool that people actually want to use, not by bans alone.</li>
+<li>Keep a human accountable for every AI output that reaches a customer, a regulator or a production system.</li>
+</ul></aside>
+
+<h2 id="start-with-data-classification">Start with data classification</h2>
+<p>Before you decide which AI tools are safe, decide what kinds of information you hold. A simple four-tier scheme works for most small and mid-sized teams:</p>
+<table>
+<thead><tr><th>Tier</th><th>Examples</th><th>Default AI rule</th></tr></thead>
+<tbody>
+<tr><td>Public</td><td>Published blog posts, marketing copy, public product documentation</td><td>Any approved tool</td></tr>
+<tr><td>Internal</td><td>Meeting notes, internal process docs, draft plans without personal data</td><td>Approved business-tier tools with training disabled</td></tr>
+<tr><td>Confidential</td><td>Customer lists, contracts, financials, unreleased product details, source code</td><td>Only tools covered by a signed agreement and reviewed settings; minimize what you paste</td></tr>
+<tr><td>Restricted</td><td>Health records, government ID numbers, payment card data, passwords, API keys</td><td>Never into general-purpose AI tools; only purpose-built systems approved by security and legal</td></tr>
+</tbody>
+</table>
+<p>The point of the table is speed: before pasting anything into a chat window, people should be able to answer "which tier is this?" in two seconds.</p>
+<aside class="note"><p><strong>Example:</strong> A support lead wants AI help summarizing complaint trends. Instead of pasting raw tickets with names and emails, they export ticket text only, replace customer names with "Customer A, B, C", and remove order numbers. The summary is just as useful and the data has dropped from confidential to internal.</p></aside>
+
+<h2 id="vendor-settings-to-check">Vendor data-retention and training settings to check</h2>
+<p>AI vendors differ widely in what they do with your inputs, and the same vendor often has different terms for free, individual and business plans. Read the current data-use documentation, because these policies change. For every approved tool, answer these questions:</p>
+<ol>
+<li><strong>Is my data used to train or improve models?</strong> Look for whether training use is on by default and whether an admin can switch it off for the whole organization.</li>
+<li><strong>How long are prompts and outputs retained?</strong> Note the default retention period, whether you can shorten it, and what happens to deleted conversations.</li>
+<li><strong>Where is data processed, and who at the vendor can see it?</strong> Regional hosting and human review for abuse monitoring can both matter for contracts.</li>
+<li><strong>What happens with connected apps?</strong> If the tool connects to your email, drive or calendar, confirm exactly what it can read and whether that content is retained.</li>
+<li><strong>Is there a data-processing agreement?</strong> Business plans usually offer one; consumer plans usually do not.</li>
+<li><strong>Are there admin controls?</strong> Single sign-on, user provisioning, audit logs and the ability to disable features such as public sharing links are strong signals of a business-ready product.</li>
+</ol>
+<p>Record the answers in a dated register, and add these questions to your criteria when comparing products in the <a href="../tools.html">AI tools directory</a>.</p>
+
+<h2 id="access-control-and-accounts">Access control and accounts</h2>
+<p>Apply the usual basics first:</p>
+<ul>
+<li>Use company-managed accounts tied to single sign-on, not personal sign-ups with work email addresses.</li>
+<li>Turn on multi-factor authentication and remove access promptly when people leave.</li>
+<li>Restrict who can create public share links to conversations or generated documents.</li>
+</ul>
+<p>Then the AI-specific issue: <strong>connectors and agents act with the permissions you give them.</strong> An assistant that can search your whole shared drive can surface a salary spreadsheet that was only "hidden" by being hard to find, so audit folder permissions before connecting it. Give automations and <a href="ai-agents-explained.html">AI agents</a> the narrowest access that lets them do their job, and prefer read-only access unless writing is essential.</p>
+
+<h2 id="prompt-injection-and-data-exfiltration">Prompt injection and data exfiltration</h2>
+<p>Prompt injection is the security risk most specific to language models. A model processes instructions and data in the same stream of text, so it can struggle to tell your instructions apart from instructions hidden inside content it reads. An attacker can plant text in a web page, a PDF, an email or a support ticket that says, in effect, "ignore previous instructions and do this instead".</p>
+<p>The danger grows with capability. An assistant that only writes text can be manipulated into a wrong answer. One that can also browse, send email or read your files can be manipulated into <em>doing</em> something, such as forwarding private data to an outside address.</p>
+<p>Practical defenses:</p>
+<ul>
+<li>Treat all external content an AI reads as untrusted input, the same way developers treat form input on a website.</li>
+<li>Require human confirmation before an AI tool sends messages, makes purchases, changes records or shares files outside the organization.</li>
+<li>Avoid giving a single agent both access to sensitive data and the ability to communicate externally, unless there is a review step in between.</li>
+<li>If you build your own AI features, test them with deliberately malicious documents before launch. The OWASP project maintains a widely used list of <a href="https://owasp.org/www-project-top-10-for-large-language-model-applications/">risks for LLM applications</a> that is a useful starting point.</li>
+</ul>
+<aside class="note"><p><strong>Warning:</strong> No current technique fully eliminates prompt injection. Design your workflows so that a successful injection causes limited, recoverable damage rather than relying on the model to always resist it.</p></aside>
+<p>Teams building <a href="rag-explained.html">retrieval-augmented generation</a> systems should pay particular attention here, because every document in the knowledge base becomes potential input to the model.</p>
+
+<h2 id="shadow-ai">Shadow AI: tools nobody approved</h2>
+<p>Shadow AI means staff using AI tools nobody reviewed: a personal chat account, a page-summarizing browser extension, a free meeting transcription app. Blanket bans tend to push this usage underground. A more effective approach has three parts:</p>
+<ol>
+<li><strong>Provide a good approved option.</strong> If the sanctioned tool is capable and easy to reach, most people will use it.</li>
+<li><strong>Make the request path quick.</strong> Publish a short form for requesting a new tool, and commit to a review turnaround measured in days, not months.</li>
+<li><strong>Look for usage, without punishing honesty.</strong> Ask teams what they already use. Review browser extensions, meeting bots joining calls, and expense claims for AI subscriptions.</li>
+</ol>
+<p>Watch meeting recorders and browser extensions closely; both can passively capture confidential information.</p>
+
+<h2 id="output-review">Output review and accountability</h2>
+<p>What comes out of AI tools can cause harm too: invented facts, wrong figures, vulnerable code, or confidential details carried over from earlier in a conversation. Set review rules by consequence, not by tool:</p>
+<ul>
+<li><strong>Low stakes</strong> (internal brainstorming, personal drafts): the author reviews.</li>
+<li><strong>Medium stakes</strong> (customer emails, published articles, internal reports used for decisions): the author verifies facts and figures against source material before sending.</li>
+<li><strong>High stakes</strong> (contracts, financial statements, regulatory filings, production code, medical or legal content): a second qualified person reviews, and the AI's role is documented.</li>
+</ul>
+<p>Run AI-generated code through the same review and dependency scanning as human code, and be wary of unfamiliar suggested packages, since models sometimes invent package names that attackers can register.</p>
+
+<h2 id="incident-response">Incident response for AI mistakes</h2>
+<p>Extend your existing incident process rather than writing a separate one. Make sure people know that the following count as incidents and should be reported quickly:</p>
+<ul>
+<li>Confidential or restricted data pasted into an unapproved tool.</li>
+<li>An AI agent or automation taking an unexpected action.</li>
+<li>AI-generated content published with significant errors.</li>
+<li>A suspected prompt injection attempt, even an unsuccessful one.</li>
+</ul>
+<p>For a data exposure, record what was shared, with which tool and when; delete the conversation if possible; check whether the vendor's retention terms make deletion effective; and involve whoever handles data-protection notifications, since some exposures carry legal reporting duties. Treat honest mistakes reported promptly as learning opportunities, so people report early.</p>
+
+<h2 id="the-core-checklist">The core checklist</h2>
+<p>Assign an owner and a revisit date to each line.</p>
+<table>
+<thead><tr><th>Area</th><th>Check</th></tr></thead>
+<tbody>
+<tr><td>Data</td><td>Four-tier data classification agreed and shared, with examples for each tier</td></tr>
+<tr><td>Data</td><td>Restricted data types listed explicitly as never allowed in general AI tools</td></tr>
+<tr><td>Vendors</td><td>Register of approved tools with training, retention and access answers, dated</td></tr>
+<tr><td>Vendors</td><td>Business plans with organization-wide training opt-out where available</td></tr>
+<tr><td>Access</td><td>Single sign-on and multi-factor authentication on all approved tools</td></tr>
+<tr><td>Access</td><td>Folder permissions audited before connecting AI to shared drives or email</td></tr>
+<tr><td>Access</td><td>Offboarding checklist includes AI tool accounts and shared workspaces</td></tr>
+<tr><td>Attacks</td><td>Human approval required before AI sends, buys, deletes or shares externally</td></tr>
+<tr><td>Attacks</td><td>Custom AI features tested with malicious documents before launch</td></tr>
+<tr><td>Shadow AI</td><td>Fast request path for new tools; periodic review of extensions and meeting bots</td></tr>
+<tr><td>Outputs</td><td>Review rules set by stakes; second reviewer for high-stakes outputs</td></tr>
+<tr><td>Incidents</td><td>AI scenarios added to incident process; staff know how to report</td></tr>
+<tr><td>Governance</td><td>Acceptable-use policy published and reviewed at least twice a year</td></tr>
+</tbody>
+</table>
+<p>If you want a broader view of where your organization stands, the <a href="../readiness.html">AI readiness score quiz</a> covers governance alongside skills and tooling. For a structured approach to risk, the <a href="https://www.nist.gov/itl/ai-risk-management-framework">NIST AI Risk Management Framework</a> organizes the work into governing, mapping, measuring and managing risk, and many organizations use it as a reference even when it is not required of them.</p>
+
+<h2 id="acceptable-use-policy-outline">An acceptable-use policy outline</h2>
+<p>A good AI acceptable-use policy fits on two or three pages. Use this outline:</p>
+<ol>
+<li><strong>Purpose and scope.</strong> Who the policy covers (employees, contractors) and which tools (chat assistants, embedded AI features, coding assistants, image generators).</li>
+<li><strong>Approved tools.</strong> A link to the live register, plus how to request a new tool.</li>
+<li><strong>Data rules.</strong> The classification table and what each tier means for AI use.</li>
+<li><strong>Prohibited uses.</strong> For example: entering restricted data, using AI to make final decisions about hiring or discipline without human review, generating deceptive content about real people, and bypassing security controls.</li>
+<li><strong>Output responsibility.</strong> The person who uses an AI output is accountable for it; review rules by stakes.</li>
+<li><strong>Disclosure.</strong> When staff should tell customers or colleagues that AI was involved.</li>
+<li><strong>Agents and automations.</strong> Who can build them, what approvals are needed, and the requirement for human confirmation on external actions.</li>
+<li><strong>Reporting and incidents.</strong> How to report mistakes and suspected attacks.</li>
+<li><strong>Training and review.</strong> Short onboarding and a scheduled review date.</li>
+</ol>
+<p>Pair it with a one-page summary. For help adapting it, our <a href="../ai-services.html">AI services</a> team can support policy and rollout work, and the <a href="ai-for-small-business.html">AI for small business guide</a> covers how to choose first use cases safely.</p>
+
+<section class="faq"><h2 id="faq">Frequently asked questions</h2>
+<details><summary>Is it safe to use free AI chat tools for work?</summary><p>It depends on the data. Free consumer plans often allow inputs to be used for model improvement and lack admin controls, so limit them to public information. For internal or confidential material, use a business plan whose data-use terms you have reviewed and where training can be switched off.</p></details>
+<details><summary>Does turning off training mean my data is not stored?</summary><p>No. Training settings and retention are separate. A vendor may not train on your data yet still keep conversations for a period for abuse monitoring or so you can view your history. Check both settings independently.</p></details>
+<details><summary>Can prompt injection be fully prevented?</summary><p>Not with today's techniques. You can reduce the risk with input filtering and careful prompting, but the reliable defense is limiting what an AI system can do on its own and requiring human approval for consequential actions.</p></details>
+<details><summary>Do small teams really need a written policy?</summary><p>Yes, but it can be short. Even a one-page document that lists approved tools, forbidden data types and who reviews what prevents most common mistakes and gives new hires a clear starting point.</p></details>
+</section>
