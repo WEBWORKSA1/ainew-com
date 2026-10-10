@@ -187,7 +187,39 @@
     }).join("");
   }
   var radarMini = $("#radar-mini"), radarFull = $("#radar-full");
-  if (radarMini || radarFull) fetch(ROOT + "data/news.json", { cache: "no-cache" }).then(function (r) { return r.json(); }).then(function (data) {
+  /* Live fallback: when the scheduled radar file is empty, read a few public feeds through a JSON relay */
+  var LIVE_FEEDS = [
+    ["TechCrunch", "https://techcrunch.com/category/artificial-intelligence/feed/"],
+    ["The Verge", "https://www.theverge.com/rss/ai-artificial-intelligence/index.xml"],
+    ["VentureBeat", "https://venturebeat.com/category/ai/feed/"],
+    ["Ars Technica", "https://arstechnica.com/ai/feed/"],
+    ["MIT Technology Review", "https://www.technologyreview.com/topic/artificial-intelligence/feed"],
+    ["Hugging Face", "https://huggingface.co/blog/feed.xml"]
+  ];
+  function liveNews() {
+    var key = "ainew-radar-cache";
+    try { var c = JSON.parse(sessionStorage.getItem(key) || "null"); if (c && Date.now() - c.t < 9e5) return Promise.resolve(c.d); } catch (e) {}
+    return Promise.all(LIVE_FEEDS.map(function (f) {
+      return fetch("https://api.rss2json.com/v1/api.json?rss_url=" + encodeURIComponent(f[1]))
+        .then(function (r) { return r.json(); })
+        .then(function (j) {
+          return (j.items || []).slice(0, 10).map(function (it) {
+            var d = it.pubDate ? new Date(it.pubDate.replace(" ", "T") + "Z") : new Date();
+            return { title: it.title, link: it.link, source: f[0], date: isNaN(d) ? new Date().toISOString() : d.toISOString() };
+          });
+        }).catch(function () { return []; });
+    })).then(function (lists) {
+      var all = [].concat.apply([], lists).filter(function (n) { return n.title && /^https?:/.test(n.link || ""); });
+      all.sort(function (a, b) { return Date.parse(b.date) - Date.parse(a.date); });
+      var d = { updated: all.length ? new Date().toISOString() : null, items: all };
+      try { sessionStorage.setItem(key, JSON.stringify({ t: Date.now(), d: d })); } catch (e) {}
+      return d;
+    });
+  }
+  if (radarMini || radarFull) fetch(ROOT + "data/news.json", { cache: "no-cache" }).then(function (r) { return r.json(); })
+    .catch(function () { return { items: [] }; })
+    .then(function (data) { return (data.items && data.items.length) ? data : liveNews(); })
+    .then(function (data) {
     var items = (data.items || []).filter(function (n) { return n.title && n.link; });
     var upd = $$("[data-radar-updated]");
     upd.forEach(function (u) { u.textContent = data.updated ? "Updated " + timeAgo(data.updated) : ""; });

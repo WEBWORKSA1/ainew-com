@@ -70,6 +70,7 @@ def privacy():
 <h2>Other third-party services</h2>
 <ul>
 <li><strong>Google Fonts</strong> delivers the typefaces used on this site.</li>
+<li><strong>rss2json</strong> may be used by the news radar to read public publisher feeds in your browser; it receives only the feed address, not your personal information.</li>
 <li><strong>YouTube</strong> videos use the privacy-enhanced (youtube-nocookie.com) player and load only after you press play; YouTube's privacy policy then applies.</li>
 <li><strong>Links</strong> to tools, publishers and partners take you to sites with their own privacy policies.</li>
 </ul>
