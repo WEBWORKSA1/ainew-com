@@ -1,0 +1,103 @@
+<!--META {"title":"RAG explained: retrieval-augmented generation in plain language","description":"How retrieval-augmented generation works: embeddings, chunking, vector search, re-ranking and citations, plus when RAG beats fine-tuning and how to evaluate it.","category":"Build","readMinutes":8,"summary":"A clear walkthrough of how RAG lets AI answer from your own documents, where it breaks, and how to test it."} -->
+<p>A language model only knows what was in its training data, and that knowledge has a cut-off date. It has never seen your product manuals, your internal policies or the contract you signed last week. Ask it about them and it will either admit it does not know or, worse, produce a confident answer that sounds right and is not.</p>
+<p>Retrieval-augmented generation, usually shortened to RAG, fixes this by adding a research step. Before the model answers, the system searches your documents for the passages most relevant to the question and hands them to the model along with the question. The model then writes its answer from that material, ideally citing where each point came from.</p>
+<p>It is the approach behind most "chat with your documents" tools and many internal help desks. This guide explains each part in plain language, compares RAG with fine-tuning, and shows you where these systems fail and how to test them.</p>
+
+<aside class="takeaways"><h2 id="key-takeaways">Key takeaways</h2><ul>
+<li>RAG retrieves relevant passages from your documents and gives them to the model as context for each answer.</li>
+<li>Embeddings turn text into numbers that capture meaning, which lets the system find passages by meaning rather than exact words.</li>
+<li>Most RAG quality problems come from retrieval (chunking, search and ranking), not from the language model.</li>
+<li>RAG is usually the better choice for up-to-date, factual or private knowledge; fine-tuning is better for teaching style or format.</li>
+<li>Evaluate retrieval and answers separately, using a test set of real questions with known correct answers.</li>
+</ul></aside>
+
+<h2 id="how-rag-works">How RAG works, step by step</h2>
+<p>A RAG system has two phases. Preparation happens once, and again whenever documents change. Answering happens every time someone asks a question.</p>
+<p><strong>Preparation</strong></p>
+<ol>
+<li>Collect the documents: PDFs, web pages, help articles, spreadsheets, transcripts.</li>
+<li>Clean them: strip navigation menus, headers, footers and duplicate copies.</li>
+<li>Split them into chunks, usually a few paragraphs each.</li>
+<li>Convert each chunk into an embedding and store it in a searchable index, along with the original text and metadata such as title, date and source link.</li>
+</ol>
+<p><strong>Answering</strong></p>
+<ol>
+<li>Convert the user's question into an embedding.</li>
+<li>Search the index for the chunks closest in meaning.</li>
+<li>Optionally re-rank those results to put the most useful ones first.</li>
+<li>Send the top chunks plus the question to the language model with instructions to answer only from the provided text and to cite sources.</li>
+<li>Return the answer with its citations.</li>
+</ol>
+
+<h2 id="embeddings">Embeddings: turning meaning into numbers</h2>
+<p>An embedding is a long list of numbers that represents the meaning of a piece of text. A specialised model produces it. The key property is that texts with similar meanings get similar lists of numbers, even if they share no words.</p>
+<p>So "How do I get my money back?" and "What is your refund policy?" end up close together, while "money market account" lands somewhere else entirely. You can picture each chunk as a point on a map with hundreds of dimensions, where nearby points are about similar things.</p>
+<p>This is what makes RAG better than a basic keyword search for natural questions. People rarely phrase a question using the same words as the document that answers it. Embeddings bridge that gap. For more on the vocabulary, see our <a href="ai-glossary.html">AI glossary</a>.</p>
+
+<h2 id="chunking">Chunking: cutting documents into useful pieces</h2>
+<p>You cannot embed a 200-page manual as one item; the meaning would be blurred and the result too large to pass to the model. So documents are cut into chunks. How you cut them has a large effect on quality.</p>
+<ul>
+<li><strong>Too small</strong> and a chunk loses context. A sentence that says "This does not apply to annual plans" is useless if the chunk does not say what "this" is.</li>
+<li><strong>Too large</strong> and a chunk mixes several topics, so its embedding matches many questions weakly and none strongly.</li>
+<li><strong>Respect structure.</strong> Split on headings, sections and paragraphs rather than at an arbitrary character count. Keep tables and lists intact.</li>
+<li><strong>Add overlap.</strong> Letting each chunk share a sentence or two with its neighbours reduces the chance of cutting an idea in half.</li>
+<li><strong>Attach context.</strong> Prefix each chunk with its document title and section heading so it still makes sense on its own.</li>
+</ul>
+<aside class="note"><p><strong>Tip:</strong> Before tuning anything else, print twenty random chunks and read them. If a person cannot tell what a chunk is about, the system will struggle too.</p></aside>
+
+<h2 id="vector-search-and-re-ranking">Vector search and re-ranking</h2>
+<p>Embeddings are stored in a vector index, a database built to find the stored points nearest to a query point quickly, even across millions of chunks. Vector search is fast and good at meaning, but it has blind spots. It can miss exact terms such as product codes, part numbers, names and acronyms.</p>
+<p>That is why many systems use <strong>hybrid search</strong>: run a traditional keyword search and a vector search in parallel, then merge the results. Keyword search catches "error E-4402"; vector search catches "the dishwasher won't drain".</p>
+<p><strong>Re-ranking</strong> is a second pass. The first search retrieves a generous set of candidates, say a few dozen. A re-ranking model then reads the question and each candidate together and scores how well that passage actually answers the question. Only the best few go to the language model. Re-ranking is slower per item than vector search, which is why it runs on a short list rather than the whole collection, but it often produces a noticeable lift in answer quality.</p>
+<p>Metadata filters help too. If a user is asking about the current policy, filter out archived versions before searching. If they are in one region, filter to that region's documents.</p>
+
+<h2 id="grounding-and-citations">Grounding and citations</h2>
+<p>Grounding means the answer is based on the retrieved text rather than the model's general knowledge. You encourage it through the instructions sent with the chunks, for example: answer only using the sources below; if the sources do not contain the answer, say so; cite the source number after each claim.</p>
+<p>Citations matter for two reasons. They let users check the answer against the original, which builds justified trust. And they make errors visible: if a claim cites a source that does not support it, you have found a problem to fix. Good interfaces link each citation to the exact passage, not just the document.</p>
+<p>Grounding reduces made-up answers but does not eliminate them. A model can still misread a passage, combine two sources incorrectly, or fill a small gap with a guess. Writing clear grounding instructions is a prompting skill; our <a href="prompt-engineering-guide.html">prompt engineering guide</a> covers the techniques.</p>
+
+<h2 id="rag-vs-fine-tuning">When RAG beats fine-tuning</h2>
+<p>Fine-tuning means further training a model on your own examples so that its behaviour changes. People often assume fine-tuning is how you "teach a model your data". For factual knowledge, RAG is usually the better tool.</p>
+<table>
+<thead><tr><th>Factor</th><th>RAG</th><th>Fine-tuning</th></tr></thead>
+<tbody>
+<tr><td>Best at</td><td>Supplying facts and specific information</td><td>Shaping style, tone, format and narrow task behaviour</td></tr>
+<tr><td>Keeping knowledge current</td><td>Easy: update the documents and re-index</td><td>Hard: requires retraining</td></tr>
+<tr><td>Citing sources</td><td>Natural: answers point to retrieved passages</td><td>Not possible in a reliable way</td></tr>
+<tr><td>Access control</td><td>Can filter documents per user</td><td>Anything learned is available to every user</td></tr>
+<tr><td>Removing information</td><td>Delete it from the index</td><td>Very difficult once trained in</td></tr>
+<tr><td>Upfront effort</td><td>Moderate: pipeline, index, testing</td><td>Higher: curated training data, training runs, evaluation</td></tr>
+<tr><td>Per-question cost</td><td>Higher, because each prompt includes retrieved text</td><td>Lower prompts, but training and hosting costs</td></tr>
+</tbody>
+</table>
+<p>The two are not mutually exclusive. A team might fine-tune for a consistent house style and use RAG to supply the facts. But if your goal is "answer questions about our documents accurately", start with RAG. For help weighing models generally, see <a href="choosing-an-ai-model.html">choosing an AI model</a>.</p>
+
+<h2 id="common-failure-points">Common failure points</h2>
+<ul>
+<li><strong>The answer was never retrieved.</strong> The right passage exists but did not make the top results, due to poor chunking, vocabulary mismatch or missing keyword search. This is the most common failure.</li>
+<li><strong>Messy source data.</strong> Scanned PDFs with poor text extraction, tables flattened into gibberish, or boilerplate repeated on every page.</li>
+<li><strong>Conflicting or outdated documents.</strong> Three versions of the same policy, and the system retrieves the old one.</li>
+<li><strong>Questions that need the whole collection.</strong> "How many contracts mention penalty clauses?" requires counting across everything, which retrieving a handful of chunks cannot do.</li>
+<li><strong>Too much context.</strong> Stuffing in many marginally relevant chunks can distract the model from the one that matters.</li>
+<li><strong>Ignoring permissions.</strong> If the index contains HR files, someone may retrieve them. Apply access controls at retrieval time.</li>
+</ul>
+<p>The last point connects to broader data handling; our <a href="ai-privacy-security-checklist.html">AI privacy and security checklist</a> covers it.</p>
+
+<h2 id="how-to-evaluate-rag">How to evaluate a RAG system</h2>
+<p>Judge a RAG system with evidence, not a handful of demo questions. A practical approach:</p>
+<ol>
+<li><strong>Build a test set.</strong> Collect fifty to a few hundred real questions, ideally from actual users or support logs. For each, record the correct answer and which document contains it. Include questions the documents cannot answer.</li>
+<li><strong>Test retrieval on its own.</strong> For each question, check whether the correct passage appears in the retrieved results. If it does not, no amount of prompt tuning will save the answer.</li>
+<li><strong>Test the answers.</strong> Check whether each answer is correct, whether every claim is supported by its cited source, and whether the system correctly says "I don't know" for unanswerable questions.</li>
+<li><strong>Change one thing at a time.</strong> Adjust chunk size, add hybrid search or add re-ranking, then rerun the same test set and compare.</li>
+<li><strong>Monitor in production.</strong> Log questions, retrieved passages and user feedback. Review a sample regularly and add new failure cases to the test set.</li>
+</ol>
+<p>A language model can help grade answers at scale, but spot-check its grading by hand. Automated graders make mistakes too.</p>
+<p>To find ready-made RAG and document-chat tools, browse our <a href="../tools.html">AI tools directory</a>. If you are planning a system over business documents and want a second opinion, our <a href="../ai-services.html">AI services team</a> can help.</p>
+
+<section class="faq"><h2 id="faq">Frequently asked questions</h2>
+<details><summary>Does RAG stop AI from making things up?</summary><p>It reduces the problem considerably when retrieval works, because the model has the facts in front of it. It does not eliminate it. Citations and a clear "say you don't know" instruction make remaining errors easier to catch.</p></details>
+<details><summary>Do I need a dedicated vector database?</summary><p>Not necessarily. Small collections can work with simple libraries or with vector features added to databases you already use. Dedicated vector databases become more useful as collections grow large or need advanced filtering.</p></details>
+<details><summary>How often should I re-index my documents?</summary><p>Whenever the source content changes in a way users would care about. Many teams update the index automatically when a document is added or edited, and run a full rebuild periodically to remove stale entries.</p></details>
+<details><summary>Can RAG work with spreadsheets and databases?</summary><p>Partly. Text-heavy rows can be embedded like documents, but questions that need calculations or filtering across many rows are better handled by letting the model query the data directly, sometimes alongside RAG.</p></details>
+</section>
