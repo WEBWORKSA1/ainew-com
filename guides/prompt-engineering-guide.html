@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en" data-root="../">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prompt engineering guide: a practical playbook for AI | AiNew.com</title>
+<meta name="description" content="Learn a repeatable way to prompt AI assistants: structure, examples, constraints, structured output, iteration and critique, with before-and-after prompts.">
+<meta name="robots" content="index,follow,max-image-preview:large">
+<link rel="canonical" href="https://ainew.com/guides/prompt-engineering-guide.html">
+<meta name="google-adsense-account" content="ca-pub-6620975821265271">
+<meta property="og:type" content="article"><meta property="og:site_name" content="AiNew.com">
+<meta property="og:title" content="Prompt engineering guide: a practical playbook for AI | AiNew.com"><meta property="og:description" content="Learn a repeatable way to prompt AI assistants: structure, examples, constraints, structured output, iteration and critique, with before-and-after prompts.">
+<meta property="og:url" content="https://ainew.com/guides/prompt-engineering-guide.html"><meta property="og:image" content="https://ainew.com/assets/img/og-image.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#2F3DF5">
+<link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/img/icon-192.png">
+<link rel="manifest" href="../site.webmanifest">
+<script>try{var t=localStorage.getItem("ainew-theme");if(t)document.documentElement.setAttribute("data-theme",t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=Newsreader:ital,opsz,wght@0,6..72,400..700;1,6..72,400&display=swap">
+<link rel="stylesheet" href="../assets/css/site.css?v=2026-10-10">
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6620975821265271"
+     crossorigin="anonymous"></script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Article", "headline": "Prompt engineering guide: a practical playbook for AI", "description": "Learn a repeatable way to prompt AI assistants: structure, examples, constraints, structured output, iteration and critique, with before-and-after prompts.", "datePublished": "2026-10-10", "dateModified": "2026-10-10", "wordCount": 1952, "author": {"@type": "Organization", "name": "AiNew editorial team", "url": "https://ainew.com/about.html"}, "publisher": {"@type": "Organization", "name": "AiNew.com", "logo": {"@type": "ImageObject", "url": "https://ainew.com/assets/img/icon-512.png"}}, "mainEntityOfPage": "https://ainew.com/guides/prompt-engineering-guide.html", "image": "https://ainew.com/assets/img/og-image.png", "articleSection": "Prompting"}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://ainew.com/"}, {"@type": "ListItem", "position": 2, "name": "Guides", "item": "https://ainew.com/guides/"}, {"@type": "ListItem", "position": 3, "name": "Prompt engineering guide: a practical playbook for AI", "item": "https://ainew.com/guides/prompt-engineering-guide.html"}]}</script><script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Do longer prompts always give better results?", "acceptedAnswer": {"@type": "Answer", "text": "No. Longer prompts help when the extra words carry useful context, examples or constraints. Padding, repetition and contradictory instructions make results worse. Aim for complete, not long: every sentence should change what the model does."}}, {"@type": "Question", "name": "Does assigning a role like \"you are an expert\" really help?", "acceptedAnswer": {"@type": "Answer", "text": "A role is useful when it implies a specific audience, vocabulary or standard, such as \"a tax preparer explaining to a first-time freelancer\". On its own, a generic \"expert\" label adds little. The context and task matter more."}}, {"@type": "Question", "name": "Should I use the same prompt in different AI assistants?", "acceptedAnswer": {"@type": "Answer", "text": "The core structure transfers well between assistants, but each model has its own defaults for length and tone. Test an important prompt in the tool you will actually use and adjust the format instructions as needed."}}, {"@type": "Question", "name": "How do I stop the model from making things up?", "acceptedAnswer": {"@type": "Answer", "text": "Give it the source material, tell it to answer only from that material, and tell it what to do when the answer is not there. For questions over large document collections, a retrieval setup helps; see retrieval-augmented generation explained. Always verify important facts yourself."}}]}</script>
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<a class="promo" href="https://web.works/contact" target="_blank" rel="noopener">Contact, if you are interested in this <strong>website / domain name / Sponsorship / Advertisement / Partnership</strong></a>
+<header class="site-head"><div class="wrap head-row">
+<a class="logo" href="../index.html" aria-label="AiNew.com home">Ai<span class="new">New</span><span class="tld">.com</span></a>
+<nav class="nav" id="site-nav" aria-label="Main"><a href="../news.html">News</a><a href="../tools.html">AI tools</a><a href="../guides/" aria-current="page">Guides</a><a href="../prompts.html">Prompts</a><a href="../videos.html">Videos</a><a href="../contests.html">Contests</a><a href="../support.html">Support us</a><a class="m-only" href="../ai-services.html">Get AI help</a><a class="m-only" href="../advertise.html">Advertise</a></nav>
+<div class="head-tools">
+<a class="icon-btn" href="../search.html" aria-label="Search the site"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></a>
+<button class="icon-btn" id="theme-btn" type="button" aria-label="Switch colour theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+<a class="btn sm" href="../ai-services.html">Get AI help</a>
+<button class="icon-btn menu-btn" id="menu-btn" type="button" aria-controls="site-nav" aria-expanded="false" aria-label="Open menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+</div></div></header>
+<main id="main">
+<section class="page-head"><div class="wrap">
+<nav class="crumbs" aria-label="Breadcrumb"><a href="../index.html">Home</a> / <a href="index.html">Guides</a> / Prompting</nav>
+<h1 style="max-width:22ch">Prompt engineering guide: a practical playbook for AI</h1>
+<p class="lede">A hands-on playbook for writing prompts that get reliable, usable answers from AI assistants, with before-and-after examples.</p>
+<div class="byline"><span>By the AiNew editorial team</span><span>Updated October 10, 2026</span><span>9 min read</span></div>
+</div></section>
+<section class="section tight" style="padding-top:8px"><div class="wrap article-layout">
+<article class="prose"><p>Most disappointing AI answers are not caused by a weak model. They are caused by a prompt that left the model guessing. When you type a one-line request, the assistant has to invent the audience, the purpose, the length, the tone and the format. It usually picks the safest, most generic option, and you get a bland answer that needs heavy editing.</p>
+<p>Prompt engineering sounds technical, but in practice it is the same skill as writing a good brief for a capable colleague who knows nothing about your situation. This guide gives you a repeatable structure, a set of techniques that work across chat assistants such as ChatGPT, Claude and Gemini, and before-and-after examples you can adapt immediately.</p>
+<p>If you are new to how these systems generate text, read <a href="how-large-language-models-work.html">how large language models work</a> first. It explains why context matters so much.</p>
+
+<aside class="takeaways"><h2 id="key-takeaways">Key takeaways</h2><ul>
+<li>Give the model four things: a role, the context, the task and the output format.</li>
+<li>Show one to three examples when you need a specific style or structure. Examples beat adjectives.</li>
+<li>State constraints explicitly, including what to leave out and what to do when information is missing.</li>
+<li>Treat the first answer as a draft. Iterate with targeted feedback rather than starting over.</li>
+<li>Split big jobs into steps and ask the model to critique its own work before you accept it.</li>
+</ul></aside>
+
+<h2 id="the-four-part-structure">The four-part structure: role, context, task, format</h2>
+<p>A reliable prompt answers four questions. You do not need headings or a template every time, but checking a prompt against these four will fix most weak results.</p>
+<ol>
+<li><strong>Role.</strong> Who should the model act as? "An experienced bookkeeper" or "a patient secondary-school maths tutor" shifts vocabulary, assumptions and depth.</li>
+<li><strong>Context.</strong> What does the model need to know about your situation? The audience, the goal, relevant background, and anything you have already tried.</li>
+<li><strong>Task.</strong> What exactly should it do? Use a clear verb: draft, summarise, compare, classify, rewrite, critique.</li>
+<li><strong>Format.</strong> What should the output look like? Length, structure, tone, reading level and file-ready formats such as a table or a bulleted list.</li>
+</ol>
+<p>Here is the difference in practice.</p>
+<pre><code>BEFORE
+Write an email about the price increase.</code></pre>
+<pre><code>AFTER
+You are a customer success manager at a small software company.
+
+Context: We sell a scheduling tool to independent hair salons.
+Our monthly plan is going up next quarter because our hosting
+and support costs have risen. Customers who pay annually keep
+their current price until renewal. Most readers are salon owners
+who read email on their phone between appointments.
+
+Task: Draft the announcement email.
+
+Format: Under 180 words. Friendly, direct, no corporate jargon.
+Put the key change in the first two sentences. End with one
+clear next step (switch to annual billing) and a line inviting
+replies. Give me three subject line options.</code></pre>
+<p>The second prompt is longer, but it takes less total time because the first draft is close to usable.</p>
+
+<h2 id="give-examples-few-shot">Give examples (few-shot prompting)</h2>
+<p>Describing a style in adjectives is unreliable. "Punchy but professional" means different things to different people, and to a model. Showing an example is far more precise. This is called few-shot prompting: you include a few sample inputs and outputs, then give the new input.</p>
+<pre><code>BEFORE
+Write product descriptions for our candles. Make them punchy.</code></pre>
+<pre><code>AFTER
+Write a product description for each candle below. Match the
+style of the examples: two sentences, sensory first line,
+practical second line, no exclamation marks.
+
+Example
+Input: Cedar and smoke, 220 g, 45-hour burn
+Output: Dry cedar and a curl of woodsmoke, like a cabin after
+the fire has settled. A 45-hour burn in a 220 g glass jar.
+
+Example
+Input: Fig and black tea, 180 g, 38-hour burn
+Output: Ripe fig over a strong cup of black tea, sweet but
+never sugary. Burns for 38 hours in a 180 g jar.
+
+Now write:
+1. Sea salt and juniper, 220 g, 45-hour burn
+2. Orange peel and clove, 180 g, 38-hour burn</code></pre>
+<p>A few practical rules for examples:</p>
+<ul>
+<li>Use two or three examples that differ from each other, so the model learns the pattern rather than copying one sample.</li>
+<li>Make sure your examples are genuinely good. The model will reproduce their flaws as faithfully as their strengths.</li>
+<li>Keep the format of every example identical. Consistency is the signal.</li>
+</ul>
+
+<div class="inline-cta"><p>Want this working in your business, not just on paper? Get a free, written AI starting plan.</p><a class="btn sm" href="../ai-services.html#plan">Get my free AI plan</a></div><h2 id="set-clear-constraints">Set clear constraints</h2>
+<p>Constraints tell the model where the edges are. Without them it fills space with caveats, generic advice and invented detail. Useful constraints include:</p>
+<ul>
+<li><strong>Length:</strong> a word range or a number of bullets.</li>
+<li><strong>Scope:</strong> what to cover and, just as important, what to skip.</li>
+<li><strong>Sources:</strong> "Use only the text I pasted below" reduces made-up facts.</li>
+<li><strong>Missing information:</strong> "If something is not stated in the document, write 'not specified' rather than guessing."</li>
+<li><strong>Audience level:</strong> "Assume the reader has never used a spreadsheet formula."</li>
+</ul>
+<aside class="note"><p><strong>Tip:</strong> Phrase constraints positively where you can. "Write in plain sentences" works better than a long list of things not to do, because a list of banned words still puts those words in front of the model.</p></aside>
+
+<h2 id="ask-for-structured-output">Ask for structured output</h2>
+<p>If you plan to paste the answer into a spreadsheet, a database or another tool, ask for a precise structure and show it. Name the fields, their order and what to do with empty values.</p>
+<pre><code>BEFORE
+Pull out the important details from these customer reviews.</code></pre>
+<pre><code>AFTER
+Read the customer reviews below. For each review, return one
+line of JSON with exactly these keys:
+
+{"review_id": number,
+ "sentiment": "positive" | "neutral" | "negative",
+ "product_mentioned": string or null,
+ "main_issue": short phrase or null,
+ "wants_reply": true | false}
+
+Rules:
+- Return only the JSON lines, no commentary.
+- Use null when a field is not mentioned.
+- "wants_reply" is true only if the customer asks a question
+  or explicitly requests contact.
+
+Reviews:
+[paste reviews here]</code></pre>
+<p>For tables, give the column headings. For reports, give the section headings. The more exact the skeleton, the less clean-up you do afterwards. Always spot-check structured output, especially classification fields, before relying on it.</p>
+
+<h2 id="iterate-instead-of-restarting">Iterate instead of restarting</h2>
+<p>The first response is a draft. The fastest route to a good result is usually targeted feedback in the same conversation, because the model keeps your earlier context. Vague feedback such as "make it better" produces random changes. Specific feedback produces specific fixes.</p>
+<ul>
+<li>Point to the part: "The second paragraph is too technical for salon owners."</li>
+<li>Say what to keep: "Keep the opening line and the subject lines as they are."</li>
+<li>Give a direction: "Replace the feature list with one concrete example of a busy Saturday."</li>
+</ul>
+<p>If a conversation has drifted badly after many rounds, start a fresh chat and write a better first prompt that includes what you learned. Long, tangled threads can carry forward earlier mistakes.</p>
+
+<h2 id="break-big-tasks-into-steps">Break big tasks into steps</h2>
+<p>Asking for a complete business plan, a full training course or a long report in one prompt tends to produce something shallow everywhere. Break the work into stages and review each one before moving on.</p>
+<ol>
+<li><strong>Clarify:</strong> "Before you start, list the questions you would need answered to do this well." Answer them.</li>
+<li><strong>Outline:</strong> ask for a structure only. Edit it until it is right.</li>
+<li><strong>Draft section by section:</strong> paste the approved outline and ask for one section at a time.</li>
+<li><strong>Review:</strong> ask for a critique of the full draft against your goal.</li>
+<li><strong>Polish:</strong> finish with a consistency pass for tone, terminology and length.</li>
+</ol>
+<pre><code>BEFORE
+Create a two-week onboarding plan for a new receptionist.</code></pre>
+<pre><code>AFTER (step 1 of 3)
+I run a four-person physiotherapy clinic and I'm hiring my first
+full-time receptionist. I want a two-week onboarding plan.
+
+Do not write the plan yet. First, ask me up to eight questions
+about our systems, the person's experience and what "fully
+onboarded" should mean by day ten. Number your questions.</code></pre>
+<p>This approach also gives you natural checkpoints to catch errors early, when they are cheap to fix. The same idea underpins multi-step <a href="ai-automation-workflows.html">AI automation workflows</a>, where each step does one job well.</p>
+
+<h2 id="prompt-for-critique">Prompt the model to critique</h2>
+<p>Models are often better at spotting weaknesses in a piece of text than at avoiding them on the first pass. Use that. After a draft, ask for a structured critique against criteria you care about, then ask for a revision that addresses the critique.</p>
+<pre><code>Review the draft above as a sceptical salon owner who is busy
+and slightly annoyed about paying more.
+
+1. List the three weakest points, quoting the exact sentence.
+2. For each, explain in one line why it might irritate or
+   confuse this reader.
+3. Then rewrite the email fixing only those points.</code></pre>
+<p>You can also ask the model to check its own factual claims: "List every factual statement in your answer and mark which ones come from the document I provided and which are your general knowledge." That makes it much easier to see what you need to verify yourself.</p>
+<aside class="note"><p><strong>Warning:</strong> Self-critique improves quality but does not guarantee accuracy. A model can confidently confirm its own mistake. For anything with legal, medical or financial consequences, verify against a primary source or ask a qualified professional.</p></aside>
+
+<h2 id="common-mistakes">Common prompting mistakes and fixes</h2>
+<table>
+<thead><tr><th>Mistake</th><th>What happens</th><th>Fix</th></tr></thead>
+<tbody>
+<tr><td>No audience stated</td><td>Generic, middle-of-the-road tone</td><td>Name the reader and what they already know</td></tr>
+<tr><td>Describing style with adjectives only</td><td>Output that matches the model's idea of "punchy", not yours</td><td>Show one to three examples</td></tr>
+<tr><td>Asking for everything at once</td><td>Shallow coverage of every part</td><td>Outline first, then draft section by section</td></tr>
+<tr><td>No rule for missing information</td><td>Plausible-sounding invented details</td><td>Tell it to write "not specified" or ask you</td></tr>
+<tr><td>Vague feedback ("improve this")</td><td>Random rewrites that lose good parts</td><td>Point to the exact part, say what to keep and what to change</td></tr>
+<tr><td>Pasting sensitive data without thinking</td><td>Privacy and confidentiality exposure</td><td>Remove names and identifiers; check your tool's data settings</td></tr>
+<tr><td>Accepting the first answer</td><td>Errors and weak sections slip through</td><td>Ask for critique, then verify key facts yourself</td></tr>
+</tbody>
+</table>
+<p>The privacy point deserves its own attention. Before pasting client records, contracts or internal financials into any assistant, read our <a href="ai-privacy-security-checklist.html">AI privacy and security checklist</a>.</p>
+
+<h2 id="a-reusable-prompt-template">A reusable prompt template</h2>
+<p>Save this skeleton somewhere handy and fill it in for any important request:</p>
+<pre><code>Role: You are [expert role].
+
+Context: [Who this is for, why it matters, relevant background,
+what has already been tried.]
+
+Task: [One clear verb and the deliverable.]
+
+Constraints:
+- Length: [range]
+- Include: [must-haves]
+- Avoid: [scope to skip]
+- If information is missing: [ask me / write "not specified"]
+
+Format: [Headings, table columns, JSON keys, tone, reading level.]
+
+Examples (optional):
+[One to three samples of the output you want.]</code></pre>
+<p>For ready-made starting points across marketing, operations and research tasks, browse the <a href="../prompts.html">prompt library</a>. If you want to choose the right assistant for a particular job, see <a href="choosing-an-ai-model.html">choosing an AI model</a>.</p>
+
+<section class="faq"><h2 id="faq">Frequently asked questions</h2>
+<details><summary>Do longer prompts always give better results?</summary><p>No. Longer prompts help when the extra words carry useful context, examples or constraints. Padding, repetition and contradictory instructions make results worse. Aim for complete, not long: every sentence should change what the model does.</p></details>
+<details><summary>Does assigning a role like "you are an expert" really help?</summary><p>A role is useful when it implies a specific audience, vocabulary or standard, such as "a tax preparer explaining to a first-time freelancer". On its own, a generic "expert" label adds little. The context and task matter more.</p></details>
+<details><summary>Should I use the same prompt in different AI assistants?</summary><p>The core structure transfers well between assistants, but each model has its own defaults for length and tone. Test an important prompt in the tool you will actually use and adjust the format instructions as needed.</p></details>
+<details><summary>How do I stop the model from making things up?</summary><p>Give it the source material, tell it to answer only from that material, and tell it what to do when the answer is not there. For questions over large document collections, a retrieval setup helps; see <a href="rag-explained.html">retrieval-augmented generation explained</a>. Always verify important facts yourself.</p></details>
+</section>
+<p class="small muted" style="font-family:var(--f-ui);margin-top:2em">This guide is general information, not professional advice. Spotted an error? <a href="../contact.html?topic=Correction">Tell us</a>.</p>
+</article>
+<aside><nav class="toc" aria-label="On this page"><h2>On this page</h2><ol><li><a href="#the-four-part-structure">The four-part structure: role, context, task, format</a></li><li><a href="#give-examples-few-shot">Give examples (few-shot prompting)</a></li><li><a href="#set-clear-constraints">Set clear constraints</a></li><li><a href="#ask-for-structured-output">Ask for structured output</a></li><li><a href="#iterate-instead-of-restarting">Iterate instead of restarting</a></li><li><a href="#break-big-tasks-into-steps">Break big tasks into steps</a></li><li><a href="#prompt-for-critique">Prompt the model to critique</a></li><li><a href="#common-mistakes">Common prompting mistakes and fixes</a></li><li><a href="#a-reusable-prompt-template">A reusable prompt template</a></li><li><a href="#faq">Frequently asked questions</a></li></ol>
+<a class="btn sm" href="../ai-services.html#plan">Get a free AI plan</a></nav></aside>
+</div>
+<div class="wrap">
+<div class="panel" style="margin-top:40px;display:flex;justify-content:space-between;gap:20px;align-items:center;flex-wrap:wrap"><div><h2 style="margin-bottom:4px">Get one useful AI email a week</h2><p class="muted" style="margin:0">New guides, tools worth trying and a prompt to steal.</p></div><form class="inline-sub" data-form="newsletter-guide" data-subject="New newsletter subscriber" data-ok="You're on the list. Watch your inbox for the next issue.">
+<label class="visually-hidden" for="nl-guide">Email address</label>
+<input id="nl-guide" type="email" name="email" placeholder="you@example.com" required autocomplete="email">
+<input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+<button class="btn" type="submit">Subscribe free</button>
+<p class="form-msg" role="status"></p></form></div>
+<div class="related"><h2>Keep reading</h2><div class="card-grid"><a class="gcard" href="what-is-generative-ai.html"><span class="cat">Foundations</span><h3>What is generative AI? A plain-English guide for beginners</h3><p>A practical introduction to generative AI: how it works, what it does well, where it fails and how to use it.</p><span class="mins">9 min read</span></a><a class="gcard" href="ai-for-small-business.html"><span class="cat">Business</span><h3>AI for small business: 20 practical use cases and how to start</h3><p>Twenty practical AI use cases for small businesses, how to choose your first two pilots, and a simple way to estimate return.</p><span class="mins">9 min read</span></a><a class="gcard" href="how-large-language-models-work.html"><span class="cat">Foundations</span><h3>How large language models work: tokens, training and sampling</h3><p>Understand what happens inside a chat assistant, from tokens and training to sampling, context windows and why models hallucinate.</p><span class="mins">9 min read</span></a></div></div>
+</div></section>
+</main>
+<footer class="site-foot"><div class="wrap">
+<div class="foot-grid">
+<div><a class="logo" href="../index.html">Ai<span class="new">New</span><span class="tld">.com</span></a>
+<p class="muted small" style="margin-top:12px">What's new in AI, sorted and explained. Practical guides, a curated tools directory and help for teams putting AI to work.</p>
+<form class="inline-sub" data-form="newsletter-footer" data-subject="New newsletter subscriber" data-ok="You're on the list. Watch your inbox for the next issue.">
+<label class="visually-hidden" for="nl-footer">Email address</label>
+<input id="nl-footer" type="email" name="email" placeholder="you@example.com" required autocomplete="email">
+<input class="hp" type="text" name="_honey" tabindex="-1" autocomplete="off" aria-hidden="true">
+<button class="btn" type="submit">Subscribe</button>
+<p class="form-msg" role="status"></p></form></div>
+<div><h2>Explore</h2><ul><li><a href="../news.html">News radar</a></li><li><a href="../tools.html">AI tools directory</a></li><li><a href="../guides/">Guides</a></li><li><a href="../prompts.html">Prompt library</a></li><li><a href="../videos.html">Videos</a></li><li><a href="../search.html">Search</a></li></ul></div>
+<div><h2>For business</h2><ul><li><a href="../ai-services.html">Get AI help</a></li><li><a href="../readiness.html">AI readiness score</a></li><li><a href="../ai-services.html?goal=talent">Hire AI talent</a></li><li><a href="../advertise.html">Advertise & sponsor</a></li><li><a href="../submit-tool.html">Submit a tool</a></li></ul></div>
+<div><h2>Community</h2><ul><li><a href="../contests.html">Contests & prizes</a></li><li><a href="../support.html">Support AiNew</a></li><li><a href="../careers.html">Careers & talent network</a></li><li><a href="../newsletter.html">Newsletter</a></li></ul></div>
+<div><h2>About</h2><ul><li><a href="../about.html">About</a></li><li><a href="../editorial-policy.html">Editorial policy</a></li><li><a href="../contact.html">Contact</a></li><li><a href="../privacy.html">Privacy policy</a></li><li><a href="../terms.html">Terms of use</a></li><li><a href="../disclaimer.html">Disclaimer</a></li><li><a href="../legal.html">Trademark & copyright</a></li></ul></div>
+</div>
+<div class="foot-legal">
+<p>&copy; <span data-year>2026</span> AiNew.com. Original articles, prompts and design are protected by copyright. All rights reserved.</p>
+<p>AiNew.com is an independent publication. The name refers only to this website's domain and does not refer to, imitate or imply affiliation with any company, product or registered mark of the same or similar name. Third-party names and trademarks belong to their owners and are used for identification only. <a href="../legal.html">Full trademark &amp; copyright disclosure</a>.</p>
+<p>This site shows ads served by Google and may contain clearly labelled sponsored placements and partner links. <a href="../disclaimer.html">How we make money</a>.</p>
+</div></div></footer>
+<div class="cookie" id="cookie" role="dialog" aria-label="Cookie choices">
+<p>We use cookies for essential site features and to show ads from Google, which may be personalised. Choose what you're comfortable with. <a href="../privacy.html">Privacy policy</a></p>
+<div class="btn-row"><button class="btn sm" data-consent="all" type="button">Accept all</button><button class="btn sm ghost" data-consent="necessary" type="button">Necessary only</button></div></div>
+<script src="../assets/js/config.js?v=2026-10-10" defer></script>
+<script src="../assets/js/site.js?v=2026-10-10" defer></script>
+</body>
+</html>
