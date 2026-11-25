@@ -215,7 +215,7 @@ def submit_tool(cats):
                      [("Home", "index.html"), ("AI tools", "tools.html"), ("Submit a tool", "")]) + f'''
 <section class="section tight" style="padding-top:0"><div class="wrap two-col">
 <div><h2>What we look for</h2>
-<ul class="kv"><li>A live, working product with a public website</li><li>A clear description of what it does and who it's for</li><li>Transparent pricing and a privacy policy</li><li>Nothing deceptive, unsafe or against Google's publisher policies</li></ul>
+<ul class="kv"><li>A live, working product with a public website</li><li>An established product with a track record</li><li>A clear description of what it does and who it's for</li><li>Transparent pricing and a privacy policy</li><li>Nothing deceptive, unsafe or against Google's publisher policies</li></ul>
 <div class="panel" style="margin-top:24px"><h3>Want to stand out?</h3><p class="small muted">Featured listings appear at the top of their category with a "Featured" badge for 30 days.</p><a class="btn sm" href="advertise.html#featured">See featured options</a></div></div>
 <form class="form-panel" data-form="tool-submission" data-subject="Tool submission" data-next="1">
 {HP}

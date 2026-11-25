@@ -540,19 +540,6 @@
     ]
   },
   {
-    "name": "JobsAICopilot",
-    "url": "https://jobsaicopilot.com/",
-    "category": "Productivity",
-    "pricing": "Paid",
-    "desc": "Bot that tailors and submits job applications from an uploaded resume using title and location filters, with a review mode and an AI cover letter generator.",
-    "tags": [
-      "job search",
-      "resumes",
-      "cover letters"
-    ],
-    "submitted": true
-  },
-  {
     "name": "Perplexity",
     "url": "https://www.perplexity.ai/",
     "category": "Research",
@@ -1079,18 +1066,5 @@
       "science",
       "computation"
     ]
-  },
-  {
-    "name": "Tideris",
-    "url": "https://www.tideris.com/",
-    "category": "Education",
-    "pricing": "Freemium",
-    "desc": "AI toolkit for Chinese metaphysics offering BaZi charts, daily fortunes, compatibility, Liu Yao and Qi Men readings explained in plain English.",
-    "tags": [
-      "bazi",
-      "fortune",
-      "chinese metaphysics"
-    ],
-    "submitted": true
   }
 ]
