@@ -35,11 +35,15 @@ def tool_card(t, i, featured=False):
     initials, color = mono(t["name"])
     pclass = {"Free": "free", "Freemium": "freemium", "Open source": "oss"}.get(t["pricing"], "")
     text = (t["name"] + " " + t["desc"] + " " + " ".join(t.get("tags", [])) + " " + t["category"]).lower()
+    # user-submitted listings: https only, marked as user-generated links
+    if t.get("submitted") and not t["url"].startswith("https://"):
+        raise ValueError(f"Submitted tool URL must use https: {t['name']}")
+    rel = "nofollow ugc noopener" if t.get("submitted") else "noopener nofollow"
     return f'''<article class="tool" data-name="{esc(t["name"].lower())}" data-cat="{esc(t["category"])}" data-price="{esc(t["pricing"])}" data-order="{i}" data-text="{esc(text)}">
 <div class="tool-top"><span class="mono" style="background:{color}" aria-hidden="true">{esc(initials)}</span><div><h3>{esc(t["name"])}</h3><span class="tcat">{esc(t["category"])}</span></div></div>
 <p>{esc(t["desc"])}</p>
 <div class="badges"><span class="badge {pclass}">{esc(t["pricing"])}</span>{"".join(f'<span class="badge">#{esc(g)}</span>' for g in t.get("tags", [])[:3])}</div>
-<a class="visit" href="{esc(t["url"])}" target="_blank" rel="noopener nofollow">Visit {esc(t["name"])}</a>
+<a class="visit" href="{esc(t["url"])}" target="_blank" rel="{rel}">Visit {esc(t["name"])}</a>
 </article>'''
 
 
